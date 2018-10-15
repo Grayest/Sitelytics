@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA00C3082173A55700F48EBA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00C3072173A55700F48EBA /* Parser.swift */; };
+		FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1173B82172C4D400F1E842 /* EmbedController.swift */; };
+		FA175D9021742DA8000E578E /* SourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA175D8F21742DA8000E578E /* SourceCell.swift */; };
 		FA5A24A82171E9AB00172BE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24A72171E9AB00172BE4 /* AppDelegate.swift */; };
 		FA5A24AA2171E9AB00172BE4 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24A92171E9AB00172BE4 /* FirstViewController.swift */; };
 		FA5A24AC2171E9AB00172BE4 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24AB2171E9AB00172BE4 /* SecondViewController.swift */; };
@@ -15,6 +18,8 @@
 		FA5A24B42171E9AB00172BE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5A24B22171E9AB00172BE4 /* LaunchScreen.storyboard */; };
 		FA5A24BF2171E9AB00172BE4 /* SiteDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24BE2171E9AB00172BE4 /* SiteDataTests.swift */; };
 		FA5A24CA2171E9AB00172BE4 /* SiteDataUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24C92171E9AB00172BE4 /* SiteDataUITests.swift */; };
+		FAFB9D822172A4A200BE85FD /* AmazonAssociatesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB9D812172A4A200BE85FD /* AmazonAssociatesParser.swift */; };
+		FAFB9D862172AE9800BE85FD /* EzoicParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB9D852172AE9800BE85FD /* EzoicParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA00C3072173A55700F48EBA /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		FA1173B82172C4D400F1E842 /* EmbedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedController.swift; sourceTree = "<group>"; };
+		FA175D8F21742DA8000E578E /* SourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCell.swift; sourceTree = "<group>"; };
 		FA5A24A42171E9AB00172BE4 /* SiteData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SiteData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5A24A72171E9AB00172BE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA5A24A92171E9AB00172BE4 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +57,8 @@
 		FA5A24C52171E9AB00172BE4 /* SiteDataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiteDataUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5A24C92171E9AB00172BE4 /* SiteDataUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDataUITests.swift; sourceTree = "<group>"; };
 		FA5A24CB2171E9AB00172BE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAFB9D812172A4A200BE85FD /* AmazonAssociatesParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAssociatesParser.swift; sourceTree = "<group>"; };
+		FAFB9D852172AE9800BE85FD /* EzoicParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EzoicParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +109,18 @@
 		FA5A24A62171E9AB00172BE4 /* SiteData */ = {
 			isa = PBXGroup;
 			children = (
+				FA5A24B02171E9AB00172BE4 /* Assets.xcassets */,
 				FA5A24A72171E9AB00172BE4 /* AppDelegate.swift */,
 				FA5A24A92171E9AB00172BE4 /* FirstViewController.swift */,
 				FA5A24AB2171E9AB00172BE4 /* SecondViewController.swift */,
+				FA1173B82172C4D400F1E842 /* EmbedController.swift */,
+				FAFB9D812172A4A200BE85FD /* AmazonAssociatesParser.swift */,
+				FAFB9D852172AE9800BE85FD /* EzoicParser.swift */,
+				FA175D8F21742DA8000E578E /* SourceCell.swift */,
 				FA5A24AD2171E9AB00172BE4 /* Main.storyboard */,
-				FA5A24B02171E9AB00172BE4 /* Assets.xcassets */,
 				FA5A24B22171E9AB00172BE4 /* LaunchScreen.storyboard */,
 				FA5A24B52171E9AB00172BE4 /* Info.plist */,
+				FA00C3072173A55700F48EBA /* Parser.swift */,
 			);
 			path = SiteData;
 			sourceTree = "<group>";
@@ -263,8 +278,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA5A24AC2171E9AB00172BE4 /* SecondViewController.swift in Sources */,
+				FAFB9D862172AE9800BE85FD /* EzoicParser.swift in Sources */,
+				FAFB9D822172A4A200BE85FD /* AmazonAssociatesParser.swift in Sources */,
+				FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */,
+				FA175D9021742DA8000E578E /* SourceCell.swift in Sources */,
 				FA5A24A82171E9AB00172BE4 /* AppDelegate.swift in Sources */,
 				FA5A24AA2171E9AB00172BE4 /* FirstViewController.swift in Sources */,
+				FA00C3082173A55700F48EBA /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,6 +451,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GRG35Z594V;
 				INFOPLIST_FILE = SiteData/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.knolllabs.SiteData;
@@ -445,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GRG35Z594V;
 				INFOPLIST_FILE = SiteData/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.knolllabs.SiteData;
