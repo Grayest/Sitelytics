@@ -1,16 +1,22 @@
 PODS:
+  - SQLite.swift (0.11.5):
+    - SQLite.swift/standard (= 0.11.5)
+  - SQLite.swift/standard (0.11.5)
   - UICircularProgressRing (3.3.2)
 
 DEPENDENCIES:
+  - SQLite.swift (~> 0.11.5)
   - UICircularProgressRing (~> 3.3.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - SQLite.swift
     - UICircularProgressRing
 
 SPEC CHECKSUMS:
+  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
   UICircularProgressRing: f5efb3e1fd8387bfd59f71738501d68f58b7e84e
 
-PODFILE CHECKSUM: 15fda2852267d920a4547d1feb4fc3ddc103632b
+PODFILE CHECKSUM: 3e17dc66fa4b1b7549ce3c07987425d90f74f6b1
 
 COCOAPODS: 1.5.3

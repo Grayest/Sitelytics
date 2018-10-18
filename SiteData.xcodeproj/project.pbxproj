@@ -13,6 +13,8 @@
 		FA00C3082173A55700F48EBA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00C3072173A55700F48EBA /* Parser.swift */; };
 		FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1173B82172C4D400F1E842 /* EmbedController.swift */; };
 		FA175D9021742DA8000E578E /* SourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA175D8F21742DA8000E578E /* SourceCell.swift */; };
+		FA20945F21793EF200F5BE15 /* AmazonAssociatesAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA20945E21793EF200F5BE15 /* AmazonAssociatesAccount.swift */; };
+		FA3144F2217946CB00448BD7 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3144F1217946CB00448BD7 /* Source.swift */; };
 		FA5A24A82171E9AB00172BE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24A72171E9AB00172BE4 /* AppDelegate.swift */; };
 		FA5A24AA2171E9AB00172BE4 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24A92171E9AB00172BE4 /* FirstViewController.swift */; };
 		FA5A24AC2171E9AB00172BE4 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A24AB2171E9AB00172BE4 /* SecondViewController.swift */; };
@@ -53,6 +55,8 @@
 		FA00C3072173A55700F48EBA /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FA1173B82172C4D400F1E842 /* EmbedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedController.swift; sourceTree = "<group>"; };
 		FA175D8F21742DA8000E578E /* SourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCell.swift; sourceTree = "<group>"; };
+		FA20945E21793EF200F5BE15 /* AmazonAssociatesAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAssociatesAccount.swift; sourceTree = "<group>"; };
+		FA3144F1217946CB00448BD7 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Source.swift; path = ../Source.swift; sourceTree = "<group>"; };
 		FA5A24A42171E9AB00172BE4 /* SiteData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SiteData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5A24A72171E9AB00172BE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA5A24A92171E9AB00172BE4 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -150,11 +154,13 @@
 			isa = PBXGroup;
 			children = (
 				FA5A24B02171E9AB00172BE4 /* Assets.xcassets */,
+				FA3144F1217946CB00448BD7 /* Source.swift */,
 				FA5A24A72171E9AB00172BE4 /* AppDelegate.swift */,
 				FA5A24A92171E9AB00172BE4 /* FirstViewController.swift */,
 				FA5A24AB2171E9AB00172BE4 /* SecondViewController.swift */,
 				FA1173B82172C4D400F1E842 /* EmbedController.swift */,
 				FAFB9D812172A4A200BE85FD /* AmazonAssociatesParser.swift */,
+				FA20945E21793EF200F5BE15 /* AmazonAssociatesAccount.swift */,
 				FAFB9D852172AE9800BE85FD /* EzoicParser.swift */,
 				FA175D8F21742DA8000E578E /* SourceCell.swift */,
 				FA5A24AD2171E9AB00172BE4 /* Main.storyboard */,
@@ -348,12 +354,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SiteData/Pods-SiteData-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/UICircularProgressRing/UICircularProgressRing.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UICircularProgressRing.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,6 +428,8 @@
 				FA5A24A82171E9AB00172BE4 /* AppDelegate.swift in Sources */,
 				FA5A24AA2171E9AB00172BE4 /* FirstViewController.swift in Sources */,
 				FA00C3082173A55700F48EBA /* Parser.swift in Sources */,
+				FA3144F2217946CB00448BD7 /* Source.swift in Sources */,
+				FA20945F21793EF200F5BE15 /* AmazonAssociatesAccount.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

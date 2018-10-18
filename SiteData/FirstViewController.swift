@@ -22,87 +22,25 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     var amazonRevenueTodayLabel : UILabel?
     var amazonUpdating : UILabel?
     
-    let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT)"
+    var amazonAccounts = [AmazonAssociatesAccount]()
+    var allSources : [Source]?
+    
+    let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT)"
     let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
-    
-    @IBAction func addNewClicked(_ sender: Any) {
-    }
-    var amazonData : [String: Any]? {
-        didSet {
-            let totalOrderedRevenue = amazonData!["TOTAL_ORDERED_REVENUE"] as! Double
-            print("TOTAL ORDERED REVENUE: \(totalOrderedRevenue)")
-            amazonProgressCircle?.isHidden = true
-            amazonProgressCircle?.value = 0
-            amazonRevenueToday?.isHidden = false
-            amazonRevenueTodayLabel?.isHidden = false
-        }
-    }
-    
-    @objc private func refreshAllSources() {
-        for currCell in tableView.visibleCells {
-            let amznCell = currCell as! SourceCell
-            refreshSource(sourceCell: amznCell)
-        }
-    }
-    
-    func addAccountRecord(table: String, email : String, password: String, storeIds: String) {
-        var stmt: OpaquePointer?
-        let addToAmazonAssociatesAccounts = "INSERT INTO \(table) (email, password, storeIds) VALUES (?, ?)"
-        if(sqlite3_prepare(db, addToAmazonAssociatesAccounts, -1, &stmt, nil) != SQLITE_OK) {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
-            return
-        } else {
-            print("successfully prepared for insertion")
-        }
-        
-        //binding the parameters
-        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure binding name: \(errmsg)")
-            return
-        }
-        
-        if sqlite3_bind_text(stmt, 2, email, -1, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure binding name: \(errmsg)")
-            return
-        }
-        
-        //executing the query to insert values
-        if sqlite3_step(stmt) != SQLITE_DONE {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure inserting record: \(errmsg)")
-            return
-        } else {
-            print("Successfully inserted record.")
-        }
-    }
-    
-    func createTable(createTableQuery : String) {
-        if sqlite3_exec(db, createTableQuery, nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-    }
-    
-    func initDatabase() {
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("SourceData.sqlite")
-        
-        
-        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Error opening database.")
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initDatabase()
+        
+        //var stmt : OpaquePointer?
+        //sqlite3_prepare(db, "DROP table amazon_associates_accounts", -1, &stmt, nil)
+        //sqlite3_step(stmt)
+        
         createTable(createTableQuery: createAmazonAssociatesAccountTable)
         createTable(createTableQuery: createAmazonAssociatesOrdersTable)
-        //addAccountRecord(table: "amazon_associates_accounts", email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
-        
+        getAllAmazonAccounts()
+        combineAllAccounts()
         tableView.dataSource = self
         tableView.rowHeight = 105
         tableView.allowsSelection = false
@@ -126,6 +64,114 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         
         embedController = EmbedController(rootViewController: self)
     }
+    
+    @IBAction func addNewClicked(_ sender: Any) {
+        addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
+    }
+    var amazonData : [String: Any]? {
+        didSet {
+            let totalOrderedRevenue = amazonData!["TOTAL_ORDERED_REVENUE"] as! Double
+            print("TOTAL ORDERED REVENUE: \(totalOrderedRevenue)")
+            amazonProgressCircle?.isHidden = true
+            amazonProgressCircle?.value = 0
+            amazonRevenueToday?.isHidden = false
+            amazonRevenueTodayLabel?.isHidden = false
+        }
+    }
+    
+    @objc private func refreshAllSources() {
+        for currCell in tableView.visibleCells {
+            let amznCell = currCell as! SourceCell
+            refreshSource(sourceCell: amznCell)
+        }
+    }
+    
+    func addAmazonAccount(email : String, password: String, storeIds: String) {
+        var stmt: OpaquePointer?
+        let addToAmazonAssociatesAccounts = "INSERT INTO amazon_associates_accounts (email, password, storeIds) VALUES (?, ?, ?)"
+        if(sqlite3_prepare(db, addToAmazonAssociatesAccounts, -1, &stmt, nil) != SQLITE_OK) {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
+            return
+        } else {
+            print("successfully prepared for insertion")
+        }
+        
+        //binding the parameters
+        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        if sqlite3_bind_text(stmt, 2, password, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        if sqlite3_bind_text(stmt, 3, storeIds, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        //executing the query to insert values
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure inserting record: \(errmsg)")
+            return
+        } else {
+            print("Successfully inserted record.")
+        }
+    }
+    
+    func combineAllAccounts() {
+        for amazonAccount in amazonAccounts {
+            
+        }
+    }
+    
+    func getAllAmazonAccounts() {
+        let getAllQuery = "SELECT * from amazon_associates_accounts"
+        var stmt : OpaquePointer?
+        
+        if(sqlite3_prepare(db, getAllQuery, -1, &stmt, nil) != SQLITE_OK) {
+            let errMsg = String(cString: sqlite3_errmsg(db)!)
+            print("Error preparing select query: \(errMsg)")
+        }
+        
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            let id = sqlite3_column_int(stmt, 0)
+            let email = String(cString: sqlite3_column_text(stmt, 1))
+            let password = String(cString: sqlite3_column_text(stmt, 2))
+            let storeIds = String(cString: sqlite3_column_text(stmt, 3))
+            print(id)
+            print(email)
+            print(password)
+            print(storeIds)
+            let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: [storeIds])
+            amazonAccounts.append(currAmznAccount)
+        }
+    }
+    
+    func createTable(createTableQuery : String) {
+        if sqlite3_exec(db, createTableQuery, nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+    }
+    
+    func initDatabase() {
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("SourceData.sqlite")
+        
+        
+        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
+            print("Error opening database.")
+        }
+    }
+    
+    
     
     
     override func didReceiveMemoryWarning() {

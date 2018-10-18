@@ -112,7 +112,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                     ]
                     
                     self.dashboardVC!.amazonData = updateVal
-                    self.dashboardVC!.amazonRevenueToday?.text = "$\(totalOrderedRevenue)"
+                    self.dashboardVC!.amazonRevenueToday?.text = String(format: "$%.02f", totalOrderedRevenue)
                     self.dashboardVC!.amazonUpdating?.text = "Last updated 0 mins ago"
                 })
                 
