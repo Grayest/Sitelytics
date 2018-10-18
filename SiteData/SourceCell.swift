@@ -11,6 +11,7 @@ import UICircularProgressRing
 
 class SourceCell: UITableViewCell {
     @IBOutlet weak var sourceName : UILabel!
+    @IBOutlet weak var sourceEmail: UILabel!
     @IBOutlet weak var innerView : UIView!
     @IBOutlet weak var progressCircle: UICircularProgressRing!
     @IBOutlet weak var sourceData: UILabel!

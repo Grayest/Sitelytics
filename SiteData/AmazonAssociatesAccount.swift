@@ -15,10 +15,14 @@ class AmazonAssociatesAccount : Source {
     var storeIds : [String]?
     
     init(id: Int, amazonEmail: String, password: String, storeIds: [String]) {
-        super.init(name: "Amazon Associates", email: amazonEmail, lastUpdated: "0 mins ago", dataPoint: 10.0, dataTitle: "ORDERED REVENUE TODAY")
+        super.init(name: "Amazon Associates", email: amazonEmail, lastUpdated: "Last updated 0 mins ago", dataPoint: 10.0, dataTitle: "ORDERED REVENUE TODAY")
         self.id = id
         self.amazonEmail = amazonEmail
         self.password = password
         self.storeIds = storeIds
+    }
+    
+    func update() {
+        
     }
 }

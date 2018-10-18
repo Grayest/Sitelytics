@@ -163,6 +163,7 @@
                                             <outlet property="progressCircle" destination="3Nz-LN-RTN" id="XwY-dQ-23T"/>
                                             <outlet property="sourceData" destination="MmP-jW-IpH" id="unD-02-We1"/>
                                             <outlet property="sourceDataLabel" destination="ejr-j8-YPt" id="Dd8-MZ-kHU"/>
+                                            <outlet property="sourceEmail" destination="2V6-vL-cLe" id="GZr-tQ-kR2"/>
                                             <outlet property="sourceName" destination="HS0-ju-xn9" id="psr-i6-E3J"/>
                                         </connections>
                                     </tableViewCell>

@@ -23,7 +23,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     var amazonUpdating : UILabel?
     
     var amazonAccounts = [AmazonAssociatesAccount]()
-    var allSources : [Source]?
+    var allSources : [Source] = []
     
     let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT)"
     let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
@@ -128,7 +128,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     
     func combineAllAccounts() {
         for amazonAccount in amazonAccounts {
-            
+            allSources.append(amazonAccount)
         }
     }
     
@@ -200,12 +200,16 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return allSources.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
-        cell.sourceName.text = "Amazon Associates"
+        let source = allSources[indexPath.row] as Source
+        cell.sourceName.text = source.name
+        cell.lastUpdated.text = source.lastUpdated
+        cell.sourceEmail.text = source.email
+        
         cell.innerView.layer.cornerRadius = 5
         amazonProgressCircle = cell.progressCircle
         amazonRevenueToday = cell.sourceData
