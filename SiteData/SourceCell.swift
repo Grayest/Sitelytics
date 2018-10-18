@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import UICircularProgressRing
 
 class SourceCell: UITableViewCell {
     @IBOutlet weak var sourceName : UILabel!
     @IBOutlet weak var innerView : UIView!
+    @IBOutlet weak var progressCircle: UICircularProgressRing!
+    @IBOutlet weak var sourceData: UILabel!
+    @IBOutlet weak var sourceDataLabel: UILabel!
+    @IBOutlet weak var lastUpdated: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

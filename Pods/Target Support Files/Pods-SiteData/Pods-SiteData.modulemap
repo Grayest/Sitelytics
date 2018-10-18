@@ -1,0 +1,6 @@
+framework module Pods_SiteData {
+  umbrella header "Pods-SiteData-umbrella.h"
+
+  export *
+  module * { export * }
+}

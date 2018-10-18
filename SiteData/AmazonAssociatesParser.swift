@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import WebKit
+import SQLite3
 
 class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     private var email : String = "lyons340@gmail.com"
@@ -22,8 +23,14 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     var insertPwdJS : String?
     var clickLoginJS : String?
     var returnedJSON : String?
+    var dashboardVC : FirstViewController?
+    
+    func initAmazonData(email : String, pass : String, storeId : String, cellIndex : Int) {
+        
+    }
     
     override func loadView() {
+        dashboardVC = self.parent as! FirstViewController
         deleteCache()
         webView = WKWebView()
         webView.isHidden = true
@@ -58,9 +65,15 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         
         //Change to nil or something that makes sure it grabbed from local storage
         if(email != "" && password != "") {
-            webView.evaluateJavaScript(insertEmailJS!, completionHandler: nil)
-            webView.evaluateJavaScript(insertPwdJS!, completionHandler: nil)
-            webView.evaluateJavaScript(clickLoginJS!, completionHandler: nil)
+            webView.evaluateJavaScript(insertEmailJS!) {(result, error) in
+                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 40, duration: 1)
+            }
+            webView.evaluateJavaScript(insertPwdJS!)  {(result, error) in
+                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 46, duration: 1)
+            }
+            webView.evaluateJavaScript(clickLoginJS!) {(result, error) in
+                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 52, duration: 1)
+            }
         } else {
             print("Email and password not set or cannot be retrieved.")
         }
@@ -91,14 +104,18 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                     totalOrderedRevenue = totalOrderedRevenue + currentRevenue
                 }
                 
-                let updateVal : [String : Any] = [
-                    "TOTAL_ORDERED_REVENUE" : totalOrderedRevenue,
-                    "AMT_ITEMS_ORDERED" : amtOrderedItems,
-                    "ORDERS_DETAIL" : records
-                ]
+                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 100, duration: 0.5, completion: {
+                    let updateVal : [String : Any] = [
+                        "TOTAL_ORDERED_REVENUE" : totalOrderedRevenue,
+                        "AMT_ITEMS_ORDERED" : amtOrderedItems,
+                        "ORDERS_DETAIL" : records
+                    ]
+                    
+                    self.dashboardVC!.amazonData = updateVal
+                    self.dashboardVC!.amazonRevenueToday?.text = "$\(totalOrderedRevenue)"
+                    self.dashboardVC!.amazonUpdating?.text = "Last updated 0 mins ago"
+                })
                 
-                let dashboardVC = self.parent as! FirstViewController
-                dashboardVC.amazonData = updateVal
             } catch let error as NSError {
                 print("ERROR FOUND: \(error)")
             }
@@ -106,13 +123,17 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         })
     }
     
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if(pageCount == 0) {
             loginToAccount()
+            dashboardVC?.amazonProgressCircle?.startProgress(to: 33, duration: 1)
         } else if(pageCount == 1) {
             getTodaysOrders()
+            dashboardVC?.amazonProgressCircle?.startProgress(to: 66, duration: 1)
         } else if(pageCount == 2) {
             parseJSONResponse()
+            dashboardVC?.amazonProgressCircle?.startProgress(to: 90, duration: 1)
         }
         
         pageCount = pageCount + 1
