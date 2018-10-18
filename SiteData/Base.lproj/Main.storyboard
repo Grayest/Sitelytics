@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Adx-Jw-U68">
-                                <rect key="frame" x="16" y="42" width="343" height="564"/>
+                                <rect key="frame" x="16" y="42" width="343" height="476"/>
                                 <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -168,12 +168,28 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aot-5w-Nci">
+                                <rect key="frame" x="16" y="520" width="343" height="90"/>
+                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="32d-O8-AW8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="23"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Add new source"/>
+                                <connections>
+                                    <action selector="addNewClicked:" destination="9pv-A4-QxB" eventType="touchUpInside" id="da0-nj-Fj1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="Adx-Jw-U68" secondAttribute="bottom" constant="12" id="TFk-0M-2hF"/>
+                            <constraint firstItem="Aot-5w-Nci" firstAttribute="centerX" secondItem="Adx-Jw-U68" secondAttribute="centerX" id="2ZM-jD-aX8"/>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="Aot-5w-Nci" secondAttribute="bottom" constant="8" id="KW3-Wq-6jP"/>
                             <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" secondItem="Adx-Jw-U68" secondAttribute="trailing" constant="16" id="YZD-Bp-SXW"/>
+                            <constraint firstItem="Aot-5w-Nci" firstAttribute="width" secondItem="Adx-Jw-U68" secondAttribute="width" id="bH1-hL-4xa"/>
                             <constraint firstItem="Adx-Jw-U68" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" constant="16" id="jLa-Du-vTK"/>
+                            <constraint firstItem="Aot-5w-Nci" firstAttribute="top" secondItem="Adx-Jw-U68" secondAttribute="bottom" constant="2" id="jjC-VU-0PS"/>
                             <constraint firstItem="Adx-Jw-U68" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" constant="22" id="mt8-XV-4Lz"/>
                             <constraint firstItem="Adx-Jw-U68" firstAttribute="centerX" secondItem="PQr-Ze-W5v" secondAttribute="centerX" id="x9G-sP-aVI"/>
                         </constraints>
@@ -181,6 +197,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="addNewButton" destination="Aot-5w-Nci" id="kHf-yr-eos"/>
                         <outlet property="tableView" destination="Adx-Jw-U68" id="CCs-A8-FNu"/>
                     </connections>
                 </viewController>

@@ -11,6 +11,7 @@ import UICircularProgressRing
 import SQLite3
 
 class FirstViewController: UIViewController, UITableViewDataSource {
+    @IBOutlet weak var addNewButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     private var embedController : EmbedController?
     private let refreshControl = UIRefreshControl()
@@ -22,8 +23,10 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     var amazonUpdating : UILabel?
     
     let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT)"
-    let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT])"
+    let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
     
+    @IBAction func addNewClicked(_ sender: Any) {
+    }
     var amazonData : [String: Any]? {
         didSet {
             let totalOrderedRevenue = amazonData!["TOTAL_ORDERED_REVENUE"] as! Double
@@ -42,15 +45,37 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    func addAccountRecord(table: String, email : String, password: String) {
+    func addAccountRecord(table: String, email : String, password: String, storeIds: String) {
         var stmt: OpaquePointer?
-        let addToAmazonAssociatesAccounts = "INSERT INTO \(table) (email, password) VALUES (\(email), \(password)"
+        let addToAmazonAssociatesAccounts = "INSERT INTO \(table) (email, password, storeIds) VALUES (?, ?)"
         if(sqlite3_prepare(db, addToAmazonAssociatesAccounts, -1, &stmt, nil) != SQLITE_OK) {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error preparing insert: \(errmsg)")
             return
         } else {
-            print("successfully inserted")
+            print("successfully prepared for insertion")
+        }
+        
+        //binding the parameters
+        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        if sqlite3_bind_text(stmt, 2, email, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        //executing the query to insert values
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure inserting record: \(errmsg)")
+            return
+        } else {
+            print("Successfully inserted record.")
         }
     }
     
@@ -76,11 +101,12 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         initDatabase()
         createTable(createTableQuery: createAmazonAssociatesAccountTable)
         createTable(createTableQuery: createAmazonAssociatesOrdersTable)
-        addAccountRecord(table: "amazon_associates_accounts", email: "lyons340@gmail.com", password: "MArk44$$")
+        //addAccountRecord(table: "amazon_associates_accounts", email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
         
         tableView.dataSource = self
         tableView.rowHeight = 105
         tableView.allowsSelection = false
+        addNewButton.layer.cornerRadius = 5
         
         // Add Refresh Control to Table View
         if #available(iOS 10.0, *) {
