@@ -24,13 +24,16 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     var clickLoginJS : String?
     var returnedJSON : String?
     var dashboardVC : FirstViewController?
+    var correspondingCell : SourceCell?
     
-    func initAmazonData(email : String, pass : String, storeId : String, cellIndex : Int) {
-        
+    func updateData(cellCalledBy : SourceCell) {
+        correspondingCell = cellCalledBy
+        correspondingCell?.progressCircle.startProgress(to: 66, duration: 3)
+        loadView()
     }
     
     override func loadView() {
-        dashboardVC = self.parent as! FirstViewController
+        dashboardVC = self.parent as? FirstViewController
         deleteCache()
         webView = WKWebView()
         webView.isHidden = true
@@ -66,13 +69,13 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         //Change to nil or something that makes sure it grabbed from local storage
         if(email != "" && password != "") {
             webView.evaluateJavaScript(insertEmailJS!) {(result, error) in
-                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 40, duration: 1)
+                self.correspondingCell?.progressCircle.startProgress(to: 40, duration: 1)
             }
             webView.evaluateJavaScript(insertPwdJS!)  {(result, error) in
-                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 46, duration: 1)
+                self.correspondingCell?.progressCircle.startProgress(to: 46, duration: 1)
             }
             webView.evaluateJavaScript(clickLoginJS!) {(result, error) in
-                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 52, duration: 1)
+                self.correspondingCell?.progressCircle.startProgress(to: 52, duration: 1)
             }
         } else {
             print("Email and password not set or cannot be retrieved.")
@@ -89,31 +92,42 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         webView.evaluateJavaScript(extractAllJSON, completionHandler: {(result, error)  in
             self.returnedJSON = result as? String
             let data = self.returnedJSON!.data(using: .utf8)!
+            
             do {
                 let jsonObj = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Dictionary<String, Any>
                 let records = jsonObj!["records"] as! [Dictionary<String, String>]
                 var amtOrderedItems : Double = 0
                 var totalOrderedRevenue : Double = 0
+                var estimatedCommission : Double = 0
                 
                 for record in records {
                     let currentAmount = Double(record["ordered_items"]!)!
                     let currentPrice = Double(record["price"]!)!
                     let currentRevenue = currentAmount * currentPrice
+                    let currentCategory = record["product_category"]!
+                    let currentCommission = self.productCommission(category: currentCategory)
+                    let currentCommissionFees = currentRevenue * currentCommission
                     
+                    estimatedCommission = estimatedCommission + currentCommissionFees
                     amtOrderedItems = amtOrderedItems + currentAmount
                     totalOrderedRevenue = totalOrderedRevenue + currentRevenue
                 }
                 
-                self.dashboardVC?.amazonProgressCircle?.startProgress(to: 100, duration: 0.5, completion: {
+                self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 0.5, completion: {
                     let updateVal : [String : Any] = [
                         "TOTAL_ORDERED_REVENUE" : totalOrderedRevenue,
+                        "ESTIMATED_COMMISSION" : estimatedCommission,
                         "AMT_ITEMS_ORDERED" : amtOrderedItems,
-                        "ORDERS_DETAIL" : records
+                        "ORDERS_DETAIL" : records,
                     ]
                     
-                    self.dashboardVC!.amazonData = updateVal
-                    self.dashboardVC!.amazonRevenueToday?.text = String(format: "$%.02f", totalOrderedRevenue)
-                    self.dashboardVC!.amazonUpdating?.text = "Last updated 0 mins ago"
+                    self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 1)
+                    self.correspondingCell?.progressCircle.isHidden = true
+                    self.correspondingCell?.progressCircle.value = 0
+                    self.correspondingCell?.lastUpdated.text = "Last updated 0 mins ago"
+                    self.correspondingCell?.sourceData.text = String(format: "$%.02f", estimatedCommission)
+                    self.correspondingCell?.sourceData.isHidden = false
+                    self.correspondingCell?.sourceDataLabel.isHidden = false
                 })
                 
             } catch let error as NSError {
@@ -123,17 +137,35 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         })
     }
     
+    func productCommission(category : String) -> Double {
+        if (["Amazon Fashion Women", "Men & Kids Private Label", "Luxury Beauty", "Amazon Coins"].contains(category)) { return 0.1 }
+        if (["Furniture", "Home", "Home Improvement", "Lawn & Garden", "Pets Products", "Pantry"].contains(category)) { return 0.08 }
+        if (["Apparel", "Amazon Cloud Cam Devices", "Amazon Element Smart TV (with Fire TV)", "Amazon Fire TV Devices", "Jewelry", "Luggage", "Shoes", "Handbags"].contains(category)) { return 0.07 }
+        if (["Headphones", "Beauty", "Musical Instruments", "Business & Industrial Supplies"].contains(category)) { return 0.06 }
+        if (["Outdoors", "Tools"].contains(category)) { return 0.055 }
+        if (["Digital Music", "Grocery", "Physical Music", "Handmade", "Digital Videos"].contains(category)) { return 0.05 }
+        if (["Physical Books", "Health & Personal Care", "Sports", "Kitchen", "Automotive", "Baby Products"].contains(category)) { return 0.045 }
+        if (["Amazon Fire Tablet Devices", "Dash Buttons", "Amazon Kindle Devices"].contains(category)) { return 0.04 }
+        if (["Amazon Fresh", "Toys"].contains(category)) { return 0.03 }
+        if (["PC", "PC Components", "DVD & Blu-Ray"].contains(category)) { return 0.025 }
+        if (["Televisions", "Digital Video Games"].contains(category)) { return 0.02 }
+        if (["Video Games & Video Game Consoles", "Video Games", "Video Game Consoles"].contains(category)) { return 0.01 }
+        if (["Amazon Gift Cards", "Wireless Service Plans", "Alcoholic Beverages", "Digital Kindle Products", "Amazon Appstore", "Prime Now", "Amazon Pay Places", "Prime Wardrobe", "Purchases"].contains(category)) { return 0 }
+        
+        //All else is 4%
+        return 0.04
+    }
+    
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if(pageCount == 0) {
+            self.correspondingCell?.progressCircle.startProgress(to: 32, duration: 1)
             loginToAccount()
-            dashboardVC?.amazonProgressCircle?.startProgress(to: 33, duration: 1)
         } else if(pageCount == 1) {
             getTodaysOrders()
-            dashboardVC?.amazonProgressCircle?.startProgress(to: 66, duration: 1)
         } else if(pageCount == 2) {
+            self.correspondingCell?.progressCircle.startProgress(to: 90, duration: 1)
             parseJSONResponse()
-            dashboardVC?.amazonProgressCircle?.startProgress(to: 90, duration: 1)
         }
         
         pageCount = pageCount + 1

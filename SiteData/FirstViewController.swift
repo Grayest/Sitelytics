@@ -15,7 +15,6 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     private var embedController : EmbedController?
     private let refreshControl = UIRefreshControl()
-    var db: OpaquePointer?
     
     var amazonProgressCircle : UICircularProgressRing?
     var amazonRevenueToday : UILabel?
@@ -24,22 +23,17 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     
     var amazonAccounts = [AmazonAssociatesAccount]()
     var allSources : [Source] = []
-    
-    let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT)"
-    let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
+    var databaseMgr : DataActions = DataActions()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initDatabase()
+        databaseMgr.initDatabase()
+        databaseMgr.createAmazonAccountsTable()
+        databaseMgr.createAmazonOrdersTable()
+        amazonAccounts = databaseMgr.getAllAmazonAccounts()
         
-        //var stmt : OpaquePointer?
-        //sqlite3_prepare(db, "DROP table amazon_associates_accounts", -1, &stmt, nil)
-        //sqlite3_step(stmt)
-        
-        createTable(createTableQuery: createAmazonAssociatesAccountTable)
-        createTable(createTableQuery: createAmazonAssociatesOrdersTable)
-        getAllAmazonAccounts()
+        //Need to coalesce all accounts before
         combineAllAccounts()
         tableView.dataSource = self
         tableView.rowHeight = 105
@@ -65,65 +59,15 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         embedController = EmbedController(rootViewController: self)
     }
     
-    @IBAction func addNewClicked(_ sender: Any) {
-        addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
-    }
-    var amazonData : [String: Any]? {
-        didSet {
-            let totalOrderedRevenue = amazonData!["TOTAL_ORDERED_REVENUE"] as! Double
-            print("TOTAL ORDERED REVENUE: \(totalOrderedRevenue)")
-            amazonProgressCircle?.isHidden = true
-            amazonProgressCircle?.value = 0
-            amazonRevenueToday?.isHidden = false
-            amazonRevenueTodayLabel?.isHidden = false
-        }
-    }
-    
     @objc private func refreshAllSources() {
         for currCell in tableView.visibleCells {
-            let amznCell = currCell as! SourceCell
-            refreshSource(sourceCell: amznCell)
+            let currSrcCell = currCell as! SourceCell
+            refreshSource(sourceCell: currSrcCell)
         }
     }
     
-    func addAmazonAccount(email : String, password: String, storeIds: String) {
-        var stmt: OpaquePointer?
-        let addToAmazonAssociatesAccounts = "INSERT INTO amazon_associates_accounts (email, password, storeIds) VALUES (?, ?, ?)"
-        if(sqlite3_prepare(db, addToAmazonAssociatesAccounts, -1, &stmt, nil) != SQLITE_OK) {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
-            return
-        } else {
-            print("successfully prepared for insertion")
-        }
-        
-        //binding the parameters
-        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure binding name: \(errmsg)")
-            return
-        }
-        
-        if sqlite3_bind_text(stmt, 2, password, -1, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure binding name: \(errmsg)")
-            return
-        }
-        
-        if sqlite3_bind_text(stmt, 3, storeIds, -1, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure binding name: \(errmsg)")
-            return
-        }
-        
-        //executing the query to insert values
-        if sqlite3_step(stmt) != SQLITE_DONE {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure inserting record: \(errmsg)")
-            return
-        } else {
-            print("Successfully inserted record.")
-        }
+    @IBAction func addNewClicked(_ sender: Any) {
+        databaseMgr.addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
     }
     
     func combineAllAccounts() {
@@ -132,54 +76,13 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    func getAllAmazonAccounts() {
-        let getAllQuery = "SELECT * from amazon_associates_accounts"
-        var stmt : OpaquePointer?
-        
-        if(sqlite3_prepare(db, getAllQuery, -1, &stmt, nil) != SQLITE_OK) {
-            let errMsg = String(cString: sqlite3_errmsg(db)!)
-            print("Error preparing select query: \(errMsg)")
-        }
-        
-        while(sqlite3_step(stmt) == SQLITE_ROW) {
-            let id = sqlite3_column_int(stmt, 0)
-            let email = String(cString: sqlite3_column_text(stmt, 1))
-            let password = String(cString: sqlite3_column_text(stmt, 2))
-            let storeIds = String(cString: sqlite3_column_text(stmt, 3))
-            print(id)
-            print(email)
-            print(password)
-            print(storeIds)
-            let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: [storeIds])
-            amazonAccounts.append(currAmznAccount)
-        }
-    }
-    
-    func createTable(createTableQuery : String) {
-        if sqlite3_exec(db, createTableQuery, nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-    }
-    
-    func initDatabase() {
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("SourceData.sqlite")
-        
-        
-        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Error opening database.")
-        }
-    }
-    
-    
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    func getAmazonData() {
-        embedView(containVC: AmazonAssociatesParser()).loadView()
+    func getData(sourceCell : SourceCell) {
+        let amznParser : AmazonAssociatesParser = embedView(containVC: AmazonAssociatesParser()) as! AmazonAssociatesParser
+        amznParser.updateData(cellCalledBy: sourceCell)
     }
     
     func createBackgroundView() -> UIView{
@@ -206,22 +109,16 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
         let source = allSources[indexPath.row] as Source
+        
         cell.sourceName.text = source.name
         cell.lastUpdated.text = source.lastUpdated
         cell.sourceEmail.text = source.email
-        
         cell.innerView.layer.cornerRadius = 5
-        amazonProgressCircle = cell.progressCircle
-        amazonRevenueToday = cell.sourceData
-        amazonRevenueTodayLabel = cell.sourceDataLabel
-        amazonUpdating = cell.lastUpdated
+        
         return cell
     }
     
-    
-    
     func refreshSource(sourceCell : SourceCell) {
-        // Put your code which should be executed with a delay here
         sourceCell.progressCircle.isHidden = false
         sourceCell.lastUpdated.text = "Updating source..."
         sourceCell.sourceData.isHidden = true
@@ -229,9 +126,8 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
             self.refreshControl.endRefreshing()
-            self.getAmazonData()
+            self.getData(sourceCell: sourceCell)
         })
-        
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
