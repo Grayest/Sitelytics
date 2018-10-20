@@ -66,10 +66,6 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    @IBAction func addNewClicked(_ sender: Any) {
-        databaseMgr.addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
-    }
-    
     func combineAllAccounts() {
         for amazonAccount in amazonAccounts {
             allSources.append(amazonAccount)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3716338FCA1669E78E648801 /* Pods_SiteDataUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E84C69B370EB6D81EA25F3 /* Pods_SiteDataUITests.framework */; };
 		8AC6C74E7A8EB4CE1828E1A7 /* Pods_SiteDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F71D722AF1A54E1AC48FA5CE /* Pods_SiteDataTests.framework */; };
+		CC3C5798217BDE7600AA5C93 /* AddNewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3C5797217BDE7600AA5C93 /* AddNewSource.swift */; };
 		F248F10A7955DCB924653FC7 /* Pods_SiteData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69224315A930F69D8335023 /* Pods_SiteData.framework */; };
 		FA00C3082173A55700F48EBA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00C3072173A55700F48EBA /* Parser.swift */; };
 		FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1173B82172C4D400F1E842 /* EmbedController.swift */; };
@@ -51,6 +52,7 @@
 		8BFA4F3183445F3589902686 /* Pods-SiteDataTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SiteDataTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SiteDataTests/Pods-SiteDataTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A5FCA57D1B966324E019B359 /* Pods-SiteDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SiteDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SiteDataTests/Pods-SiteDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		B2E84C69B370EB6D81EA25F3 /* Pods_SiteDataUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteDataUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC3C5797217BDE7600AA5C93 /* AddNewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSource.swift; sourceTree = "<group>"; };
 		F69224315A930F69D8335023 /* Pods_SiteData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F71D722AF1A54E1AC48FA5CE /* Pods_SiteDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA00C3072173A55700F48EBA /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				FA5A24B52171E9AB00172BE4 /* Info.plist */,
 				FA00C3072173A55700F48EBA /* Parser.swift */,
 				FA3144F321794DCB00448BD7 /* DataActions.swift */,
+				CC3C5797217BDE7600AA5C93 /* AddNewSource.swift */,
 			);
 			path = SiteData;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				FAFB9D822172A4A200BE85FD /* AmazonAssociatesParser.swift in Sources */,
 				FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */,
 				FA175D9021742DA8000E578E /* SourceCell.swift in Sources */,
+				CC3C5798217BDE7600AA5C93 /* AddNewSource.swift in Sources */,
 				FA5A24A82171E9AB00172BE4 /* AppDelegate.swift in Sources */,
 				FA3144F421794DCB00448BD7 /* DataActions.swift in Sources */,
 				FA5A24AA2171E9AB00172BE4 /* FirstViewController.swift in Sources */,

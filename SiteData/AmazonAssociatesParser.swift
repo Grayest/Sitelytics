@@ -28,7 +28,6 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     
     func updateData(cellCalledBy : SourceCell) {
         correspondingCell = cellCalledBy
-        correspondingCell?.progressCircle.startProgress(to: 66, duration: 3)
         loadView()
     }
     
@@ -68,15 +67,9 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         
         //Change to nil or something that makes sure it grabbed from local storage
         if(email != "" && password != "") {
-            webView.evaluateJavaScript(insertEmailJS!) {(result, error) in
-                self.correspondingCell?.progressCircle.startProgress(to: 40, duration: 1)
-            }
-            webView.evaluateJavaScript(insertPwdJS!)  {(result, error) in
-                self.correspondingCell?.progressCircle.startProgress(to: 46, duration: 1)
-            }
-            webView.evaluateJavaScript(clickLoginJS!) {(result, error) in
-                self.correspondingCell?.progressCircle.startProgress(to: 52, duration: 1)
-            }
+            webView.evaluateJavaScript(insertEmailJS!)
+            webView.evaluateJavaScript(insertPwdJS!)
+            webView.evaluateJavaScript(clickLoginJS!)
         } else {
             print("Email and password not set or cannot be retrieved.")
         }
@@ -162,6 +155,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
             self.correspondingCell?.progressCircle.startProgress(to: 32, duration: 1)
             loginToAccount()
         } else if(pageCount == 1) {
+            self.correspondingCell?.progressCircle.startProgress(to: 58, duration: 1)
             getTodaysOrders()
         } else if(pageCount == 2) {
             self.correspondingCell?.progressCircle.startProgress(to: 90, duration: 1)
