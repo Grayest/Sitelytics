@@ -12,7 +12,7 @@ import SQLite3
 class DataActions {
     var db: OpaquePointer?
     
-    let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT)"
+    let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT, lastUpdatedTimestamp TEXT)"
     let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
     
     func getAllAmazonAccounts() -> [AmazonAssociatesAccount] {
@@ -30,11 +30,12 @@ class DataActions {
             let email = String(cString: sqlite3_column_text(stmt, 1))
             let password = String(cString: sqlite3_column_text(stmt, 2))
             let storeIds = String(cString: sqlite3_column_text(stmt, 3))
+            let lastUpdated = Date(
             print(id)
             print(email)
             print(password)
             print(storeIds)
-            let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: [storeIds])
+            let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: [storeIds], lastUpdated: )
             amazonAccounts.append(currAmznAccount)
         }
         

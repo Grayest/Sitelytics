@@ -107,7 +107,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         let source = allSources[indexPath.row] as Source
         
         cell.sourceName.text = source.name
-        cell.lastUpdated.text = source.lastUpdated
+        cell.lastUpdated.text = source.getLastUpdatedStr(numericDates: true)
         cell.sourceEmail.text = source.email
         cell.innerView.layer.cornerRadius = 5
         

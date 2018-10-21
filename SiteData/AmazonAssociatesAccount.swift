@@ -14,8 +14,8 @@ class AmazonAssociatesAccount : Source {
     var password : String?
     var storeIds : [String]?
     
-    init(id: Int, amazonEmail: String, password: String, storeIds: [String]) {
-        super.init(name: "Amazon Associates", email: amazonEmail, lastUpdated: "Last updated 0 mins ago", dataPoint: 10.0, dataTitle: "ESTIMATED FEES TODAY")
+    init(id: Int, amazonEmail: String, password: String, storeIds: [String], lastUpdatedTime: Date) {
+        super.init(name: "Amazon Associates", email: amazonEmail, lastUpdated: lastUpdatedTime, dataPoint: 10.0, dataTitle: "ESTIMATED FEES TODAY")
         self.id = id
         self.amazonEmail = amazonEmail
         self.password = password
