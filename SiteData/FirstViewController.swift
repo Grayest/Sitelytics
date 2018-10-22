@@ -28,9 +28,11 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        databaseMgr.firebombDatabase()
         databaseMgr.initDatabase()
         databaseMgr.createAmazonAccountsTable()
         databaseMgr.createAmazonOrdersTable()
+        databaseMgr.addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide-0c20")
         amazonAccounts = databaseMgr.getAllAmazonAccounts()
         
         //Need to coalesce all accounts before
@@ -105,9 +107,11 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
         let source = allSources[indexPath.row] as Source
+        let lastUpdatedFormatted = source.getLastUpdatedStr(numericDates: true)
         
         cell.sourceName.text = source.name
-        cell.lastUpdated.text = source.getLastUpdatedStr(numericDates: true)
+        cell.lastUpdated.text = "Last updated \(lastUpdatedFormatted)"
+        cell.sourceData.text = String(format: "$%.02f", source.dataPoint!)
         cell.sourceEmail.text = source.email
         cell.innerView.layer.cornerRadius = 5
         
