@@ -26,8 +26,11 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     var dashboardVC : FirstViewController?
     var correspondingCell : SourceCell?
     
+    var databaseMgr : DataActions = DataActions()
+    
     func updateData(cellCalledBy : SourceCell) {
         correspondingCell = cellCalledBy
+        print("ID: \(correspondingCell!.id)")
         loadView()
     }
     
@@ -114,10 +117,13 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                         "ORDERS_DETAIL" : records,
                     ]
                     
+                    print(self.correspondingCell?.id)
+                    self.databaseMgr.updateAmazonEstEarningsToday(currId: (self.correspondingCell?.id)!, newEarnings: estimatedCommission)
+                    
                     self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 1)
                     self.correspondingCell?.progressCircle.isHidden = true
                     self.correspondingCell?.progressCircle.value = 0
-                    self.correspondingCell?.lastUpdated.text = "Last updated 0 mins ago"
+                    self.correspondingCell?.lastUpdated.text = "Last updated just now"
                     self.correspondingCell?.sourceData.text = String(format: "$%.02f", estimatedCommission)
                     self.correspondingCell?.sourceData.isHidden = false
                     self.correspondingCell?.sourceDataLabel.isHidden = false

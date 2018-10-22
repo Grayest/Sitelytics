@@ -28,11 +28,10 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        databaseMgr.firebombDatabase()
+        //Create tables will only actually create if necessary
         databaseMgr.initDatabase()
         databaseMgr.createAmazonAccountsTable()
         databaseMgr.createAmazonOrdersTable()
-        databaseMgr.addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide-0c20")
         amazonAccounts = databaseMgr.getAllAmazonAccounts()
         
         //Need to coalesce all accounts before
@@ -108,7 +107,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
         let source = allSources[indexPath.row] as Source
         let lastUpdatedFormatted = source.getLastUpdatedStr(numericDates: true)
-        
+        cell.id = source.id
         cell.sourceName.text = source.name
         cell.lastUpdated.text = "Last updated \(lastUpdatedFormatted)"
         cell.sourceData.text = String(format: "$%.02f", source.dataPoint!)

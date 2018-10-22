@@ -64,9 +64,8 @@ class DataActions {
         return amazonAccount!
     }
     
-    func updateAmazonEstEarningsToday(account: AmazonAssociatesAccount, newEarnings : Double) {
+    func updateAmazonEstEarningsToday(currId : Int, newEarnings : Double) {
         var stmt : OpaquePointer?
-        let currId = account.id!
         let updateQuery = "UPDATE amazon_associates_accounts SET estEarningsToday = ? WHERE id = ?"
         
         if (sqlite3_prepare(db, updateQuery, -1, &stmt, nil) != SQLITE_OK) { print("Error in db preparation.") }

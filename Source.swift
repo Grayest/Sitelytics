@@ -13,8 +13,10 @@ class Source {
     var lastUpdated : Date?
     var dataPoint : Double?
     var dataTitle : String?
+    var id : Int?
     
-    init(name: String, email: String, lastUpdated: Date, dataPoint: Double, dataTitle: String) {
+    init(id: Int, name: String, email: String, lastUpdated: Date, dataPoint: Double, dataTitle: String) {
+        self.id = id
         self.name = name
         self.email = email
         self.lastUpdated = lastUpdated
