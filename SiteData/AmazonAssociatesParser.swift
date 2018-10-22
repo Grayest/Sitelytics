@@ -30,7 +30,6 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     
     func updateData(cellCalledBy : SourceCell) {
         correspondingCell = cellCalledBy
-        print("ID: \(correspondingCell!.id)")
         loadView()
     }
     
@@ -117,8 +116,8 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                         "ORDERS_DETAIL" : records,
                     ]
                     
-                    print(self.correspondingCell?.id)
-                    self.databaseMgr.updateAmazonEstEarningsToday(currId: (self.correspondingCell?.id)!, newEarnings: estimatedCommission)
+                    let extractedId = Int((self.correspondingCell?.id)!)
+                    self.databaseMgr.updateAmazonEstEarningsToday(currId: extractedId, newEarnings: estimatedCommission)
                     
                     self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 1)
                     self.correspondingCell?.progressCircle.isHidden = true

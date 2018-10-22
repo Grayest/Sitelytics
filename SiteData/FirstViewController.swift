@@ -30,8 +30,10 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         
         //Create tables will only actually create if necessary
         databaseMgr.initDatabase()
+        //databaseMgr.firebombDatabase()
         databaseMgr.createAmazonAccountsTable()
         databaseMgr.createAmazonOrdersTable()
+        //databaseMgr.addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
         amazonAccounts = databaseMgr.getAllAmazonAccounts()
         
         //Need to coalesce all accounts before

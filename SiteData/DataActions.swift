@@ -66,11 +66,21 @@ class DataActions {
     
     func updateAmazonEstEarningsToday(currId : Int, newEarnings : Double) {
         var stmt : OpaquePointer?
-        let updateQuery = "UPDATE amazon_associates_accounts SET estEarningsToday = ? WHERE id = ?"
+        let updateQuery = "UPDATE amazon_associates_accounts SET estEarningsToday = ? WHERE id = ?;"
         
-        if (sqlite3_prepare(db, updateQuery, -1, &stmt, nil) != SQLITE_OK) { print("Error in db preparation.") }
+        if (sqlite3_prepare_v2(db, updateQuery, -1, &stmt, nil) != SQLITE_OK) {
+            let errMsg = String(cString: sqlite3_errmsg(stmt))
+            print("Error in db preparation: \(errMsg)")
+            
+        }
         if (sqlite3_bind_double(stmt, 1, newEarnings) != SQLITE_OK) { print("Cant bind new earnings double.") }
         if (sqlite3_bind_int(stmt, 2, Int32(currId)) != SQLITE_OK) { print("Cant bind id.") }
+        
+        if sqlite3_step(stmt) == SQLITE_DONE {
+            print("Successfully updated row.")
+        } else {
+            print("Could not update row.")
+        }
     }
     
     //Just for testing, will need to be done if any structure changes are necessary
