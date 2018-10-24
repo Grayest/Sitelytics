@@ -98,7 +98,8 @@ class FirstViewController: UIViewController, UITableViewDataSource {
             let amznParser : AmazonAssociatesParser = embedView(containVC: AmazonAssociatesParser()) as! AmazonAssociatesParser
             amznParser.updateData(cellCalledBy: sourceCell)
         } else if(sourceCell.sourceName.text == "Ezoic") {
-            print("EZo boyyy")
+            let ezoicParser : EzoicParser = embedView(containVC: EzoicParser()) as! EzoicParser
+            ezoicParser.updateData(cellCalledBy: sourceCell)
         }
     }
     

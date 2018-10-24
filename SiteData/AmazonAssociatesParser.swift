@@ -82,7 +82,6 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     }
     
     func getTodaysOrders() {
-        print("TODAY REQURL: \(todayReqUrl!)")
         let escapedUrl = todayReqUrl!.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
         let todayUrl = URL(string: escapedUrl!)!
         webView.load(URLRequest(url: todayUrl, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))

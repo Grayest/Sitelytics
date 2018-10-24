@@ -23,6 +23,7 @@ class Source {
         self.lastUpdated = lastUpdated
         self.dataPoint = dataPoint
         self.dataTitle = dataTitle
+        self.password = password
     }
     
     func getLastUpdatedStr(numericDates:Bool) -> String {
