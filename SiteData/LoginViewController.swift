@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     var databaseMgr : DataActions?
     var selectedSource : String = ""
 
@@ -21,7 +21,9 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginClicked(_ sender: Any) {
         if(selectedSource == "Amazon Associates") {
+            print("input \(passwordInput.text!)")
             databaseMgr?.addAmazonAccount(email: usernameEmail.text!, password: passwordInput.text!, storeIds: storeID.text!)
+            
         } else if(selectedSource == "Ezoic") {
             databaseMgr?.addEzoicAccount(email: usernameEmail.text!, password: passwordInput.text!)
         }
@@ -30,7 +32,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        usernameEmail.delegate = self
+        passwordInput.delegate = self
+        storeID.delegate = self
         loginButtonFinal.layer.cornerRadius = 5
 
         if(selectedSource == "Amazon Associates") {
@@ -47,7 +51,11 @@ class LoginViewController: UIViewController {
         } else if(selectedSource == "Ezoic") {
             loginTitle.text = "Login to Ezoic"
         }
-        
-        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool // called when 'return' key pressed. return false to ignore.
+    {
+        textField.resignFirstResponder()
+        return true
     }
 }

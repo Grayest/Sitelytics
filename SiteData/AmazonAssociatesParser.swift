@@ -33,6 +33,8 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         correspondingCell = cellCalledBy
         email = cellCalledBy.correspondingSource?.email
         password = cellCalledBy.correspondingSource?.password
+        
+        print("using password \(password!)")
         todayReqUrl = generateTodayReqURL(storeID: (amazonAccount?.storeIds)!)
         loadView()
     }
@@ -41,7 +43,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         dashboardVC = self.parent as? FirstViewController
         deleteCache()
         webView = WKWebView()
-        webView.isHidden = true
+        webView.isHidden = false
         webView.navigationDelegate = self
         view = webView
         loadLoginPage()
@@ -67,8 +69,8 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     
     //Maybe switch this to a request type thing later
     func loginToAccount() {
-        insertEmailJS = "document.getElementById('ap_email').value = '\(email)';"
-        insertPwdJS = "document.getElementById('ap_password').value = '\(password)';"
+        insertEmailJS = "document.getElementById('ap_email').value = '\(email!)';"
+        insertPwdJS = "document.getElementById('ap_password').value = '\(password!)';"
         clickLoginJS = "document.getElementById('auth-signin-button').click(); document.getElementById('signInSubmit').click();"
         
         //Change to nil or something that makes sure it grabbed from local storage

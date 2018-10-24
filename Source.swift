@@ -24,6 +24,7 @@ class Source {
         self.dataPoint = dataPoint
         self.dataTitle = dataTitle
         self.password = password
+        print("pwd here \(password)")
     }
     
     func getLastUpdatedStr(numericDates:Bool) -> String {

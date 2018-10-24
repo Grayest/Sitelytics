@@ -35,7 +35,7 @@ class DataActions {
             let storeIds = String(cString: sqlite3_column_text(stmt, 3))
             let lastUpdated = Date(timeIntervalSinceReferenceDate: sqlite3_column_double(stmt, 4))
             let estEarningsToday = Double(sqlite3_column_double(stmt, 5))
-           
+            print("getting password \(password)")
             let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: storeIds, lastUpdatedTime: lastUpdated, estimatedEarningsToday: estEarningsToday)
             
             amazonAccounts.append(currAmznAccount)
@@ -244,6 +244,7 @@ class DataActions {
     func addAmazonAccount(email : String, password: String, storeIds: String) {
         var stmt: OpaquePointer?
         let addToAmazonAssociatesAccounts = "INSERT INTO amazon_associates_accounts (email, password, storeIds, lastUpdatedTimestamp, estEarningsToday) VALUES (?, ?, ?, ?, ?)"
+        
         if(sqlite3_prepare(db, addToAmazonAssociatesAccounts, -1, &stmt, nil) != SQLITE_OK) {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error preparing insert: \(errmsg)")
@@ -258,6 +259,8 @@ class DataActions {
             print("failure binding name: \(errmsg)")
             return
         }
+        
+        print("binding \(password)")
         if sqlite3_bind_text(stmt, 2, password, -1, nil) != SQLITE_OK{
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("failure binding name: \(errmsg)")
