@@ -20,7 +20,11 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButtonFinal: UIButton!
     
     @IBAction func loginClicked(_ sender: Any) {
-        databaseMgr?.addAmazonAccount(email: usernameEmail.text!, password: passwordInput.text!, storeIds: storeID.text!)
+        if(selectedSource == "Amazon Associates") {
+            databaseMgr?.addAmazonAccount(email: usernameEmail.text!, password: passwordInput.text!, storeIds: storeID.text!)
+        } else if(selectedSource == "Ezoic") {
+            databaseMgr?.addEzoicAccount(email: usernameEmail.text!, password: passwordInput.text!)
+        }
         self.navigationController?.popToRootViewController(animated: true)
     }
     

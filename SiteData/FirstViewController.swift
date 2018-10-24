@@ -22,6 +22,8 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     var amazonUpdating : UILabel?
     
     var amazonAccounts = [AmazonAssociatesAccount]()
+    var ezoicAccounts = [EzoicAccount]()
+    
     var allSources : [Source] = []
     var databaseMgr : DataActions = DataActions()
     
@@ -61,9 +63,11 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         databaseMgr.initDatabase()
         databaseMgr.createAmazonAccountsTable()
         databaseMgr.createAmazonOrdersTable()
+        databaseMgr.createEzoicAccountsTable()
         
         //Need to coalesce all accounts
         amazonAccounts = databaseMgr.getAllAmazonAccounts()
+        ezoicAccounts = databaseMgr.getAllEzoicAccounts()
         combineAllAccounts()
         tableView.reloadData()
     }
@@ -79,6 +83,10 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         for amazonAccount in amazonAccounts {
             allSources.append(amazonAccount)
         }
+        
+        for ezoicAccount in ezoicAccounts {
+            allSources.append(ezoicAccount)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,8 +94,12 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     }
 
     func getData(sourceCell : SourceCell) {
-        let amznParser : AmazonAssociatesParser = embedView(containVC: AmazonAssociatesParser()) as! AmazonAssociatesParser
-        amznParser.updateData(cellCalledBy: sourceCell)
+        if(sourceCell.sourceName.text == "Amazon Associates") {
+            let amznParser : AmazonAssociatesParser = embedView(containVC: AmazonAssociatesParser()) as! AmazonAssociatesParser
+            amznParser.updateData(cellCalledBy: sourceCell)
+        } else if(sourceCell.sourceName.text == "Ezoic") {
+            print("EZo boyyy")
+        }
     }
     
     func createBackgroundView() -> UIView{

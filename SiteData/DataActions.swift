@@ -141,7 +141,7 @@ class DataActions {
         }
     }
     
-    func createEzoicTable() {
+    func createEzoicAccountsTable() {
         createTable(createTableQuery: createEzoicAccountTable)
     }
     
