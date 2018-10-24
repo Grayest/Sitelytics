@@ -22,6 +22,7 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
     var clickLoginJS : String?
     
     var loginPageUrl : String = "https://svc.ezoic.com/publisher.php"
+    var extractTodaysEarnings : String = "var earns = document.querySelector('ul.earnings'); var all_li = earns.querySelectorAll('li'); var lastOne = all_li[all_li.length-1]; var amountOuter = lastOne.querySelector('.currency'); amountOuter.querySelector('.dollar-sign').remove(); amountOuter.textContent;"
     
     func updateData(cellCalledBy : SourceCell) {
         correspondingCell = cellCalledBy
@@ -75,7 +76,24 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
     }
     
     func parseHTMLtoday() {
-        
+        webView.evaluateJavaScript(extractTodaysEarnings, completionHandler: {(result, error)  in
+            var strResult = result as! String
+            var trimmedResult = strResult.trimmingCharacters(in: .whitespacesAndNewlines)
+            var currRev = Double(trimmedResult)
+            
+            let extractedId = Int((self.correspondingCell?.id)!)
+            self.dashboardVC?.databaseMgr.updateEzoicEarningsToday(currId: extractedId, newEarnings: currRev!)
+            
+            self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 0.5, completion: {() in
+                self.correspondingCell?.progressCircle.isHidden = true
+                self.correspondingCell?.progressCircle.value = 0
+                self.correspondingCell?.lastUpdated.text = "Last updated just now"
+                self.correspondingCell?.sourceData.text = String(format: "$%.02f", currRev!)
+                self.correspondingCell?.sourceData.isHidden = false
+                self.correspondingCell?.sourceDataLabel.isHidden = false
+            })
+            
+        })
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
