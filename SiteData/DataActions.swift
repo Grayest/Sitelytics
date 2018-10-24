@@ -15,7 +15,6 @@ class DataActions {
     
     let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT, lastUpdatedTimestamp TEXT, estEarningsToday DOUBLE)"
     let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
-    
     let createEzoicAccountTable = "CREATE TABLE IF NOT EXISTS ezoic_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, lastUpdatedTimestamp TEXT, estEarningsToday DOUBLE)"
     
     func getAllAmazonAccounts() -> [AmazonAssociatesAccount] {
@@ -44,6 +43,31 @@ class DataActions {
         
         sqlite3_finalize(stmt)
         return amazonAccounts
+    }
+    
+    func getAllEzoicAccounts() -> [EzoicAccount] {
+        let getAllQuery = "SELECT * from ezoic_accounts"
+        var ezoicAccounts : [EzoicAccount] = []
+        var stmt : OpaquePointer?
+        
+        if(sqlite3_prepare(db, getAllQuery, -1, &stmt, nil) != SQLITE_OK) {
+            let errMsg = String(cString: sqlite3_errmsg(db)!)
+            print("Error preparing select query: \(errMsg)")
+        }
+        
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            let id = sqlite3_column_int(stmt, 0)
+            let email = String(cString: sqlite3_column_text(stmt, 1))
+            let password = String(cString: sqlite3_column_text(stmt, 2))
+            let lastUpdated = Date(timeIntervalSinceReferenceDate: sqlite3_column_double(stmt, 3))
+            let estEarningsToday = Double(sqlite3_column_double(stmt, 4))
+            
+            let currEzoicAccount = EzoicAccount(id: Int(id), ezoicEmail: email, password: password, lastUpdatedTime: lastUpdated, estimatedEarningsToday: estEarningsToday)
+            ezoicAccounts.append(currEzoicAccount)
+        }
+        
+        sqlite3_finalize(stmt)
+        return ezoicAccounts
     }
     
     func getAmazonAccount(id: Int32) -> AmazonAssociatesAccount {
