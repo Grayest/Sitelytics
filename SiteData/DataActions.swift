@@ -16,6 +16,8 @@ class DataActions {
     let createAmazonAssociatesAccountTable = "CREATE TABLE IF NOT EXISTS amazon_associates_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, storeIds TEXT, lastUpdatedTimestamp TEXT, estEarningsToday DOUBLE)"
     let createAmazonAssociatesOrdersTable = "CREATE TABLE IF NOT EXISTS amazon_associates_orders (id INTEGER PRIMARY KEY AUTOINCREMENT, price INTEGER, quantity INTEGER, product_name TEXT, product_category TEXT, store_id TEXT)"
     
+    let createEzoicAccountTable = "CREATE TABLE IF NOT EXISTS ezoic_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, lastUpdatedTimestamp TEXT, estEarningsToday DOUBLE)"
+    
     func getAllAmazonAccounts() -> [AmazonAssociatesAccount] {
         let getAllQuery = "SELECT * from amazon_associates_accounts"
         var amazonAccounts : [AmazonAssociatesAccount] = []
@@ -115,8 +117,11 @@ class DataActions {
         }
     }
     
+    func createEzoicTable() {
+        createTable(createTableQuery: createEzoicAccountTable)
+    }
+    
     func createAmazonAccountsTable() {
-        print(createAmazonAssociatesAccountTable)
         createTable(createTableQuery: createAmazonAssociatesAccountTable)
     }
     
@@ -131,6 +136,55 @@ class DataActions {
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
             print("Error opening database.")
         }
+    }
+    
+    func addEzoicAccount(email: String, password: String) {
+        var stmt: OpaquePointer?
+        let addToEzoicAccounts = "INSERT INTO ezoic_accounts (email, password, lastUpdatedTimestamp, estEarningsToday) VALUES (?, ?, ?, ?)"
+        if(sqlite3_prepare(db, addToEzoicAccounts, -1, &stmt, nil) != SQLITE_OK) {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
+            return
+        } else {
+            print("successfully prepared for insertion")
+        }
+        
+        if sqlite3_bind_text(stmt, 1, email, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        if sqlite3_bind_text(stmt, 2, password, -1, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        //Initialize as now as we will update right away
+        let lastUpdatedDateFmt = Date()
+        if(sqlite3_bind_double(stmt, 3, lastUpdatedDateFmt.timeIntervalSinceReferenceDate) != SQLITE_OK) {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        if(sqlite3_bind_double(stmt, 4, 0.0) != SQLITE_OK) {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding name: \(errmsg)")
+            return
+        }
+        
+        //executing the query to insert values
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure inserting record: \(errmsg)")
+            return
+        } else {
+            print("Successfully inserted record.")
+        }
+        
+        sqlite3_finalize(stmt)
     }
     
     func addAmazonAccount(email : String, password: String, storeIds: String) {

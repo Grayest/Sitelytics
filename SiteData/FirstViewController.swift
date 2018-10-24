@@ -27,17 +27,6 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Create tables will only actually create if necessary
-        databaseMgr.initDatabase()
-        //databaseMgr.firebombDatabase()
-        databaseMgr.createAmazonAccountsTable()
-        databaseMgr.createAmazonOrdersTable()
-        //databaseMgr.addAmazonAccount(email: "lyons340@gmail.com", password: "MArk44$$", storeIds: "zcarguide0c-20")
-        amazonAccounts = databaseMgr.getAllAmazonAccounts()
-        
-        //Need to coalesce all accounts before
-        combineAllAccounts()
         tableView.dataSource = self
         tableView.rowHeight = 105
         tableView.allowsSelection = false
@@ -60,6 +49,23 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         
         
         embedController = EmbedController(rootViewController: self)
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //Delete all data as this will run every time.
+        amazonAccounts = []
+        allSources = []
+        
+        //Create tables will only actually create if necessary
+        databaseMgr.initDatabase()
+        databaseMgr.createAmazonAccountsTable()
+        databaseMgr.createAmazonOrdersTable()
+        
+        //Need to coalesce all accounts
+        amazonAccounts = databaseMgr.getAllAmazonAccounts()
+        combineAllAccounts()
+        tableView.reloadData()
     }
     
     @objc private func refreshAllSources() {

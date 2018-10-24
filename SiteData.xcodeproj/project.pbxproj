@@ -11,6 +11,7 @@
 		8AC6C74E7A8EB4CE1828E1A7 /* Pods_SiteDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F71D722AF1A54E1AC48FA5CE /* Pods_SiteDataTests.framework */; };
 		CC3C57A2217EA55C00AA5C93 /* AddNewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */; };
 		CCB38CA9217FFD83000BF516 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CA8217FFD83000BF516 /* LoginViewController.swift */; };
+		CCB38CAB218015F7000BF516 /* EzoicAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CAA218015F7000BF516 /* EzoicAccount.swift */; };
 		F248F10A7955DCB924653FC7 /* Pods_SiteData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69224315A930F69D8335023 /* Pods_SiteData.framework */; };
 		FA00C3082173A55700F48EBA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00C3072173A55700F48EBA /* Parser.swift */; };
 		FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1173B82172C4D400F1E842 /* EmbedController.swift */; };
@@ -55,6 +56,7 @@
 		B2E84C69B370EB6D81EA25F3 /* Pods_SiteDataUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteDataUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSource.swift; sourceTree = "<group>"; };
 		CCB38CA8217FFD83000BF516 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CCB38CAA218015F7000BF516 /* EzoicAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EzoicAccount.swift; sourceTree = "<group>"; };
 		F69224315A930F69D8335023 /* Pods_SiteData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F71D722AF1A54E1AC48FA5CE /* Pods_SiteDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA00C3072173A55700F48EBA /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				FA1173B82172C4D400F1E842 /* EmbedController.swift */,
 				FAFB9D812172A4A200BE85FD /* AmazonAssociatesParser.swift */,
 				FA20945E21793EF200F5BE15 /* AmazonAssociatesAccount.swift */,
+				CCB38CAA218015F7000BF516 /* EzoicAccount.swift */,
 				FAFB9D852172AE9800BE85FD /* EzoicParser.swift */,
 				FA175D8F21742DA8000E578E /* SourceCell.swift */,
 				FA5A24AD2171E9AB00172BE4 /* Main.storyboard */,
@@ -441,6 +444,7 @@
 				FA00C3082173A55700F48EBA /* Parser.swift in Sources */,
 				FA3144F2217946CB00448BD7 /* Source.swift in Sources */,
 				CCB38CA9217FFD83000BF516 /* LoginViewController.swift in Sources */,
+				CCB38CAB218015F7000BF516 /* EzoicAccount.swift in Sources */,
 				FA20945F21793EF200F5BE15 /* AmazonAssociatesAccount.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

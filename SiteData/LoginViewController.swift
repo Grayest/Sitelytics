@@ -21,6 +21,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginClicked(_ sender: Any) {
         databaseMgr?.addAmazonAccount(email: usernameEmail.text!, password: passwordInput.text!, storeIds: storeID.text!)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLoad() {
