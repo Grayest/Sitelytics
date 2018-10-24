@@ -110,6 +110,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         let source = allSources[indexPath.row] as Source
         let lastUpdatedFormatted = source.getLastUpdatedStr(numericDates: true)
         cell.id = source.id
+        cell.correspondingSource = source
         cell.sourceName.text = source.name
         cell.lastUpdated.text = "Last updated \(lastUpdatedFormatted)"
         cell.sourceData.text = String(format: "$%.02f", source.dataPoint!)
@@ -129,6 +130,11 @@ class FirstViewController: UIViewController, UITableViewDataSource {
             self.refreshControl.endRefreshing()
             self.getData(sourceCell: sourceCell)
         })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! AddNewSource
+        destinationVC.databaseMgr = self.databaseMgr
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {

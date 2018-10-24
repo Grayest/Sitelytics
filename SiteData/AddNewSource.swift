@@ -2,71 +2,60 @@
 //  AddNewSource.swift
 //  SiteData
 //
-//  Created by Mark Lyons on 10/20/18.
+//  Created by Mark Lyons on 10/22/18.
 //  Copyright © 2018 Mark Lyons. All rights reserved.
 //
 
 import UIKit
 
-class AddNewSource: UIViewController, UITableViewDataSource{
-    @IBOutlet weak var modalUIView: UIView!
-    @IBOutlet weak var closeButton: UIImageView!
-    @IBOutlet weak var addSourceTable: UITableView!
-    @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var loginView: UIView!
+class AddNewSource: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    @IBOutlet weak var amazonContainingView: UIView!
+    @IBOutlet weak var amazonImage: UIImageView!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var loginButton: UIButton!
     
-    var selectSources : [UIImage]?
+    var possibleSources : [String] = ["Amazon Associates", "Google AdSense", "eBay Partner Network", "Ezoic"]
+    var selectedSource : String = "Amazon Associates" //default set amazon
+    var databaseMgr : DataActions?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectSources = [UIImage(named: "Amazon-Associates")!, UIImage(named: "Ezoic")!, UIImage(named: "Google-Adsense")!]
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        
-        closeButton.isUserInteractionEnabled = true
-        closeButton.addGestureRecognizer(tapGestureRecognizer)
-        modalUIView.layer.cornerRadius = 8
-        addSourceTable.rowHeight = 105
-        addSourceTable.dataSource = self
+        loginButton.layer.cornerRadius = 5
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        self.dismiss(animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let loginPage = segue.destination as! LoginViewController
+        loginPage.selectedSource = self.selectedSource
+        loginPage.databaseMgr = self.databaseMgr
     }
     
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        bottomCornerRounding(toRound: nextButton)
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return possibleSources.count
     }
     
-    func bottomCornerRounding(toRound : UIView) {
-        let path = UIBezierPath(
-            roundedRect:toRound.bounds,
-            byRoundingCorners:[.bottomRight, .bottomLeft],
-            cornerRadii: CGSize(width: 8, height:  8)
-        )
-        
-        let maskLayer = CAShapeLayer()
-        
-        maskLayer.path = path.cgPath
-        toRound.layer.mask = maskLayer
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectSources!.count
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.selectedSource = possibleSources[row]
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let currCell = tableView.dequeueReusableCell(withIdentifier: "addSourceCell") as! AddSourceCell
-        currCell.sourceImage.image = selectSources![indexPath.row]
-        currCell.containingView.layer.cornerRadius = 10
-        currCell.containingView.layer.shadowColor = hexStringToUIColor(hex: "C0C0C0").cgColor
-        currCell.containingView.layer.shadowOpacity = 1
-        currCell.containingView.layer.shadowOffset = CGSize.zero
-        currCell.containingView.layer.shadowRadius = 5
-        
-        return currCell
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label = UILabel()
+        if let v = view as? UILabel { label = v }
+        label.font = UIFont (name: "Helvetica Neue", size: 24)
+        label.textColor = hexStringToUIColor(hex: "0365D6")
+        label.text =  possibleSources[row]
+        label.textAlignment = .center
+        return label
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 51.0
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {

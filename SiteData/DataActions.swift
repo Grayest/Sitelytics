@@ -28,17 +28,19 @@ class DataActions {
         
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             let id = sqlite3_column_int(stmt, 0)
+            print("Current id: \(id)")
             let email = String(cString: sqlite3_column_text(stmt, 1))
             let password = String(cString: sqlite3_column_text(stmt, 2))
             let storeIds = String(cString: sqlite3_column_text(stmt, 3))
             let lastUpdated = Date(timeIntervalSinceReferenceDate: sqlite3_column_double(stmt, 4))
             let estEarningsToday = Double(sqlite3_column_double(stmt, 5))
            
-            let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: [storeIds], lastUpdatedTime: lastUpdated, estimatedEarningsToday: estEarningsToday)
+            let currAmznAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: storeIds, lastUpdatedTime: lastUpdated, estimatedEarningsToday: estEarningsToday)
             
             amazonAccounts.append(currAmznAccount)
         }
         
+        sqlite3_finalize(stmt)
         return amazonAccounts
     }
     
@@ -58,29 +60,41 @@ class DataActions {
             let lastUpdated = Date(timeIntervalSinceReferenceDate: sqlite3_column_double(stmt, 4))
             let estEarningsToday = Double(sqlite3_column_double(stmt, 5))
             
-           amazonAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: [storeIds], lastUpdatedTime: lastUpdated, estimatedEarningsToday: estEarningsToday)
+           amazonAccount = AmazonAssociatesAccount(id: Int(id), amazonEmail: email, password: password, storeIds: storeIds, lastUpdatedTime: lastUpdated, estimatedEarningsToday: estEarningsToday)
         }
         
+        sqlite3_finalize(stmt)
         return amazonAccount!
     }
     
+    //Also updates time, of course
     func updateAmazonEstEarningsToday(currId : Int, newEarnings : Double) {
         var stmt : OpaquePointer?
-        let updateQuery = "UPDATE amazon_associates_accounts SET estEarningsToday = ? WHERE id = ?;"
+        let updateQuery = "UPDATE amazon_associates_accounts SET estEarningsToday = ?, lastUpdatedTimestamp = ? WHERE id = ?"
         
         if (sqlite3_prepare_v2(db, updateQuery, -1, &stmt, nil) != SQLITE_OK) {
             let errMsg = String(cString: sqlite3_errmsg(stmt))
             print("Error in db preparation: \(errMsg)")
-            
         }
+        
         if (sqlite3_bind_double(stmt, 1, newEarnings) != SQLITE_OK) { print("Cant bind new earnings double.") }
-        if (sqlite3_bind_int(stmt, 2, Int32(currId)) != SQLITE_OK) { print("Cant bind id.") }
+        
+        let lastUpdatedDateFmt = Date()
+        if(sqlite3_bind_double(stmt, 2, lastUpdatedDateFmt.timeIntervalSinceReferenceDate) != SQLITE_OK) {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding date: \(errmsg)")
+            return
+        }
+        
+        if (sqlite3_bind_int(stmt, 3, Int32(currId)) != SQLITE_OK) { print("Cant bind id.") }
         
         if sqlite3_step(stmt) == SQLITE_DONE {
             print("Successfully updated row.")
         } else {
             print("Could not update row.")
         }
+        
+        sqlite3_finalize(stmt)
     }
     
     //Just for testing, will need to be done if any structure changes are necessary
@@ -170,5 +184,7 @@ class DataActions {
         } else {
             print("Successfully inserted record.")
         }
+        
+        sqlite3_finalize(stmt)
     }
 }

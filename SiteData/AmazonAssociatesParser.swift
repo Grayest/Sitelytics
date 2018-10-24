@@ -12,12 +12,12 @@ import WebKit
 import SQLite3
 
 class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
-    private var email : String = "lyons340@gmail.com"
-    private var password : String = "MArk44$$44"
+    private var email : String?
+    private var password : String?
     private var pageCount : Int = 0
     var webView : WKWebView!
     var loginPageUrl : String = "https://www.amazon.com/ap/signin?openid.return_to=https%3A%2F%2Faffiliate-program.amazon.com%2F&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_associates_us&openid.mode=checkid_setup&marketPlaceId=ATVPDKIKX0DER&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.pape.max_auth_age=0"
-    var todayReqUrl : String = "https://affiliate-program.amazon.com/home/reports/table.json?query[type]=realtime&query[start_date]=2018-10-14&query[end_date]=2018-10-14&query[order]=desc&query[tag_id]=all&query[columns]=product_title,asin,product_category,merchant_name,ordered_items,tracking_id,price&query[skip]=0&query[sort]=day&query[limit]=25&store_id=zcarguide0c-20"
+    var todayReqUrl : String?
     var extractAllJSON : String = "document.body.innerText;"
     var insertEmailJS : String?
     var insertPwdJS : String?
@@ -25,11 +25,15 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     var returnedJSON : String?
     var dashboardVC : FirstViewController?
     var correspondingCell : SourceCell?
-    
-    var databaseMgr : DataActions = DataActions()
+    var amazonAccount : AmazonAssociatesAccount?
     
     func updateData(cellCalledBy : SourceCell) {
+        amazonAccount = cellCalledBy.correspondingSource as! AmazonAssociatesAccount
+        print("AMZN STORE ID: \((amazonAccount?.storeIds)!)")
         correspondingCell = cellCalledBy
+        email = cellCalledBy.correspondingSource?.email
+        password = cellCalledBy.correspondingSource?.password
+        todayReqUrl = generateTodayReqURL(storeID: (amazonAccount?.storeIds)!)
         loadView()
     }
     
@@ -78,7 +82,8 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     }
     
     func getTodaysOrders() {
-        let escapedUrl = todayReqUrl.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
+        print("TODAY REQURL: \(todayReqUrl!)")
+        let escapedUrl = todayReqUrl!.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
         let todayUrl = URL(string: escapedUrl!)!
         webView.load(URLRequest(url: todayUrl, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
     }
@@ -117,7 +122,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                     ]
                     
                     let extractedId = Int((self.correspondingCell?.id)!)
-                    self.databaseMgr.updateAmazonEstEarningsToday(currId: extractedId, newEarnings: estimatedCommission)
+                    self.dashboardVC?.databaseMgr.updateAmazonEstEarningsToday(currId: extractedId, newEarnings: estimatedCommission)
                     
                     self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 1)
                     self.correspondingCell?.progressCircle.isHidden = true
@@ -152,6 +157,10 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         
         //All else is 4%
         return 0.04
+    }
+    
+    func generateTodayReqURL(storeID : String) -> String {
+        return "https://affiliate-program.amazon.com/home/reports/table.json?query[type]=realtime&query[start_date]=2018-10-14&query[end_date]=2018-10-14&query[order]=desc&query[tag_id]=all&query[columns]=product_title,asin,product_category,merchant_name,ordered_items,tracking_id,price&query[skip]=0&query[sort]=day&query[limit]=25&store_id=\(storeID)"
     }
     
     

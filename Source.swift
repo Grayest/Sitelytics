@@ -10,12 +10,13 @@ import Foundation
 class Source {
     var name : String?
     var email : String?
+    var password : String?
     var lastUpdated : Date?
     var dataPoint : Double?
     var dataTitle : String?
     var id : Int?
     
-    init(id: Int, name: String, email: String, lastUpdated: Date, dataPoint: Double, dataTitle: String) {
+    init(id: Int, name: String, email: String, lastUpdated: Date, dataPoint: Double, dataTitle: String, password : String) {
         self.id = id
         self.name = name
         self.email = email

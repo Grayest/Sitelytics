@@ -18,6 +18,7 @@ class SourceCell: UITableViewCell {
     @IBOutlet weak var sourceDataLabel: UILabel!
     @IBOutlet weak var lastUpdated: UILabel!
     
+    var correspondingSource : Source?
     var id : Int?
     
     override func awakeFromNib() {

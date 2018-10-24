@@ -10,13 +10,11 @@ import Foundation
 
 class AmazonAssociatesAccount : Source {
     var amazonEmail : String?
-    var password : String?
-    var storeIds : [String]?
+    var storeIds : String?
     
-    init(id: Int, amazonEmail: String, password: String, storeIds: [String], lastUpdatedTime: Date, estimatedEarningsToday: Double) {
-        super.init(id: id, name: "Amazon Associates", email: amazonEmail, lastUpdated: lastUpdatedTime, dataPoint: estimatedEarningsToday, dataTitle: "ESTIMATED FEES TODAY")
+    init(id: Int, amazonEmail: String, password: String, storeIds: String, lastUpdatedTime: Date, estimatedEarningsToday: Double) {
+        super.init(id: id, name: "Amazon Associates", email: amazonEmail, lastUpdated: lastUpdatedTime, dataPoint: estimatedEarningsToday, dataTitle: "ESTIMATED FEES TODAY", password: password)
         self.amazonEmail = amazonEmail
-        self.password = password
         self.storeIds = storeIds
     }
 }
