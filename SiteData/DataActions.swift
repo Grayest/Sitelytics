@@ -36,7 +36,7 @@ class DataActions {
     
     func createEzoicAccountsTable() {
         do {
-            try db.run(amazon_associates_accounts.create{t in
+            try db.run(ezoic_accounts.create{t in
                 t.column(ez_id_ac, primaryKey: true)
                 t.column(ez_email_ac)
                 t.column(ez_password_ac)
@@ -73,6 +73,7 @@ class DataActions {
                 ez_lastUpdatedTimestamp_ac <- lastUpdatedTimestamp,
                 ez_estEarningsToday_ac <- 0.0
             )
+            try db.run(insert)
         } catch {
             print("Error in insertion of Ezoic account.")
         }
@@ -147,11 +148,25 @@ class DataActions {
     
     //Also updates time, of course
     func updateEzoicEarningsToday(currId: Int, newEarnings: Double) {
-        
+        do {
+            let lastUpdatedDateFmt = Date()
+            let lastUpdatedTimestamp = String(lastUpdatedDateFmt.timeIntervalSinceReferenceDate)
+            let currEzoicAcc = ezoic_accounts.filter(az_id_ac == Int64(currId))
+            try db.run(currEzoicAcc.update([ez_lastUpdatedTimestamp_ac <- lastUpdatedTimestamp, ez_estEarningsToday_ac <- newEarnings]))
+        } catch {
+            print("Error updating Ezoic accounts table.")
+        }
     }
     
     //Also updates time, of course
     func updateAmazonEstEarningsToday(currId : Int, newEarnings : Double) {
-        
+        do {
+            let lastUpdatedDateFmt = Date()
+            let lastUpdatedTimestamp = String(lastUpdatedDateFmt.timeIntervalSinceReferenceDate)
+            let currAmazonAcc = amazon_associates_accounts.filter(az_id_ac == Int64(currId))
+            try db.run(currAmazonAcc.update([az_lastUpdatedTimestamp_ac <- lastUpdatedTimestamp, az_estEarningsToday_ac <- newEarnings]))
+        } catch {
+            print("Error updating Amazon accounts table.")
+        }
     }
 }
