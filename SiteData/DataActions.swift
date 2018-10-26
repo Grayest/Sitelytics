@@ -34,17 +34,6 @@ class DataActions {
         db = givenDb
     }
     
-    //Just for testing, will need to be done if any structure changes are necessary
-    func firebombDatabase() {
-        let url = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("SourceData.sqlite")
-        let fm = FileManager.default
-        do {
-            try fm.removeItem(at:url)
-        } catch {
-            NSLog("Error deleting file: \(url)")
-        }
-    }
-    
     func createEzoicAccountsTable() {
         do {
             try db.run(amazon_associates_accounts.create{t in

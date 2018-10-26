@@ -62,9 +62,10 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         
         //Create tables will only actually create if necessary
         do {
-            let dbConn = try Connection("SourceData.sqlite")
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            let dbConn = try Connection("\(path)/SourceData2.sqlite3")
+            
             databaseMgr = DataActions(givenDb: dbConn)
-            databaseMgr!.firebombDatabase()
             databaseMgr!.createAmazonAccountsTable()
             databaseMgr!.createEzoicAccountsTable()
             
