@@ -9,6 +9,7 @@
 import UIKit
 import UICircularProgressRing
 import SQLite3
+import SQLite
 
 class FirstViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var addNewButton: UIButton!
@@ -25,7 +26,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     var ezoicAccounts = [EzoicAccount]()
     
     var allSources : [Source] = []
-    var databaseMgr : DataActions = DataActions()
+    var databaseMgr : DataActions?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,16 +61,21 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         allSources = []
         
         //Create tables will only actually create if necessary
-        databaseMgr.initDatabase()
-        databaseMgr.createAmazonAccountsTable()
-        databaseMgr.createAmazonOrdersTable()
-        databaseMgr.createEzoicAccountsTable()
-        
-        //Need to coalesce all accounts
-        amazonAccounts = databaseMgr.getAllAmazonAccounts()
-        ezoicAccounts = databaseMgr.getAllEzoicAccounts()
-        combineAllAccounts()
-        tableView.reloadData()
+        do {
+            let dbConn = try Connection("SourceData.sqlite")
+            databaseMgr = DataActions(givenDb: dbConn)
+            databaseMgr!.firebombDatabase()
+            databaseMgr!.createAmazonAccountsTable()
+            databaseMgr!.createEzoicAccountsTable()
+            
+            //Need to coalesce all accounts
+            amazonAccounts = databaseMgr!.getAllAmazonAccounts()
+            ezoicAccounts = databaseMgr!.getAllEzoicAccounts()
+            combineAllAccounts()
+            tableView.reloadData()
+        } catch {
+            print("problemo")
+        }
     }
     
     @objc private func refreshAllSources() {

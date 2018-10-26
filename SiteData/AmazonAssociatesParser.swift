@@ -121,7 +121,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                     ]
                     
                     let extractedId = Int((self.correspondingCell?.id)!)
-                    self.dashboardVC?.databaseMgr.updateAmazonEstEarningsToday(currId: extractedId, newEarnings: estimatedCommission)
+                    self.dashboardVC?.databaseMgr!.updateAmazonEstEarningsToday(currId: extractedId, newEarnings: estimatedCommission)
                     
                     self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 1)
                     self.correspondingCell?.progressCircle.isHidden = true

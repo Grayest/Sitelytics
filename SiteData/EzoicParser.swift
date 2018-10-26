@@ -82,7 +82,7 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
             var currRev = Double(trimmedResult)
             
             let extractedId = Int((self.correspondingCell?.id)!)
-            self.dashboardVC?.databaseMgr.updateEzoicEarningsToday(currId: extractedId, newEarnings: currRev!)
+            self.dashboardVC?.databaseMgr!.updateEzoicEarningsToday(currId: extractedId, newEarnings: currRev!)
             
             self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 0.5, completion: {() in
                 self.correspondingCell?.progressCircle.isHidden = true
