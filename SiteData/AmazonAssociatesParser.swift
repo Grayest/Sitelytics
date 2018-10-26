@@ -29,12 +29,10 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     
     func updateData(cellCalledBy : SourceCell) {
         amazonAccount = cellCalledBy.correspondingSource as! AmazonAssociatesAccount
-        print("AMZN STORE ID: \((amazonAccount?.storeIds)!)")
         correspondingCell = cellCalledBy
         email = cellCalledBy.correspondingSource?.email
         password = cellCalledBy.correspondingSource?.password
         
-        print("using password \(password!)")
         todayReqUrl = generateTodayReqURL(storeID: (amazonAccount?.storeIds)!)
         loadView()
     }

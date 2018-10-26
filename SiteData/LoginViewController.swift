@@ -21,7 +21,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginClicked(_ sender: Any) {
         if(selectedSource == "Amazon Associates") {
-            print("input \(passwordInput.text!)")
             databaseMgr?.addAmazonAccount(email: usernameEmail.text!, password: passwordInput.text!, storeIds: storeID.text!)
             
         } else if(selectedSource == "Ezoic") {
