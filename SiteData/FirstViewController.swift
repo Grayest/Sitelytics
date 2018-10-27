@@ -11,9 +11,10 @@ import UICircularProgressRing
 import SQLite3
 import SQLite
 
-class FirstViewController: UIViewController, UITableViewDataSource {
+class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var addNewButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    
     private var embedController : EmbedController?
     private let refreshControl = UIRefreshControl()
     
@@ -22,17 +23,19 @@ class FirstViewController: UIViewController, UITableViewDataSource {
     var amazonRevenueTodayLabel : UILabel?
     var amazonUpdating : UILabel?
     
+    var allSources : [Source] = []
     var amazonAccounts = [AmazonAssociatesAccount]()
     var ezoicAccounts = [EzoicAccount]()
-    
-    var allSources : [Source] = []
     var databaseMgr : DataActions?
+    
+    var justSelectedSource : Source?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.rowHeight = 105
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         addNewButton.layer.cornerRadius = 5
         
         // Add Refresh Control to Table View
@@ -135,6 +138,7 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
         let source = allSources[indexPath.row] as Source
         let lastUpdatedFormatted = source.getLastUpdatedStr(numericDates: true)
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.id = source.id
         cell.correspondingSource = source
         cell.sourceName.text = source.name
@@ -144,6 +148,21 @@ class FirstViewController: UIViewController, UITableViewDataSource {
         cell.innerView.layer.cornerRadius = 5
         
         return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
+        justSelectedSource = allSources[indexPath.row] as Source
+        self.performSegue(withIdentifier: "segueToSource", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? AddNewSource {
+            destinationVC.databaseMgr = self.databaseMgr
+        } else if let destinationVC = segue.destination as? SourceDetail  {
+            destinationVC.reportingSource = justSelectedSource
+        }
     }
     
     func refreshSource(sourceCell : SourceCell) {
@@ -156,11 +175,6 @@ class FirstViewController: UIViewController, UITableViewDataSource {
             self.refreshControl.endRefreshing()
             self.getData(sourceCell: sourceCell)
         })
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! AddNewSource
-        destinationVC.databaseMgr = self.databaseMgr
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {

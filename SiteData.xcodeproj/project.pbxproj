@@ -12,6 +12,7 @@
 		CC3C57A2217EA55C00AA5C93 /* AddNewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */; };
 		CCB38CA9217FFD83000BF516 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CA8217FFD83000BF516 /* LoginViewController.swift */; };
 		CCB38CAB218015F7000BF516 /* EzoicAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CAA218015F7000BF516 /* EzoicAccount.swift */; };
+		CCB38CAD21848DC3000BF516 /* SourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CAC21848DC3000BF516 /* SourceDetail.swift */; };
 		F248F10A7955DCB924653FC7 /* Pods_SiteData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69224315A930F69D8335023 /* Pods_SiteData.framework */; };
 		FA00C3082173A55700F48EBA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00C3072173A55700F48EBA /* Parser.swift */; };
 		FA1173B92172C4D400F1E842 /* EmbedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1173B82172C4D400F1E842 /* EmbedController.swift */; };
@@ -57,6 +58,7 @@
 		CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSource.swift; sourceTree = "<group>"; };
 		CCB38CA8217FFD83000BF516 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CCB38CAA218015F7000BF516 /* EzoicAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EzoicAccount.swift; sourceTree = "<group>"; };
+		CCB38CAC21848DC3000BF516 /* SourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDetail.swift; sourceTree = "<group>"; };
 		F69224315A930F69D8335023 /* Pods_SiteData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F71D722AF1A54E1AC48FA5CE /* Pods_SiteDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA00C3072173A55700F48EBA /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				FA3144F321794DCB00448BD7 /* DataActions.swift */,
 				CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */,
 				CCB38CA8217FFD83000BF516 /* LoginViewController.swift */,
+				CCB38CAC21848DC3000BF516 /* SourceDetail.swift */,
 			);
 			path = SiteData;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				CCB38CA9217FFD83000BF516 /* LoginViewController.swift in Sources */,
 				CCB38CAB218015F7000BF516 /* EzoicAccount.swift in Sources */,
 				FA20945F21793EF200F5BE15 /* AmazonAssociatesAccount.swift in Sources */,
+				CCB38CAD21848DC3000BF516 /* SourceDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
