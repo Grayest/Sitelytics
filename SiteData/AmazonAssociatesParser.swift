@@ -18,6 +18,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
     var webView : WKWebView!
     var loginPageUrl : String = "https://www.amazon.com/ap/signin?openid.return_to=https%3A%2F%2Faffiliate-program.amazon.com%2F&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_associates_us&openid.mode=checkid_setup&marketPlaceId=ATVPDKIKX0DER&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.pape.max_auth_age=0"
     var todayReqUrl : String?
+    var monthlyStatsUrl : String?
     var extractAllJSON : String = "document.body.innerText;"
     var insertEmailJS : String?
     var insertPwdJS : String?
@@ -32,7 +33,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         correspondingCell = cellCalledBy
         email = cellCalledBy.correspondingSource?.email
         password = cellCalledBy.correspondingSource?.password
-        
+        monthlyStatsUrl = generateMonthlyEarningsReqURL(storeID: (amazonAccount?.storeIds)!)
         todayReqUrl = generateTodayReqURL(storeID: (amazonAccount?.storeIds)!)
         loadView()
     }
@@ -86,6 +87,40 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         let todayUrl = URL(string: escapedUrl!)!
         webView.load(URLRequest(url: todayUrl, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
     }
+    
+    func parseMonthlyStats() {
+        webView.evaluateJavaScript(extractAllJSON, completionHandler: {(result, error)  in
+            self.returnedJSON = result as? String
+            let data = self.returnedJSON!.data(using: .utf8)!
+            
+            do {
+                let jsonObj = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Dictionary<String, Any>
+                let records = jsonObj!["records"] as! [Dictionary<String, String>]
+                
+                for record in records {
+                    let bounty_earnings = Double(record["bounty_earnings"]!)!
+                    let ordered_items = Int(record["ordered_items"]!)!
+                    let revenue = Double(record["revenue"]!)!
+                    let returned_items = Int(record["returned_items"]!)!
+                    let commission_earnings = Double(record["commission_earnings"]!)!
+                    let returned_revenue = Double(record["returned_revenue"]!)!
+                    let returned_earnings = Double(record["returned_earnings"]!)!
+                    let shipped_items = Int(record["shipped_items"]!)!
+                    let bounty_events = Int(record["bounty_events"]!)!
+                    let day = String(record["day"]!)
+                    let clicks = Int(record["clicks"]!)!
+                    
+                    print("\(bounty_earnings), \(ordered_items), \(revenue), \(returned_items), \(commission_earnings), \(returned_revenue), \(returned_earnings), \(shipped_items), \(bounty_events), \(day), \(clicks)")
+                }
+                
+                
+            } catch let error as NSError {
+                print("ERROR FOUND: \(error)")
+            }
+            
+        })
+    }
+    
     
     func parseJSONResponse() {
         webView.evaluateJavaScript(extractAllJSON, completionHandler: {(result, error)  in
@@ -162,15 +197,30 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         return "https://affiliate-program.amazon.com/home/reports/table.json?query[type]=realtime&query[start_date]=2018-10-14&query[end_date]=2018-10-14&query[order]=desc&query[tag_id]=all&query[columns]=product_title,asin,product_category,merchant_name,ordered_items,tracking_id,price&query[skip]=0&query[sort]=day&query[limit]=25&store_id=\(storeID)"
     }
     
+    func generateMonthlyEarningsReqURL(storeID : String) -> String {
+        let dateToday = Date()
+        
+        let todayFormatter = DateFormatter()
+        let eomFormatter = DateFormatter()
+        todayFormatter.dateFormat = "yyyy-MM-dd"
+        eomFormatter.dateFormat = "yyyy-MM-01"
+        
+        let firstOfTheMonth = eomFormatter.string(from: dateToday)
+        let yesterdayDate = todayFormatter.string(from: dateToday)
+        return "https://affiliate-program.amazon.com/home/reports/summary.json?query[start_date]=\(firstOfTheMonth)&query[end_date]=\(yesterdayDate)&query[type]=earning&store_id=\(storeID)"
+    }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if(pageCount == 0) {
-            self.correspondingCell?.progressCircle.startProgress(to: 32, duration: 1)
+            self.correspondingCell?.progressCircle.startProgress(to: 71, duration: 6.5)
             loginToAccount()
         } else if(pageCount == 1) {
-            self.correspondingCell?.progressCircle.startProgress(to: 58, duration: 1)
+            self.correspondingCell?.progressCircle.startProgress(to: 79, duration: 1)
             getTodaysOrders()
         } else if(pageCount == 2) {
+            self.correspondingCell?.progressCircle.startProgress(to: 81, duration: 1)
+            getTodaysOrders()
+        } else if(pageCount == 3) {
             self.correspondingCell?.progressCircle.startProgress(to: 90, duration: 1)
             parseJSONResponse()
         }

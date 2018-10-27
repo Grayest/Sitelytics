@@ -32,7 +32,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
         linePlot.shouldFill = true
         linePlot.fillType = ScrollableGraphViewFillType.gradient
-        linePlot.fillGradientStartColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.5)
+        linePlot.fillGradientStartColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.7)
         linePlot.fillGradientEndColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.0)
         
         let dotPlot = DotPlot(identifier: "dot")
