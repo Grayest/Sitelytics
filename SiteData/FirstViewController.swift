@@ -152,7 +152,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "sourceCell") as! SourceCell
         justSelectedSource = allSources[indexPath.row] as Source
         self.performSegue(withIdentifier: "segueToSource", sender: self)
     }

@@ -21,9 +21,10 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        linePlotData = [10, 10, 20, 30, 15, 20]
-        let graphRect = CGRect(x: 0.0, y: 0.0, width: graphView.frame.width-60, height: graphView.frame.height)
+        linePlotData = [70, 30, 20, 60]
+        let graphRect = CGRect(x: -7.0, y: 0.0, width: graphView.frame.width, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
+        graphView.layer.cornerRadius = 4
         
         let linePlot = LinePlot(identifier: "line")
         linePlot.lineWidth = 1
@@ -33,15 +34,20 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         linePlot.fillType = ScrollableGraphViewFillType.solid
         linePlot.fillColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.5)
         
+        let dotPlot = DotPlot(identifier: "dot")
+        dotPlot.dataPointType = ScrollableGraphViewDataPointType.circle
+        dotPlot.dataPointSize = 3
+        
         let referenceLines = ReferenceLines()
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.1)
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
         
         graph.addPlot(plot: linePlot)
         graph.addReferenceLines(referenceLines: referenceLines)
         graph.backgroundFillColor = hexStringToUIColor(hex: "#262626")
+        graph.dataPointSpacing = graphView.frame.width / 5
         
         graphView.addSubview(graph)
         
@@ -67,7 +73,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     }
     
     func label(atIndex pointIndex: Int) -> String {
-        return "FEB \(pointIndex)"
+        return "Week \(pointIndex + 1)"
     }
     
     func numberOfPoints() -> Int {
