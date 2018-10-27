@@ -370,6 +370,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SiteData/Pods-SiteData-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/ScrollableGraphView/ScrollableGraphView.framework",
 				"${BUILT_PRODUCTS_DIR}/UICircularProgressRing/UICircularProgressRing.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -377,6 +378,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ScrollableGraphView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UICircularProgressRing.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

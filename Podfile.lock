@@ -1,22 +1,26 @@
 PODS:
+  - ScrollableGraphView (4.0.6)
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
   - UICircularProgressRing (3.3.2)
 
 DEPENDENCIES:
+  - ScrollableGraphView
   - SQLite.swift (~> 0.11.5)
   - UICircularProgressRing (~> 3.3.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ScrollableGraphView
     - SQLite.swift
     - UICircularProgressRing
 
 SPEC CHECKSUMS:
+  ScrollableGraphView: 4af35d4ea9ecdec665d34a74da51da161ddff8ac
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
   UICircularProgressRing: f5efb3e1fd8387bfd59f71738501d68f58b7e84e
 
-PODFILE CHECKSUM: 3e17dc66fa4b1b7549ce3c07987425d90f74f6b1
+PODFILE CHECKSUM: 58ba391598e4bbc0fba10cbb1924728f8282acdf
 
 COCOAPODS: 1.5.3

@@ -3,6 +3,7 @@ target 'SiteData' do
   use_frameworks!
   pod 'UICircularProgressRing', '~> 3.3.1'
   pod 'SQLite.swift', '~> 0.11.5'
+  pod 'ScrollableGraphView'
 
   # Pods for SiteData
 

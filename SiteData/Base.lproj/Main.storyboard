@@ -540,9 +540,18 @@
                                     <segment title="Yesterday"/>
                                 </segments>
                             </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpw-Q0-edr">
+                                <rect key="frame" x="16" y="209" width="343" height="243"/>
+                                <color key="backgroundColor" white="0.15079403118609405" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="243" id="asK-RQ-XB2"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="xpw-Q0-edr" firstAttribute="centerX" secondItem="ObQ-Vb-D3f" secondAttribute="centerX" id="7QT-aN-WmT"/>
+                            <constraint firstItem="xpw-Q0-edr" firstAttribute="top" secondItem="q8Y-sT-twT" secondAttribute="bottom" constant="16" id="8Ye-LZ-4E0"/>
                             <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="UPN-ol-f9M" secondAttribute="trailing" constant="16" id="DRM-b1-7J0"/>
                             <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="q8Y-sT-twT" secondAttribute="trailing" constant="16" id="F2m-FI-H79"/>
                             <constraint firstItem="UPN-ol-f9M" firstAttribute="top" secondItem="jyR-Wt-ADG" secondAttribute="bottom" constant="2" id="FHe-cy-GBi"/>
@@ -551,6 +560,7 @@
                             <constraint firstItem="6ME-en-Pr6" firstAttribute="top" secondItem="ObQ-Vb-D3f" secondAttribute="top" constant="16" id="MWM-Ri-FCZ"/>
                             <constraint firstItem="q8Y-sT-twT" firstAttribute="centerX" secondItem="ObQ-Vb-D3f" secondAttribute="centerX" id="NuK-aZ-Jw5"/>
                             <constraint firstItem="q8Y-sT-twT" firstAttribute="leading" secondItem="ObQ-Vb-D3f" secondAttribute="leading" constant="16" id="PS5-oa-eTU"/>
+                            <constraint firstItem="xpw-Q0-edr" firstAttribute="width" secondItem="q8Y-sT-twT" secondAttribute="width" id="bjo-O2-bj8"/>
                             <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="jyR-Wt-ADG" secondAttribute="trailing" constant="16" id="faP-Fq-qB8"/>
                             <constraint firstItem="6ME-en-Pr6" firstAttribute="centerX" secondItem="ObQ-Vb-D3f" secondAttribute="centerX" id="g3S-El-EGN"/>
                             <constraint firstItem="jyR-Wt-ADG" firstAttribute="top" secondItem="6ME-en-Pr6" secondAttribute="bottom" constant="4" id="hcW-qO-AvI"/>
@@ -561,6 +571,7 @@
                         <viewLayoutGuide key="safeArea" id="ObQ-Vb-D3f"/>
                     </view>
                     <connections>
+                        <outlet property="graphView" destination="xpw-Q0-edr" id="bUc-jb-zdx"/>
                         <outlet property="sourceEmail" destination="jyR-Wt-ADG" id="YnZ-Rh-Nxi"/>
                         <outlet property="sourceTag" destination="UPN-ol-f9M" id="npk-Jd-HjM"/>
                         <outlet property="sourceTitle" destination="6ME-en-Pr6" id="vOJ-ks-n6x"/>
