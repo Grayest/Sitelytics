@@ -516,7 +516,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="aym-5F-GLm"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                 <color key="textColor" white="0.59613848418466253" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -525,12 +525,12 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="fd8-mW-ZLc"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                 <color key="textColor" white="0.59613848420000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="q8Y-sT-twT">
-                                <rect key="frame" x="16" y="166" width="343" height="28"/>
+                                <rect key="frame" x="17" y="166" width="341" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="27" id="EIU-Jq-Mlo"/>
                                 </constraints>
@@ -539,10 +539,11 @@
                                     <segment title="Today"/>
                                     <segment title="Yesterday"/>
                                 </segments>
+                                <color key="tintColor" white="0.57624776332576688" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </segmentedControl>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpw-Q0-edr">
-                                <rect key="frame" x="16" y="209" width="343" height="243"/>
-                                <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="0.0" y="209" width="375" height="243"/>
+                                <color key="backgroundColor" red="0.1803921568627451" green="0.1803921568627451" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="243" id="asK-RQ-XB2"/>
                                 </constraints>
@@ -553,18 +554,17 @@
                             <constraint firstItem="xpw-Q0-edr" firstAttribute="centerX" secondItem="ObQ-Vb-D3f" secondAttribute="centerX" id="7QT-aN-WmT"/>
                             <constraint firstItem="xpw-Q0-edr" firstAttribute="top" secondItem="q8Y-sT-twT" secondAttribute="bottom" constant="16" id="8Ye-LZ-4E0"/>
                             <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="UPN-ol-f9M" secondAttribute="trailing" constant="16" id="DRM-b1-7J0"/>
-                            <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="q8Y-sT-twT" secondAttribute="trailing" constant="16" id="F2m-FI-H79"/>
                             <constraint firstItem="UPN-ol-f9M" firstAttribute="top" secondItem="jyR-Wt-ADG" secondAttribute="bottom" constant="2" id="FHe-cy-GBi"/>
                             <constraint firstItem="6ME-en-Pr6" firstAttribute="leading" secondItem="ObQ-Vb-D3f" secondAttribute="leading" constant="16" id="GAL-qS-mZl"/>
                             <constraint firstItem="jyR-Wt-ADG" firstAttribute="leading" secondItem="ObQ-Vb-D3f" secondAttribute="leading" constant="16" id="M9o-aP-djX"/>
                             <constraint firstItem="6ME-en-Pr6" firstAttribute="top" secondItem="ObQ-Vb-D3f" secondAttribute="top" constant="16" id="MWM-Ri-FCZ"/>
                             <constraint firstItem="q8Y-sT-twT" firstAttribute="centerX" secondItem="ObQ-Vb-D3f" secondAttribute="centerX" id="NuK-aZ-Jw5"/>
-                            <constraint firstItem="q8Y-sT-twT" firstAttribute="leading" secondItem="ObQ-Vb-D3f" secondAttribute="leading" constant="16" id="PS5-oa-eTU"/>
-                            <constraint firstItem="xpw-Q0-edr" firstAttribute="width" secondItem="q8Y-sT-twT" secondAttribute="width" id="bjo-O2-bj8"/>
+                            <constraint firstItem="xpw-Q0-edr" firstAttribute="width" secondItem="0dY-4o-CGe" secondAttribute="width" id="WvA-3e-M0e"/>
                             <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="jyR-Wt-ADG" secondAttribute="trailing" constant="16" id="faP-Fq-qB8"/>
                             <constraint firstItem="6ME-en-Pr6" firstAttribute="centerX" secondItem="ObQ-Vb-D3f" secondAttribute="centerX" id="g3S-El-EGN"/>
                             <constraint firstItem="jyR-Wt-ADG" firstAttribute="top" secondItem="6ME-en-Pr6" secondAttribute="bottom" constant="4" id="hcW-qO-AvI"/>
                             <constraint firstItem="UPN-ol-f9M" firstAttribute="leading" secondItem="ObQ-Vb-D3f" secondAttribute="leading" constant="16" id="iFL-zC-Pub"/>
+                            <constraint firstItem="q8Y-sT-twT" firstAttribute="width" secondItem="0dY-4o-CGe" secondAttribute="width" multiplier="0.91" id="nO3-xQ-R0l"/>
                             <constraint firstItem="ObQ-Vb-D3f" firstAttribute="trailing" secondItem="6ME-en-Pr6" secondAttribute="trailing" constant="16" id="shu-h3-qhv"/>
                             <constraint firstItem="q8Y-sT-twT" firstAttribute="top" secondItem="UPN-ol-f9M" secondAttribute="bottom" constant="15" id="xIU-DJ-fkM"/>
                         </constraints>

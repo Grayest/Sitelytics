@@ -16,38 +16,46 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var graphView: UIView!
     
     var reportingSource : Source?
-    var linePlotData : [Int]?
+    var linePlotData : [Double]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        linePlotData = [70, 30, 20, 60]
-        let graphRect = CGRect(x: -7.0, y: 0.0, width: graphView.frame.width, height: graphView.frame.height)
+        linePlotData = [6.56, 7.21, 1.10, 3.50, 10.90, 12.10, 0.0, 12.15, 7.90, 13.72]
+        
+        let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
-        graphView.layer.cornerRadius = 4
         
         let linePlot = LinePlot(identifier: "line")
         linePlot.lineWidth = 1
         linePlot.lineColor = hexStringToUIColor(hex: "#0365D5")
         linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
         linePlot.shouldFill = true
-        linePlot.fillType = ScrollableGraphViewFillType.solid
-        linePlot.fillColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.5)
+        linePlot.fillType = ScrollableGraphViewFillType.gradient
+        linePlot.fillGradientStartColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.5)
+        linePlot.fillGradientEndColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.0)
         
         let dotPlot = DotPlot(identifier: "dot")
         dotPlot.dataPointType = ScrollableGraphViewDataPointType.circle
-        dotPlot.dataPointSize = 3
+        dotPlot.dataPointSize = 2
+        dotPlot.dataPointFillColor = hexStringToUIColor(hex: "#0365D5")
         
         let referenceLines = ReferenceLines()
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineLabelFont = UIFont.systemFont(ofSize: 8.0)
         referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.1)
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        referenceLines.referenceLineNumberStyle = .currency
         
         graph.addPlot(plot: linePlot)
+        graph.addPlot(plot: dotPlot)
         graph.addReferenceLines(referenceLines: referenceLines)
-        graph.backgroundFillColor = hexStringToUIColor(hex: "#262626")
-        graph.dataPointSpacing = graphView.frame.width / 5
+        graph.shouldAdaptRange = true
+        graph.shouldRangeAlwaysStartAtZero = true
+        graph.backgroundFillColor = hexStringToUIColor(hex: "#2E2E2E")
+        graph.dataPointSpacing = 58
         
         graphView.addSubview(graph)
         
@@ -67,13 +75,15 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         switch(plot.identifier) {
         case "line":
             return Double(linePlotData![pointIndex])
+        case "dot":
+            return Double(linePlotData![pointIndex])
         default:
             return 0
         }
     }
     
     func label(atIndex pointIndex: Int) -> String {
-        return "Week \(pointIndex + 1)"
+        return "12/12"
     }
     
     func numberOfPoints() -> Int {
