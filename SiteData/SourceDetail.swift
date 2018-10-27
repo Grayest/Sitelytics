@@ -17,11 +17,12 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     
     var reportingSource : Source?
     var linePlotData : [Double]?
+    var databaseMgr : DataActions?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        linePlotData = [6.56, 7.21, 1.10, 3.50, 10.90, 12.10, 0.0, 12.15, 7.90, 13.72]
+        linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
@@ -53,7 +54,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         graph.addPlot(plot: dotPlot)
         graph.addReferenceLines(referenceLines: referenceLines)
         graph.shouldAdaptRange = true
-        graph.shouldRangeAlwaysStartAtZero = true
+        //graph.shouldRangeAlwaysStartAtZero = true
         graph.backgroundFillColor = hexStringToUIColor(hex: "#2E2E2E")
         graph.dataPointSpacing = 58
         

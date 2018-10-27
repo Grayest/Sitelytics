@@ -71,6 +71,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             databaseMgr = DataActions(givenDb: dbConn)
             databaseMgr!.createAmazonAccountsTable()
             databaseMgr!.createEzoicAccountsTable()
+            databaseMgr!.createAmazonMonthlyChart()
             
             //Need to coalesce all accounts
             amazonAccounts = databaseMgr!.getAllAmazonAccounts()
@@ -161,6 +162,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             destinationVC.databaseMgr = self.databaseMgr
         } else if let destinationVC = segue.destination as? SourceDetail  {
             destinationVC.reportingSource = justSelectedSource
+            destinationVC.databaseMgr = databaseMgr
         }
     }
     

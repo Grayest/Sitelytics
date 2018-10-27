@@ -88,6 +88,12 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
         webView.load(URLRequest(url: todayUrl, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
     }
     
+    func getMonthlyStats() {
+        let escapedUrl = monthlyStatsUrl!.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
+        let monthlyUrl = URL(string: escapedUrl!)!
+        webView.load(URLRequest(url: monthlyUrl, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
+    }
+    
     func parseMonthlyStats() {
         webView.evaluateJavaScript(extractAllJSON, completionHandler: {(result, error)  in
             self.returnedJSON = result as? String
@@ -96,24 +102,27 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
             do {
                 let jsonObj = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Dictionary<String, Any>
                 let records = jsonObj!["records"] as! [Dictionary<String, String>]
+                let extractedId = Int64((self.correspondingCell?.id)!)
                 
                 for record in records {
                     let bounty_earnings = Double(record["bounty_earnings"]!)!
                     let ordered_items = Int(record["ordered_items"]!)!
                     let revenue = Double(record["revenue"]!)!
-                    let returned_items = Int(record["returned_items"]!)!
+                    let returned_items = Int64(record["returned_items"]!)!
                     let commission_earnings = Double(record["commission_earnings"]!)!
                     let returned_revenue = Double(record["returned_revenue"]!)!
                     let returned_earnings = Double(record["returned_earnings"]!)!
-                    let shipped_items = Int(record["shipped_items"]!)!
-                    let bounty_events = Int(record["bounty_events"]!)!
+                    let shipped_items = Int64(record["shipped_items"]!)!
+                    let bounty_events = Int64(record["bounty_events"]!)!
                     let day = String(record["day"]!)
-                    let clicks = Int(record["clicks"]!)!
+                    let clicks = Int64(record["clicks"]!)!
                     
                     print("\(bounty_earnings), \(ordered_items), \(revenue), \(returned_items), \(commission_earnings), \(returned_revenue), \(returned_earnings), \(shipped_items), \(bounty_events), \(day), \(clicks)")
+                    //TODO: delete all from this table before
+                    self.dashboardVC?.databaseMgr!.addAmazonMonthlyItem(acct_id: extractedId, bounty_earnings: bounty_earnings, revenue: revenue, returned_items: returned_items, commission_earnings: commission_earnings, returned_revenue: returned_revenue, returned_earnings: returned_earnings, shipped_items: shipped_items, bounty_events: bounty_events, day: day, clicks: clicks)
                 }
                 
-                
+                self.getTodaysOrders()
             } catch let error as NSError {
                 print("ERROR FOUND: \(error)")
             }
@@ -216,11 +225,12 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
             loginToAccount()
         } else if(pageCount == 1) {
             self.correspondingCell?.progressCircle.startProgress(to: 79, duration: 1)
-            getTodaysOrders()
+            getMonthlyStats()
         } else if(pageCount == 2) {
             self.correspondingCell?.progressCircle.startProgress(to: 81, duration: 1)
-            getTodaysOrders()
+            parseMonthlyStats()
         } else if(pageCount == 3) {
+            //called in parseMonthlyStats
             self.correspondingCell?.progressCircle.startProgress(to: 90, duration: 1)
             parseJSONResponse()
         }

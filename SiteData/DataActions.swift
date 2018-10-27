@@ -14,7 +14,7 @@ extension String: Error {}
 class DataActions {
     var db: Connection
     let amazon_associates_accounts = Table("amazon_associates_accounts")
-    let amazon_associates_orders = Table("amazon_associates_orders")
+    let amazon_associates_monthly = Table("amazon_associates_orders")
     let ezoic_accounts = Table("ezoic_accounts")
     
     let az_id_ac = Expression<Int64>("id")
@@ -29,6 +29,20 @@ class DataActions {
     let ez_password_ac = Expression<String>("password")
     let ez_lastUpdatedTimestamp_ac = Expression<String>("lastUpdatedTimestamp")
     let ez_estEarningsToday_ac = Expression<Double>("estEarningsToday")
+    
+    let az_mo_id = Expression<Int64>("id")
+    let az_mo_associated_account_id = Expression<Int64>("associated_account_id")
+    let az_mo_bounty_earnings = Expression<Double>("bounty_earnings")
+    let az_mo_ordered_items = Expression<Int64>("ordered_items")
+    let az_mo_revenue = Expression<Double>("revenue")
+    let az_mo_returned_items = Expression<Int64>("returned_items")
+    let az_mo_commission_earnings = Expression<Double>("commission_earnings")
+    let az_mo_returned_revenue = Expression<Double>("returned_revenue")
+    let az_mo_returned_earnings = Expression<Double>("returned_earnings")
+    let az_mo_shipped_items = Expression<Int64>("shipped_items")
+    let az_mo_bounty_events = Expression<Int64>("bounty_events")
+    let az_mo_day = Expression<String>("day")
+    let az_mo_clicks = Expression<Int64>("clicks")
     
     init(givenDb : Connection) {
         db = givenDb
@@ -61,6 +75,50 @@ class DataActions {
         } catch {
             print("Error in creating Amazon Accounts Table.")
         }
+    }
+    
+    func createAmazonMonthlyChart() {
+        do {
+            try db.run(amazon_associates_monthly.create{t in
+                t.column(az_mo_id, primaryKey: true)
+                t.column(az_mo_associated_account_id)
+                t.column(az_mo_bounty_earnings)
+                t.column(az_mo_revenue)
+                t.column(az_mo_returned_items)
+                t.column(az_mo_commission_earnings)
+                t.column(az_mo_returned_revenue)
+                t.column(az_mo_returned_earnings)
+                t.column(az_mo_shipped_items)
+                t.column(az_mo_bounty_events)
+                t.column(az_mo_day)
+                t.column(az_mo_clicks)
+            })
+        } catch {
+            print("Error in creating Amazon Monthly table.")
+        }
+    }
+    
+    func addAmazonMonthlyItem(acct_id: Int64, bounty_earnings: Double, revenue: Double, returned_items: Int64, commission_earnings: Double, returned_revenue: Double, returned_earnings: Double, shipped_items: Int64, bounty_events: Int64, day: String, clicks: Int64) {
+        do{
+            let insert = amazon_associates_monthly.insert(
+                az_mo_associated_account_id <- acct_id,
+                az_mo_bounty_earnings <- bounty_earnings,
+                az_mo_revenue <- revenue,
+                az_mo_returned_items <- returned_items,
+                az_mo_commission_earnings <- commission_earnings,
+                az_mo_returned_revenue <- returned_revenue,
+                az_mo_returned_earnings <- returned_earnings,
+                az_mo_shipped_items <- shipped_items,
+                az_mo_bounty_events <- bounty_events,
+                az_mo_day <- day,
+                az_mo_clicks <- clicks
+            )
+            
+            try db.run(insert)
+        } catch {
+            print("Error adding new Amazon monthly item.")
+        }
+        
     }
     
     func addEzoicAccount(email: String, password: String) {
@@ -144,6 +202,24 @@ class DataActions {
         }
         
         return allEzoicAccounts
+    }
+    
+    func getAmazonMonthlyEarningsByDay() -> [Double] {
+        var allEarningsDays : [Double] = []
+        
+        do {
+            for amazonEarningDay in try (db.prepare(amazon_associates_monthly)) {
+                let currCommissionEarnings = amazonEarningDay[az_mo_commission_earnings]
+                let currBountyEarnings = amazonEarningDay[az_mo_bounty_earnings]
+                let currReturnedRevenue = amazonEarningDay[az_mo_returned_revenue]
+                let overallIncome = currCommissionEarnings + currBountyEarnings - currReturnedRevenue
+                allEarningsDays.append(overallIncome)
+            }
+        } catch {
+            print("Error grabbing all day earnings for Amazon.")
+        }
+        
+        return allEarningsDays
     }
     
     //Also updates time, of course
