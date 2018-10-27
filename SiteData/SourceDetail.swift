@@ -24,13 +24,26 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         linePlotData = [10, 10, 20, 30, 15, 20]
         let graphRect = CGRect(x: 0.0, y: 0.0, width: graphView.frame.width-60, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
+        
         let linePlot = LinePlot(identifier: "line")
+        linePlot.lineWidth = 1
+        linePlot.lineColor = hexStringToUIColor(hex: "#0365D5")
+        linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        linePlot.shouldFill = true
+        linePlot.fillType = ScrollableGraphViewFillType.solid
+        linePlot.fillColor = hexStringToUIColor(hex: "#0365D5").withAlphaComponent(0.5)
+        
         let referenceLines = ReferenceLines()
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
         
         graph.addPlot(plot: linePlot)
         graph.addReferenceLines(referenceLines: referenceLines)
-        graphView.addSubview(graph)
+        graph.backgroundFillColor = hexStringToUIColor(hex: "#262626")
         
+        graphView.addSubview(graph)
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
@@ -59,5 +72,27 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     
     func numberOfPoints() -> Int {
         return linePlotData!.count
+    }
+    
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
 }

@@ -542,7 +542,7 @@
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpw-Q0-edr">
                                 <rect key="frame" x="16" y="209" width="343" height="243"/>
-                                <color key="backgroundColor" white="0.15079403118609405" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="243" id="asK-RQ-XB2"/>
                                 </constraints>
