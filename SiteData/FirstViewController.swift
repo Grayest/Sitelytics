@@ -154,7 +154,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         justSelectedSource = allSources[indexPath.row] as Source
-        self.performSegue(withIdentifier: "segueToSource", sender: self)
+        self.performSegue(withIdentifier: "segueToNewDetailView", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
