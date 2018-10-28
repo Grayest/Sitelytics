@@ -14,7 +14,7 @@ extension String: Error {}
 class DataActions {
     var db: Connection
     let amazon_associates_accounts = Table("amazon_associates_accounts")
-    let amazon_associates_monthly = Table("amazon_associates_orders")
+    let amazon_associates_monthly = Table("amazon_associates_monthly")
     let ezoic_accounts = Table("ezoic_accounts")
     
     let az_id_ac = Expression<Int64>("id")
@@ -118,7 +118,7 @@ class DataActions {
             
             try db.run(insert)
         } catch {
-            print("Error adding new Amazon monthly item.")
+            print("Error adding new Amazon monthly item. Reason given: \(error)")
         }
         
     }
@@ -208,7 +208,7 @@ class DataActions {
     
     func deleteAmazonMonthlyStats() {
         do {
-            try db.run(amazon_associates_monthly.drop())
+            try db.run(amazon_associates_monthly.delete())
         } catch {
             print("Error in dropping table.")
         }
