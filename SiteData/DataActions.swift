@@ -211,8 +211,8 @@ class DataActions {
             for amazonEarningDay in try (db.prepare(amazon_associates_monthly)) {
                 let currCommissionEarnings = amazonEarningDay[az_mo_commission_earnings]
                 let currBountyEarnings = amazonEarningDay[az_mo_bounty_earnings]
-                let currReturnedRevenue = amazonEarningDay[az_mo_returned_revenue]
-                let overallIncome = currCommissionEarnings + currBountyEarnings - currReturnedRevenue
+                let currReturnedEarnings = amazonEarningDay[az_mo_returned_earnings]
+                let overallIncome = currCommissionEarnings + currBountyEarnings - currReturnedEarnings
                 allEarningsDays.append(overallIncome)
             }
         } catch {

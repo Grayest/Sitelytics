@@ -14,6 +14,10 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var sourceEmail: UILabel!
     @IBOutlet weak var sourceTag: UILabel!
     @IBOutlet weak var graphView: UIView!
+    @IBOutlet weak var monthTitle: UILabel!
+    @IBOutlet weak var dataBox1: UIView!
+    @IBOutlet weak var dataBox2: UIView!
+    @IBOutlet weak var dataBox3: UIView!
     
     var reportingSource : Source?
     var linePlotData : [Double]?
@@ -23,6 +27,11 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         super.viewDidLoad()
         
         linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
+        monthTitle.text = getMonthTitle()
+        
+        dataBox1.layer.cornerRadius = 4
+        dataBox2.layer.cornerRadius = 4
+        dataBox3.layer.cornerRadius = 4
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
@@ -84,11 +93,25 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     }
     
     func label(atIndex pointIndex: Int) -> String {
-        return "12/12"
+        let date = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day, .month], from: date)
+        let monthNum = components.month
+        let retVal = "\(monthNum!)/\(pointIndex+1)"
+        return retVal
+        
     }
     
     func numberOfPoints() -> Int {
         return linePlotData!.count
+    }
+    
+    func getMonthTitle() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        let strMonth = dateFormatter.string(from: date)
+        return strMonth
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
