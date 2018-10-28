@@ -104,9 +104,12 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                 let records = jsonObj!["records"] as! [Dictionary<String, String>]
                 let extractedId = Int64((self.correspondingCell?.id)!)
                 
+                //Drop all past runs first
+                self.dashboardVC?.databaseMgr!.deleteAmazonMonthlyStats()
+                
                 for record in records {
                     let bounty_earnings = Double(record["bounty_earnings"]!)!
-                    let ordered_items = Int(record["ordered_items"]!)!
+                    let ordered_items = Int64(record["ordered_items"]!)!
                     let revenue = Double(record["revenue"]!)!
                     let returned_items = Int64(record["returned_items"]!)!
                     let commission_earnings = Double(record["commission_earnings"]!)!
@@ -117,9 +120,10 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                     let day = String(record["day"]!)
                     let clicks = Int64(record["clicks"]!)!
                     
+                    
                     print("\(bounty_earnings), \(ordered_items), \(revenue), \(returned_items), \(commission_earnings), \(returned_revenue), \(returned_earnings), \(shipped_items), \(bounty_events), \(day), \(clicks)")
                     //TODO: delete all from this table before
-                    self.dashboardVC?.databaseMgr!.addAmazonMonthlyItem(acct_id: extractedId, bounty_earnings: bounty_earnings, revenue: revenue, returned_items: returned_items, commission_earnings: commission_earnings, returned_revenue: returned_revenue, returned_earnings: returned_earnings, shipped_items: shipped_items, bounty_events: bounty_events, day: day, clicks: clicks)
+                    self.dashboardVC?.databaseMgr!.addAmazonMonthlyItem(acct_id: extractedId, bounty_earnings: bounty_earnings, revenue: revenue, ordered_items: ordered_items, returned_items: returned_items, commission_earnings: commission_earnings, returned_revenue: returned_revenue, returned_earnings: returned_earnings, shipped_items: shipped_items, bounty_events: bounty_events, day: day, clicks: clicks)
                 }
                 
                 self.getTodaysOrders()

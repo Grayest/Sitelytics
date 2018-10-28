@@ -730,6 +730,12 @@
                         <outlet property="dataBox1" destination="AuB-rG-l1m" id="DtV-fa-a1K"/>
                         <outlet property="dataBox2" destination="llh-Zs-YDi" id="ERE-LK-Wde"/>
                         <outlet property="dataBox3" destination="MdN-Mc-WLq" id="yMh-7f-c7S"/>
+                        <outlet property="dataStat1UI" destination="Jk1-yt-oSW" id="XEy-lJ-RUf"/>
+                        <outlet property="dataStat2UI" destination="E5E-bh-U2C" id="8Az-65-ShX"/>
+                        <outlet property="dataStat3UI" destination="Iha-u7-UwD" id="HHj-Wg-7ln"/>
+                        <outlet property="dataStatLabel1UI" destination="eKy-Vu-Uh6" id="ZKy-Vg-fOC"/>
+                        <outlet property="dataStatLabel2UI" destination="fun-AZ-a3O" id="cMO-Zq-XU5"/>
+                        <outlet property="dataStatLabel3UI" destination="BV7-Tg-X7y" id="yAb-ms-Goj"/>
                         <outlet property="graphView" destination="3TP-t3-aSL" id="qRI-W2-qdU"/>
                         <outlet property="monthTitle" destination="k70-nN-zgc" id="f81-2g-cqv"/>
                         <outlet property="sourceEmail" destination="VJv-2X-DOn" id="AQy-iC-Mud"/>

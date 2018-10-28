@@ -84,6 +84,7 @@ class DataActions {
                 t.column(az_mo_associated_account_id)
                 t.column(az_mo_bounty_earnings)
                 t.column(az_mo_revenue)
+                t.column(az_mo_ordered_items)
                 t.column(az_mo_returned_items)
                 t.column(az_mo_commission_earnings)
                 t.column(az_mo_returned_revenue)
@@ -93,17 +94,18 @@ class DataActions {
                 t.column(az_mo_day)
                 t.column(az_mo_clicks)
             })
-        } catch {
-            print("Error in creating Amazon Monthly table.")
+        } catch let error {
+            print("Error in creating Amazon Monthly table. Reason given: \(error)")
         }
     }
     
-    func addAmazonMonthlyItem(acct_id: Int64, bounty_earnings: Double, revenue: Double, returned_items: Int64, commission_earnings: Double, returned_revenue: Double, returned_earnings: Double, shipped_items: Int64, bounty_events: Int64, day: String, clicks: Int64) {
+    func addAmazonMonthlyItem(acct_id: Int64, bounty_earnings: Double, revenue: Double, ordered_items: Int64, returned_items: Int64, commission_earnings: Double, returned_revenue: Double, returned_earnings: Double, shipped_items: Int64, bounty_events: Int64, day: String, clicks: Int64) {
         do{
             let insert = amazon_associates_monthly.insert(
                 az_mo_associated_account_id <- acct_id,
                 az_mo_bounty_earnings <- bounty_earnings,
                 az_mo_revenue <- revenue,
+                az_mo_ordered_items <- ordered_items,
                 az_mo_returned_items <- returned_items,
                 az_mo_commission_earnings <- commission_earnings,
                 az_mo_returned_revenue <- returned_revenue,
@@ -204,6 +206,14 @@ class DataActions {
         return allEzoicAccounts
     }
     
+    func deleteAmazonMonthlyStats() {
+        do {
+            try db.run(amazon_associates_monthly.drop())
+        } catch {
+            print("Error in dropping table.")
+        }
+    }
+    
     func getAmazonMonthlyEarningsByDay() -> [Double] {
         var allEarningsDays : [Double] = []
         
@@ -220,6 +230,38 @@ class DataActions {
         }
         
         return allEarningsDays
+    }
+    
+    func getAmazonBoxStats() -> [String : String] {
+        var shippedRevenue = 0.0
+        var commissionEarnings = 0.0
+        var orderedItems = 0
+        
+        do {
+            for amazonEarningDay in try (db.prepare(amazon_associates_monthly)) {
+                let revenue = amazonEarningDay[az_mo_revenue]
+                let commission_earnings = amazonEarningDay[az_mo_commission_earnings]
+                let ordered_items = amazonEarningDay[az_mo_ordered_items]
+                
+                shippedRevenue = shippedRevenue + revenue
+                commissionEarnings = commissionEarnings + commission_earnings
+                orderedItems = orderedItems + Int(ordered_items)
+            }
+        } catch {
+            print("Error grabbing all day earnings for Amazon.")
+        }
+        
+        let shippedRevenue_fmt = String(format: "$%.02f", shippedRevenue)
+        let commissionEarnings_fmt = String(format: "$%.02f", commissionEarnings)
+        let orderedItems_fmt = "\(orderedItems)"
+        
+        let retDict : [String : String] = [
+            "SHIPPED ITEMS REVENUE" : shippedRevenue_fmt,
+            "COMMISSION EARNINGS" : commissionEarnings_fmt,
+            "ORDERED ITEMS" : orderedItems_fmt
+        ]
+        
+        return retDict
     }
     
     //Also updates time, of course

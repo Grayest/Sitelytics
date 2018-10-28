@@ -18,20 +18,37 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var dataBox1: UIView!
     @IBOutlet weak var dataBox2: UIView!
     @IBOutlet weak var dataBox3: UIView!
+    @IBOutlet weak var dataStat1UI: UILabel!
+    @IBOutlet weak var dataStat2UI: UILabel!
+    @IBOutlet weak var dataStat3UI: UILabel!
+    @IBOutlet weak var dataStatLabel1UI: UILabel!
+    @IBOutlet weak var dataStatLabel2UI: UILabel!
+    @IBOutlet weak var dataStatLabel3UI: UILabel!
     
     var reportingSource : Source?
     var linePlotData : [Double]?
     var databaseMgr : DataActions?
+    var dataStats : [String: String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
+        dataStats = databaseMgr!.getAmazonBoxStats()
         monthTitle.text = getMonthTitle()
-        
         dataBox1.layer.cornerRadius = 4
         dataBox2.layer.cornerRadius = 4
         dataBox3.layer.cornerRadius = 4
+        
+        if(dataStats?.count != 0) {
+            let dataKeys = Array(dataStats!.keys)
+            dataStatLabel1UI.text = dataKeys[0]
+            dataStatLabel2UI.text = dataKeys[1]
+            dataStatLabel3UI.text = dataKeys[2]
+            dataStat1UI.text = dataStats![dataKeys[0]]
+            dataStat2UI.text = dataStats![dataKeys[1]]
+            dataStat3UI.text = dataStats![dataKeys[2]]
+        }
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
@@ -63,7 +80,6 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         graph.addPlot(plot: dotPlot)
         graph.addReferenceLines(referenceLines: referenceLines)
         graph.shouldAdaptRange = true
-        //graph.shouldRangeAlwaysStartAtZero = true
         graph.backgroundFillColor = hexStringToUIColor(hex: "#2E2E2E")
         graph.dataPointSpacing = 58
         
