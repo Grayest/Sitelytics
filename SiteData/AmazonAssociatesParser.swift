@@ -152,22 +152,19 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                     let currentPrice = Double(record["price"]!)!
                     let currentRevenue = currentAmount * currentPrice
                     let currentCategory = record["product_category"]!
+                    let currentTitle = String(record["product_title"]!)
+                    let currentAsin = String(record["asin"]!)
                     let currentCommission = self.productCommission(category: currentCategory)
                     let currentCommissionFees = currentRevenue * currentCommission
                     
                     estimatedCommission = estimatedCommission + currentCommissionFees
                     amtOrderedItems = amtOrderedItems + currentAmount
                     totalOrderedRevenue = totalOrderedRevenue + currentRevenue
+                    
+                    self.dashboardVC?.databaseMgr!.addAmazonDailyItem(qty: Int64(currentAmount), price: currentPrice, category: currentCategory, title: currentTitle, asin: currentAsin)
                 }
                 
                 self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 0.5, completion: {
-                    let updateVal : [String : Any] = [
-                        "TOTAL_ORDERED_REVENUE" : totalOrderedRevenue,
-                        "ESTIMATED_COMMISSION" : estimatedCommission,
-                        "AMT_ITEMS_ORDERED" : amtOrderedItems,
-                        "ORDERS_DETAIL" : records,
-                    ]
-                    
                     let extractedId = Int((self.correspondingCell?.id)!)
                     self.dashboardVC?.databaseMgr!.updateAmazonEstEarningsToday(currId: extractedId, newEarnings: estimatedCommission)
                     

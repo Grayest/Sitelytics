@@ -15,6 +15,7 @@ class DataActions {
     var db: Connection
     let amazon_associates_accounts = Table("amazon_associates_accounts")
     let amazon_associates_monthly = Table("amazon_associates_monthly")
+    let amazon_associates_today = Table("amazon_associates_today")
     let ezoic_accounts = Table("ezoic_accounts")
     
     let az_id_ac = Expression<Int64>("id")
@@ -43,6 +44,13 @@ class DataActions {
     let az_mo_bounty_events = Expression<Int64>("bounty_events")
     let az_mo_day = Expression<String>("day")
     let az_mo_clicks = Expression<Int64>("clicks")
+    
+    let az_day_id = Expression<Int64>("id")
+    let az_day_qty = Expression<Int64>("quantity")
+    let az_day_price = Expression<Double>("price")
+    let az_day_category = Expression<String>("category")
+    let az_day_item_title = Expression<String>("product_title")
+    let az_day_item_asin = Expression<String>("asin")
     
     init(givenDb : Connection) {
         db = givenDb
@@ -96,6 +104,37 @@ class DataActions {
             })
         } catch let error {
             print("Error in creating Amazon Monthly table. Reason given: \(error)")
+        }
+    }
+    
+    func createAmazonTodayChart() {
+        do {
+            try db.run(amazon_associates_today.create{t in
+                t.column(az_day_id, primaryKey: true)
+                t.column(az_day_qty)
+                t.column(az_day_price)
+                t.column(az_day_category)
+                t.column(az_day_item_title)
+                t.column(az_day_item_asin)
+            })
+        } catch let error {
+            print("Error creating today's chart for Amazon. Reason given: \(error)")
+        }
+    }
+    
+    func addAmazonDailyItem(qty: Int64, price: Double, category: String, title: String, asin: String) {
+        do {
+            let insert = amazon_associates_today.insert(
+                az_day_qty <- qty,
+                az_day_price <- price,
+                az_day_category <- category,
+                az_day_item_title <- title,
+                az_day_item_asin <- asin
+            )
+            
+            try db.run(insert)
+        } catch let error {
+            print("Error adding new item for Amazon [today]. Reason given: \(error)")
         }
     }
     
@@ -251,17 +290,39 @@ class DataActions {
             print("Error grabbing all day earnings for Amazon.")
         }
         
-        let shippedRevenue_fmt = String(format: "$%.02f", shippedRevenue)
-        let commissionEarnings_fmt = String(format: "$%.02f", commissionEarnings)
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 0
+        
+        let shippedRevenue_fmt = formatter.string(from: NSNumber(value: shippedRevenue))
+        let commissionEarnings_fmt = formatter.string(from: NSNumber(value: commissionEarnings))
         let orderedItems_fmt = "\(orderedItems)"
         
         let retDict : [String : String] = [
-            "SHIPPED ITEMS REVENUE" : shippedRevenue_fmt,
-            "COMMISSION EARNINGS" : commissionEarnings_fmt,
-            "ORDERED ITEMS" : orderedItems_fmt
+            "SHIPPED REV. THIS MONTH" : shippedRevenue_fmt!,
+            "COMMISSION THIS MONTH" : commissionEarnings_fmt!,
+            "ITEMS ORDERED THIS MONTH" : orderedItems_fmt
         ]
         
         return retDict
+    }
+    
+    func getAllAmazonOrdersToday() -> [(String, String, Int64)]{
+        var ordersTupleLst : [(String, String, Int64)] = []
+        
+        do {
+            for amazonOrder in try (db.prepare(amazon_associates_today)) {
+                let productTitle = amazonOrder[az_day_item_title]
+                let productAsin = amazonOrder[az_day_item_title]
+                let qtyOrdered = amazonOrder[az_day_qty]
+                let currTuple = (productTitle, productAsin, qtyOrdered)
+                ordersTupleLst.append(currTuple)
+            }
+        } catch {
+            print("Error getting today's Amazon orders.")
+        }
+        
+        return ordersTupleLst
     }
     
     //Also updates time, of course

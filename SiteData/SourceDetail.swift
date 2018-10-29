@@ -24,21 +24,26 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var dataStatLabel1UI: UILabel!
     @IBOutlet weak var dataStatLabel2UI: UILabel!
     @IBOutlet weak var dataStatLabel3UI: UILabel!
+    @IBOutlet weak var thirdDataLabel: UILabel!
+    @IBOutlet weak var thirdDataText: UILabel!
     
     var reportingSource : Source?
     var linePlotData : [Double]?
     var databaseMgr : DataActions?
     var dataStats : [String: String]?
+    var ordersToday : [(String, String, Int64)]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
         dataStats = databaseMgr!.getAmazonBoxStats()
+        ordersToday = databaseMgr!.getAllAmazonOrdersToday()
+        
         monthTitle.text = getMonthTitle()
-        dataBox1.layer.cornerRadius = 4
-        dataBox2.layer.cornerRadius = 4
-        dataBox3.layer.cornerRadius = 4
+        dataBox1.layer.cornerRadius = 5
+        dataBox2.layer.cornerRadius = 5
+        dataBox3.layer.cornerRadius = 5
         
         if(dataStats?.count != 0) {
             let dataKeys = Array(dataStats!.keys)
@@ -49,6 +54,17 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
             dataStat2UI.text = dataStats![dataKeys[1]]
             dataStat3UI.text = dataStats![dataKeys[2]]
         }
+        
+        
+        var retStr : String = ""
+        for orderToday in ordersToday! {
+            retStr = "\(retStr)\(orderToday.0) \n"
+            print(orderToday.0)
+        }
+        
+        
+        thirdDataLabel.text = "Orders Today"
+        thirdDataText.text = retStr
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)

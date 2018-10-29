@@ -72,6 +72,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             databaseMgr!.createAmazonAccountsTable()
             databaseMgr!.createEzoicAccountsTable()
             databaseMgr!.createAmazonMonthlyChart()
+            databaseMgr!.createAmazonTodayChart()
             
             //Need to coalesce all accounts
             amazonAccounts = databaseMgr!.getAllAmazonAccounts()
