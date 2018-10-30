@@ -245,6 +245,14 @@ class DataActions {
         return allEzoicAccounts
     }
     
+    func deleteAmazonTodayStats() {
+        do {
+            try db.run(amazon_associates_today.delete())
+        } catch {
+            print("Error in dropping table.")
+        }
+    }
+    
     func deleteAmazonMonthlyStats() {
         do {
             try db.run(amazon_associates_monthly.delete())
@@ -281,9 +289,11 @@ class DataActions {
                 let revenue = amazonEarningDay[az_mo_revenue]
                 let commission_earnings = amazonEarningDay[az_mo_commission_earnings]
                 let ordered_items = amazonEarningDay[az_mo_ordered_items]
+                let returned_revenue = amazonEarningDay[az_mo_returned_revenue]
+                let returned_earnings = amazonEarningDay[az_mo_returned_earnings]
                 
-                shippedRevenue = shippedRevenue + revenue
-                commissionEarnings = commissionEarnings + commission_earnings
+                shippedRevenue = shippedRevenue + revenue - returned_revenue
+                commissionEarnings = commissionEarnings + commission_earnings - returned_earnings
                 orderedItems = orderedItems + Int(ordered_items)
             }
         } catch {

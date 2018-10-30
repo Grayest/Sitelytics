@@ -509,7 +509,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="612"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36e-3Y-Pa6" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="612"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="609"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amazon Associates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Et-Sm-Ipl">
                                                 <rect key="frame" x="16" y="17" width="343" height="29"/>
@@ -666,10 +666,16 @@
                                                 <color key="textColor" white="0.86076894810000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No orders today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Cf-yp-8dc">
-                                                <rect key="frame" x="16" y="539" width="343" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Cf-yp-8dc">
+                                                <rect key="frame" x="16" y="539" width="343" height="18"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="No orders today">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <font key="NSFont" metaFont="system" size="15"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -741,8 +747,8 @@
                         <outlet property="sourceEmail" destination="VJv-2X-DOn" id="AQy-iC-Mud"/>
                         <outlet property="sourceTag" destination="GRK-iQ-AJQ" id="6Iy-1j-vNg"/>
                         <outlet property="sourceTitle" destination="3Et-Sm-Ipl" id="Qao-li-NSi"/>
-                        <outlet property="thirdDataLabel" destination="tic-bH-hUS" id="tZu-s1-mwy"/>
-                        <outlet property="thirdDataText" destination="3Cf-yp-8dc" id="ATW-ab-eUZ"/>
+                        <outlet property="thirdDataLabel" destination="tic-bH-hUS" id="tEL-g4-1P2"/>
+                        <outlet property="thirdDataText" destination="3Cf-yp-8dc" id="7u7-sJ-yiU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kyp-zN-kDF" userLabel="First Responder" sceneMemberID="firstResponder"/>

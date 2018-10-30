@@ -9,6 +9,19 @@
 import UIKit
 import ScrollableGraphView
 
+extension String {
+    /*
+     Truncates the string to the specified length number of characters and appends an optional trailing string if longer.
+     - Parameter length: Desired maximum lengths of a string
+     - Parameter trailing: A 'String' that will be appended after the truncation.
+     
+     - Returns: 'String' object.
+     */
+    func trunc(length: Int, trailing: String = "…") -> String {
+        return (self.count > length) ? self.prefix(length) + trailing : self
+    }
+}
+
 class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var sourceTitle: UILabel!
     @IBOutlet weak var sourceEmail: UILabel!
@@ -56,15 +69,23 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         }
         
         
+        thirdDataLabel.text = "Orders Today"
+        
+        //this is sloppy
         var retStr : String = ""
-        for orderToday in ordersToday! {
-            retStr = "\(retStr)\(orderToday.0) \n"
-            print(orderToday.0)
+        if ordersToday!.count > 0 {
+            for orderToday in ordersToday! {
+                let currNumLines = thirdDataText.numberOfLines
+                thirdDataText.numberOfLines = currNumLines + 1
+                let truncdLine = orderToday.0.trunc(length: 30)
+                retStr = "\(retStr)(\(orderToday.2)) \(truncdLine) \n"
+            }
+            
+            thirdDataText.text = retStr
+        } else {
+            thirdDataText.text = "No orders today"
         }
         
-        
-        thirdDataLabel.text = "Orders Today"
-        thirdDataText.text = retStr
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)

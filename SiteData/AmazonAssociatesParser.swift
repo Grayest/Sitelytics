@@ -147,6 +147,7 @@ class AmazonAssociatesParser : UIViewController, WKNavigationDelegate, Parser {
                 var totalOrderedRevenue : Double = 0
                 var estimatedCommission : Double = 0
                 
+                self.dashboardVC?.databaseMgr!.deleteAmazonTodayStats()
                 for record in records {
                     let currentAmount = Double(record["ordered_items"]!)!
                     let currentPrice = Double(record["price"]!)!
