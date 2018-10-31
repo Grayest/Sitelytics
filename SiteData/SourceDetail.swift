@@ -83,14 +83,14 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
             
             thirdDataText.isHidden = true
             thirdDataLabel.isHidden = true
+            
+            linePlotData = databaseMgr!.getAllEzoicMonthly()
         }
         
         monthTitle.text = getMonthTitle()
         dataBox1.layer.cornerRadius = 5
         dataBox2.layer.cornerRadius = 5
         dataBox3.layer.cornerRadius = 5
-        
-        
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
         let graph = ScrollableGraphView(frame: graphRect, dataSource: self)
@@ -147,7 +147,6 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         let monthNum = components.month
         let retVal = "\(monthNum!)/\(pointIndex+1)"
         return retVal
-        
     }
     
     func numberOfPoints() -> Int {

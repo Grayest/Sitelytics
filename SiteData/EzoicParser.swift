@@ -21,8 +21,11 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
     var insertPwdJS : String?
     var clickLoginJS : String?
     var editDatesJS : String?
+    var earningAmtsFlt : [Double]?
     
     var loginPageUrl : String = "https://svc.ezoic.com/publisher.php"
+    var earningsPageUrl : String = "https://svc.ezoic.com/svc/pub/earnings/earnings.php"
+    var dashboardPageUrl : String = "https://svc.ezoic.com/svc/pub/stats/dashboard.php"
     var extractTodaysEarnings : String = "var earns = document.querySelector('ul.earnings'); var all_li = earns.querySelectorAll('li'); var lastOne = all_li[all_li.length-1]; var amountOuter = lastOne.querySelector('.currency'); amountOuter.querySelector('.dollar-sign').remove(); amountOuter.textContent;"
     
     func updateData(cellCalledBy : SourceCell) {
@@ -61,6 +64,16 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
         webView.load(URLRequest(url : url, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
     }
     
+    func loadEarningsPage() {
+        let url = URL(string: earningsPageUrl)!
+        webView.load(URLRequest(url : url, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
+    }
+    
+    func loadDashboard() {
+        let url = URL(string: dashboardPageUrl)!
+        webView.load(URLRequest(url : url, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData))
+    }
+    
     func loginToAccount() {
         insertEmailJS = "document.getElementById('loginEmail').value = '\(email!)';"
         insertPwdJS = "document.getElementById('loginPassword').value = '\(password!)';"
@@ -88,21 +101,31 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
         let yesterdayDate = todayFormatter.string(from: dateToday)
         
         self.editDatesJS = "document.getElementById('start_date').value = '\(firstOfTheMonth)'; document.getElementById('end_date').value = '\(yesterdayDate)'; document.querySelector('.btn.btn-primary.apply').click();"
+        print(self.editDatesJS!)
         
         self.webView.evaluateJavaScript(self.editDatesJS!, completionHandler: { (result, error) in
             //Have to wait for response.
             //This is probably not a great idea, but is a 99% solution.
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
-                let getAllRows = "var tbod = document.querySelector('table#earningsTable tbody'); tbod.querySelectorAll('tr');"
+                let getAllRows = "var tbod = document.querySelector('table#earningsTable tbody'); var allElms = tbod.querySelectorAll('tr'); var retStr = ''; for (var i = 0; i < allElms.length; i++) { if(i != 0) {retStr = retStr + parseFloat(allElms[i].querySelector('.text-center').textContent.replace('$', '')) + ',';}}document.querySelector('.paginate_button.next').click();var tbod = document.querySelector('table#earningsTable tbody');var allElms = tbod.querySelectorAll('tr');for (var i = 0; i < allElms.length; i++) {retStr = retStr + parseFloat(allElms[i].querySelector('.text-center').textContent.replace('$', '')) + ',';} retStr.substring(0, retStr.length - 1);"
                 self.webView.evaluateJavaScript(getAllRows, completionHandler: { (result, error) in
-                    print(result)
-                    self.parseHTMLtoday()
+                    let strRes = result as! String
+                    print(strRes)
+                    let allEarningAmts = strRes.split(separator: ",")
+                    if(allEarningAmts.count > 0) {
+                        var decCtr = 29
+                        for earningAmt in allEarningAmts {
+                            self.dashboardVC?.databaseMgr!.addEzoicMonthlyData(amt: Double(earningAmt)!)
+                        }
+                        
+                    }
                 })
             })
         })
     }
     
     func parseHTMLtoday() {
+        print(extractTodaysEarnings)
         webView.evaluateJavaScript(extractTodaysEarnings, completionHandler: {(result, error)  in
             let strResult = result as! String
             let trimmedResult = strResult.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -126,7 +149,9 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
             loginToAccount()
         } else if(pageCount == 1) {
             self.correspondingCell?.progressCircle.startProgress(to: 63, duration: 1)
-            parseHTMLtoday()
+            loadEarningsPage()
+        } else if(pageCount == 2) {
+            startMonthlyDataGrab()
         }
         
         pageCount = pageCount + 1

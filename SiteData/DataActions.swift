@@ -17,6 +17,7 @@ class DataActions {
     let amazon_associates_monthly = Table("amazon_associates_monthly")
     let amazon_associates_today = Table("amazon_associates_today")
     let ezoic_accounts = Table("ezoic_accounts")
+    let ezoic_monthly_data = Table("ezoic_monthly")
     
     let az_id_ac = Expression<Int64>("id")
     let az_email_ac = Expression<String>("email")
@@ -24,12 +25,6 @@ class DataActions {
     let az_storeIds_ac = Expression<String>("storeIds")
     let az_lastUpdatedTimestamp_ac = Expression<String>("lastUpdatedTimestamp")
     let az_estEarningsToday_ac = Expression<Double>("estEarningsToday")
-    
-    let ez_id_ac = Expression<Int64>("id")
-    let ez_email_ac = Expression<String>("email")
-    let ez_password_ac = Expression<String>("password")
-    let ez_lastUpdatedTimestamp_ac = Expression<String>("lastUpdatedTimestamp")
-    let ez_estEarningsToday_ac = Expression<Double>("estEarningsToday")
     
     let az_mo_id = Expression<Int64>("id")
     let az_mo_associated_account_id = Expression<Int64>("associated_account_id")
@@ -51,6 +46,15 @@ class DataActions {
     let az_day_category = Expression<String>("category")
     let az_day_item_title = Expression<String>("product_title")
     let az_day_item_asin = Expression<String>("asin")
+    
+    let ez_id_ac = Expression<Int64>("id")
+    let ez_email_ac = Expression<String>("email")
+    let ez_password_ac = Expression<String>("password")
+    let ez_lastUpdatedTimestamp_ac = Expression<String>("lastUpdatedTimestamp")
+    let ez_estEarningsToday_ac = Expression<Double>("estEarningsToday")
+    
+    let ez_mo_id = Expression<Int64>("id")
+    let ez_mo_amt = Expression<Double>("earnings_amt")
     
     init(givenDb : Connection) {
         db = givenDb
@@ -119,6 +123,29 @@ class DataActions {
             })
         } catch let error {
             print("Error creating today's chart for Amazon. Reason given: \(error)")
+        }
+    }
+    
+    func createEzoicMonthly() {
+        do {
+            try db.run(ezoic_monthly_data.create{t in
+                t.column(ez_mo_id, primaryKey: true)
+                t.column(ez_mo_amt)
+            })
+        } catch let error {
+            print("Error creating Ezoic Monthly chart. Reason given: \(error)")
+        }
+    }
+    
+    func addEzoicMonthlyData(amt: Double) {
+        do {
+            let insert = ezoic_monthly_data.insert(
+                ez_mo_amt <- amt
+            )
+            
+            try db.run(insert)
+        } catch let error {
+            print("Error adding new item for Ezoic [monthly]. Reason given: \(error)")
         }
     }
     
@@ -221,6 +248,7 @@ class DataActions {
         return allAmazonAccounts
     }
     
+    
     func getAllEzoicAccounts() -> [EzoicAccount] {
         var allEzoicAccounts : [EzoicAccount] = []
         
@@ -277,6 +305,23 @@ class DataActions {
         }
         
         return allEarningsDays
+    }
+    
+    
+    func getAllEzoicMonthly() -> [Double] {
+        var allEarnings : [Double] = []
+        
+        do {
+            for ezoicEarningDay in try (db.prepare(ezoic_monthly_data)) {
+                let currEarn = ezoicEarningDay[ez_mo_amt]
+                allEarnings.append(currEarn)
+            }
+        } catch {
+            print("Error grabbing all day earnings for Ezoic.")
+        }
+        
+        //Have to reverse as these are stored in descending order by date
+        return allEarnings.reversed()
     }
     
     func getAmazonBoxStats() -> [String : String] {
