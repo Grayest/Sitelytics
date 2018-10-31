@@ -163,6 +163,21 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         return true
     }
     
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let action =  UIContextualAction(style: .normal, title: "Delete", handler: { (action,view,completionHandler ) in
+            //do stuff
+            completionHandler(true)
+        })
+        
+        action.image = UIImage(named: "del.png")
+        action.backgroundColor = hexStringToUIColor(hex: "373738")
+        let confrigation = UISwipeActionsConfiguration(actions: [action])
+        
+        return confrigation
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             // handle delete (by removing the data from your array and updating the tableview)
