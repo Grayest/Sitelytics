@@ -10,13 +10,6 @@ import UIKit
 import ScrollableGraphView
 
 extension String {
-    /*
-     Truncates the string to the specified length number of characters and appends an optional trailing string if longer.
-     - Parameter length: Desired maximum lengths of a string
-     - Parameter trailing: A 'String' that will be appended after the truncation.
-     
-     - Returns: 'String' object.
-     */
     func trunc(length: Int, trailing: String = "…") -> String {
         return (self.count > length) ? self.prefix(length) + trailing : self
     }
@@ -49,42 +42,54 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
-        dataStats = databaseMgr!.getAmazonBoxStats()
-        ordersToday = databaseMgr!.getAllAmazonOrdersToday()
+        if let thisSource = reportingSource as? AmazonAssociatesAccount {
+            sourceTitle.text = "Amazon Associates"
+            sourceEmail.text = thisSource.email?.uppercased()
+            sourceTag.text = thisSource.storeIds
+            
+            linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
+            dataStats = databaseMgr!.getAmazonBoxStats()
+            ordersToday = databaseMgr!.getAllAmazonOrdersToday()
+            
+            if(dataStats?.count != 0) {
+                let dataKeys = Array(dataStats!.keys)
+                dataStatLabel1UI.text = dataKeys[0]
+                dataStatLabel2UI.text = dataKeys[1]
+                dataStatLabel3UI.text = dataKeys[2]
+                dataStat1UI.text = dataStats![dataKeys[0]]
+                dataStat2UI.text = dataStats![dataKeys[1]]
+                dataStat3UI.text = dataStats![dataKeys[2]]
+            }
+            
+            thirdDataLabel.text = "Orders Today"
+            //this is sloppy
+            var retStr : String = ""
+            if ordersToday!.count > 0 {
+                for orderToday in ordersToday! {
+                    let currNumLines = thirdDataText.numberOfLines
+                    thirdDataText.numberOfLines = currNumLines + 1
+                    let truncdLine = orderToday.0.trunc(length: 30)
+                    retStr = "\(retStr)(\(orderToday.2)) \(truncdLine) \n"
+                }
+                
+                thirdDataText.text = retStr
+            } else {
+                thirdDataText.text = "No orders today"
+            }
+        } else if let thisSource = reportingSource as? EzoicAccount {
+            sourceTitle.text = "Ezoic"
+            sourceEmail.text = thisSource.email
+            sourceTag.isHidden = true
+            
+            thirdDataText.isHidden = true
+            thirdDataLabel.isHidden = true
+        }
         
         monthTitle.text = getMonthTitle()
         dataBox1.layer.cornerRadius = 5
         dataBox2.layer.cornerRadius = 5
         dataBox3.layer.cornerRadius = 5
         
-        if(dataStats?.count != 0) {
-            let dataKeys = Array(dataStats!.keys)
-            dataStatLabel1UI.text = dataKeys[0]
-            dataStatLabel2UI.text = dataKeys[1]
-            dataStatLabel3UI.text = dataKeys[2]
-            dataStat1UI.text = dataStats![dataKeys[0]]
-            dataStat2UI.text = dataStats![dataKeys[1]]
-            dataStat3UI.text = dataStats![dataKeys[2]]
-        }
-        
-        
-        thirdDataLabel.text = "Orders Today"
-        
-        //this is sloppy
-        var retStr : String = ""
-        if ordersToday!.count > 0 {
-            for orderToday in ordersToday! {
-                let currNumLines = thirdDataText.numberOfLines
-                thirdDataText.numberOfLines = currNumLines + 1
-                let truncdLine = orderToday.0.trunc(length: 30)
-                retStr = "\(retStr)(\(orderToday.2)) \(truncdLine) \n"
-            }
-            
-            thirdDataText.text = retStr
-        } else {
-            thirdDataText.text = "No orders today"
-        }
         
         
         let graphRect = CGRect(x: -7.0, y: 0.0, width: self.view.frame.width + 7, height: graphView.frame.height)
@@ -121,16 +126,6 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         graph.dataPointSpacing = 58
         
         graphView.addSubview(graph)
-        
-        if let thisSource = reportingSource as? AmazonAssociatesAccount {
-            sourceTitle.text = "Amazon Associates"
-            sourceEmail.text = thisSource.email?.uppercased()
-            sourceTag.text = thisSource.storeIds
-        } else if let thisSource = reportingSource as? EzoicAccount {
-            sourceTitle.text = "Ezoic"
-            sourceEmail.text = thisSource.email
-            sourceTag.isHidden = true
-        }
     }
     
     
@@ -156,7 +151,11 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     }
     
     func numberOfPoints() -> Int {
-        return linePlotData!.count
+        if(linePlotData != nil) {
+            return linePlotData!.count
+        }
+        
+        return 0
     }
     
     func getMonthTitle() -> String {

@@ -20,6 +20,7 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
     var insertEmailJS : String?
     var insertPwdJS : String?
     var clickLoginJS : String?
+    var editDatesJS : String?
     
     var loginPageUrl : String = "https://svc.ezoic.com/publisher.php"
     var extractTodaysEarnings : String = "var earns = document.querySelector('ul.earnings'); var all_li = earns.querySelectorAll('li'); var lastOne = all_li[all_li.length-1]; var amountOuter = lastOne.querySelector('.currency'); amountOuter.querySelector('.dollar-sign').remove(); amountOuter.textContent;"
@@ -75,24 +76,47 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
         }
     }
     
+    func startMonthlyDataGrab() {
+        let dateToday = Date()
+        
+        let todayFormatter = DateFormatter()
+        let eomFormatter = DateFormatter()
+        todayFormatter.dateFormat = "yyyy-MM-dd"
+        eomFormatter.dateFormat = "yyyy-MM-01"
+        
+        let firstOfTheMonth = eomFormatter.string(from: dateToday)
+        let yesterdayDate = todayFormatter.string(from: dateToday)
+        
+        self.editDatesJS = "document.getElementById('start_date').value = '\(firstOfTheMonth)'; document.getElementById('end_date').value = '\(yesterdayDate)'; document.querySelector('.btn.btn-primary.apply').click();"
+        
+        self.webView.evaluateJavaScript(self.editDatesJS!, completionHandler: { (result, error) in
+            //Have to wait for response.
+            //This is probably not a great idea, but is a 99% solution.
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                let getAllRows = "var tbod = document.querySelector('table#earningsTable tbody'); tbod.querySelectorAll('tr');"
+                self.webView.evaluateJavaScript(getAllRows, completionHandler: { (result, error) in
+                    print(result)
+                    self.parseHTMLtoday()
+                })
+            })
+        })
+    }
+    
     func parseHTMLtoday() {
         webView.evaluateJavaScript(extractTodaysEarnings, completionHandler: {(result, error)  in
-            var strResult = result as! String
-            var trimmedResult = strResult.trimmingCharacters(in: .whitespacesAndNewlines)
-            var currRev = Double(trimmedResult)
+            let strResult = result as! String
+            let trimmedResult = strResult.trimmingCharacters(in: .whitespacesAndNewlines)
+            let currRev = Double(trimmedResult)
             
             let extractedId = Int((self.correspondingCell?.id)!)
             self.dashboardVC?.databaseMgr!.updateEzoicEarningsToday(currId: extractedId, newEarnings: currRev!)
             
-            self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 0.5, completion: {() in
-                self.correspondingCell?.progressCircle.isHidden = true
-                self.correspondingCell?.progressCircle.value = 0
-                self.correspondingCell?.lastUpdated.text = "Last updated just now"
-                self.correspondingCell?.sourceData.text = String(format: "$%.02f", currRev!)
-                self.correspondingCell?.sourceData.isHidden = false
-                self.correspondingCell?.sourceDataLabel.isHidden = false
-            })
-            
+            self.correspondingCell?.progressCircle.isHidden = true
+            self.correspondingCell?.progressCircle.value = 0
+            self.correspondingCell?.lastUpdated.text = "Last updated just now"
+            self.correspondingCell?.sourceData.text = String(format: "$%.02f", currRev!)
+            self.correspondingCell?.sourceData.isHidden = false
+            self.correspondingCell?.sourceDataLabel.isHidden = false
         })
     }
     
@@ -101,7 +125,7 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
             self.correspondingCell?.progressCircle.startProgress(to: 32, duration: 1)
             loginToAccount()
         } else if(pageCount == 1) {
-            self.correspondingCell?.progressCircle.startProgress(to: 78, duration: 1)
+            self.correspondingCell?.progressCircle.startProgress(to: 63, duration: 1)
             parseHTMLtoday()
         }
         
