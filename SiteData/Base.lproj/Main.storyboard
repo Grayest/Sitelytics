@@ -422,22 +422,6 @@
             </objects>
             <point key="canvasLocation" x="3301.5999999999999" y="-321.58920539730138"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="wg7-f3-ORb">
-            <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="SiteData" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="second" id="cPa-gy-q4n"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="750" y="360"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -450,7 +434,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="obs-eq-BCX" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="0QM-lP-1sX" kind="relationship" relationship="viewControllers" id="6qy-0X-ajw"/>
                     </connections>
                 </tabBarController>
@@ -462,7 +445,7 @@
         <scene sceneID="TSV-Dp-3Cj">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="obs-eq-BCX" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Sources" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Sources" image="sources" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YPo-PX-gAD">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -488,14 +471,53 @@
                     <view key="view" contentMode="scaleToFill" id="3MH-QB-S0D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sitelytics (v1.0)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgE-YH-brN">
+                                <rect key="frame" x="55" y="54" width="290" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="Y4K-M2-fSO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qOO-BK-tKS">
+                                <rect key="frame" x="55" y="114" width="290" height="170"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="170" id="3pu-o9-LEy"/>
+                                </constraints>
+                                <string key="text">Sitelytics is a reporting platform that gathers data from all of your website's revenue sources and aggregates them in one place. Your site's up-to-date data is just one scroll away.</string>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-kh-4wl">
+                                <rect key="frame" x="55" y="299" width="290" height="174"/>
+                                <string key="text">Your data is NEVER sent to external servers, or even stored anywhere but on your device in an encrypted format. We use a simulated web-browser to log you in and grab the data, which is why it sometimes takes a while to update!</string>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="FoH-kh-4wl" firstAttribute="top" secondItem="qOO-BK-tKS" secondAttribute="bottom" constant="15" id="3PG-rL-Z7o"/>
+                            <constraint firstItem="dgE-YH-brN" firstAttribute="leading" secondItem="4ZU-67-T9s" secondAttribute="leading" constant="55" id="7kD-na-wgR"/>
+                            <constraint firstItem="qOO-BK-tKS" firstAttribute="top" secondItem="dgE-YH-brN" secondAttribute="bottom" constant="8" id="BtW-ma-4Qv"/>
+                            <constraint firstItem="FoH-kh-4wl" firstAttribute="leading" secondItem="qOO-BK-tKS" secondAttribute="leading" id="QR7-Rz-Rzd"/>
+                            <constraint firstItem="qOO-BK-tKS" firstAttribute="width" secondItem="dgE-YH-brN" secondAttribute="width" id="kJw-l3-wVd"/>
+                            <constraint firstItem="qOO-BK-tKS" firstAttribute="leading" secondItem="dgE-YH-brN" secondAttribute="leading" id="lZn-8w-wJc"/>
+                            <constraint firstItem="FoH-kh-4wl" firstAttribute="width" secondItem="qOO-BK-tKS" secondAttribute="width" id="nbb-CS-Em8"/>
+                            <constraint firstItem="4ZU-67-T9s" firstAttribute="trailing" secondItem="dgE-YH-brN" secondAttribute="trailing" constant="30" id="p7p-Od-gED"/>
+                            <constraint firstItem="dgE-YH-brN" firstAttribute="top" secondItem="4ZU-67-T9s" secondAttribute="top" constant="34" id="vze-tK-wEw"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="4ZU-67-T9s"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="About" image="second" id="zVA-6n-xlC"/>
+                    <tabBarItem key="tabBarItem" title="About" image="about" id="zVA-6n-xlC"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MPX-kU-Vjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="1039"/>
+            <point key="canvasLocation" x="749.60000000000002" y="1038.5307346326838"/>
         </scene>
         <!--Source Detail-->
         <scene sceneID="gHu-fV-ADz">
@@ -757,8 +779,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
+        <image name="about" width="50" height="50"/>
         <image name="lock" width="64" height="64"/>
-        <image name="second" width="30" height="30"/>
+        <image name="sources" width="48" height="48"/>
     </resources>
 </document>

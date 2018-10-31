@@ -83,8 +83,18 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
             
             thirdDataText.isHidden = true
             thirdDataLabel.isHidden = true
-            
             linePlotData = databaseMgr!.getAllEzoicMonthly()
+            
+            let sum : Double = linePlotData!.reduce(0, +)
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.maximumFractionDigits = 0
+            let boxStr = formatter.string(from: NSNumber(value: sum))
+            
+            dataBox1.isHidden = true
+            dataBox3.isHidden = true
+            dataStatLabel2UI.text = "EARNINGS THIS MONTH"
+            dataStat2UI.text = boxStr
         }
         
         monthTitle.text = getMonthTitle()
@@ -113,6 +123,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelFont = UIFont.systemFont(ofSize: 8.0)
         referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.1)
         referenceLines.referenceLineLabelColor = UIColor.white
+        
         referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency

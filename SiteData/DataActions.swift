@@ -289,6 +289,14 @@ class DataActions {
         }
     }
     
+    func deleteEzoicMonthlStats() {
+        do {
+            try db.run(ezoic_monthly_data.delete())
+        } catch {
+            print("Error in dropping Ezoic monthly table.")
+        }
+    }
+    
     func getAmazonMonthlyEarningsByDay() -> [Double] {
         var allEarningsDays : [Double] = []
         

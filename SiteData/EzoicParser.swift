@@ -113,11 +113,14 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
                     print(strRes)
                     let allEarningAmts = strRes.split(separator: ",")
                     if(allEarningAmts.count > 0) {
-                        var decCtr = 29
-                        for earningAmt in allEarningAmts {
-                            self.dashboardVC?.databaseMgr!.addEzoicMonthlyData(amt: Double(earningAmt)!)
-                        }
-                        
+                        self.dashboardVC?.databaseMgr!.deleteEzoicMonthlStats()
+                        self.correspondingCell?.progressCircle.startProgress(to: 89, duration: 1, completion: {() in
+                            for earningAmt in allEarningAmts {
+                                self.dashboardVC?.databaseMgr!.addEzoicMonthlyData(amt: Double(earningAmt)!)
+                            }
+                            
+                            self.parseHTMLtoday()
+                        })
                     }
                 })
             })
@@ -134,12 +137,15 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
             let extractedId = Int((self.correspondingCell?.id)!)
             self.dashboardVC?.databaseMgr!.updateEzoicEarningsToday(currId: extractedId, newEarnings: currRev!)
             
-            self.correspondingCell?.progressCircle.isHidden = true
-            self.correspondingCell?.progressCircle.value = 0
-            self.correspondingCell?.lastUpdated.text = "Last updated just now"
-            self.correspondingCell?.sourceData.text = String(format: "$%.02f", currRev!)
-            self.correspondingCell?.sourceData.isHidden = false
-            self.correspondingCell?.sourceDataLabel.isHidden = false
+            self.correspondingCell?.progressCircle.startProgress(to: 100, duration: 1, completion: {() in
+                self.correspondingCell?.progressCircle.isHidden = true
+                self.correspondingCell?.progressCircle.value = 0
+                self.correspondingCell?.lastUpdated.text = "Last updated just now"
+                self.correspondingCell?.sourceData.text = String(format: "$%.02f", currRev!)
+                self.correspondingCell?.sourceData.isHidden = false
+                self.correspondingCell?.sourceDataLabel.isHidden = false
+            })
+            
         })
     }
     
