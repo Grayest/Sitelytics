@@ -66,7 +66,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         //Create tables will only actually create if necessary
         do {
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-            let dbConn = try Connection("\(path)/Source4.sqlite3")
+            let dbConn = try Connection("\(path)/Source6.sqlite3")
             
             databaseMgr = DataActions(givenDb: dbConn)
             databaseMgr!.createAmazonAccountsTable()
@@ -147,7 +147,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.sourceName.text = source.name
         cell.lastUpdated.text = "Last updated \(lastUpdatedFormatted)"
         cell.sourceData.text = String(format: "$%.02f", source.dataPoint!)
-        cell.sourceEmail.text = source.email
+        //cell.sourceEmail.text = source.email
+        cell.sourceEmail.text = "test@test.com"
         cell.innerView.layer.cornerRadius = 5
         
         return cell

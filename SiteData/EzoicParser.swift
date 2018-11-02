@@ -109,18 +109,22 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                 let getAllRows = "var tbod = document.querySelector('table#earningsTable tbody'); var allElms = tbod.querySelectorAll('tr'); var retStr = ''; for (var i = 0; i < allElms.length; i++) { if(i != 0) {retStr = retStr + parseFloat(allElms[i].querySelector('.text-center').textContent.replace('$', '')) + ',';}}document.querySelector('.paginate_button.next').click();var tbod = document.querySelector('table#earningsTable tbody');var allElms = tbod.querySelectorAll('tr');for (var i = 0; i < allElms.length; i++) {retStr = retStr + parseFloat(allElms[i].querySelector('.text-center').textContent.replace('$', '')) + ',';} retStr.substring(0, retStr.length - 1);"
                 self.webView.evaluateJavaScript(getAllRows, completionHandler: { (result, error) in
-                    let strRes = result as! String
-                    print(strRes)
-                    let allEarningAmts = strRes.split(separator: ",")
-                    if(allEarningAmts.count > 0) {
-                        self.dashboardVC?.databaseMgr!.deleteEzoicMonthlStats()
-                        self.correspondingCell?.progressCircle.startProgress(to: 89, duration: 1, completion: {() in
-                            for earningAmt in allEarningAmts {
-                                self.dashboardVC?.databaseMgr!.addEzoicMonthlyData(amt: Double(earningAmt)!)
-                            }
-                            
-                            self.parseHTMLtoday()
-                        })
+                    let strRes = result as? String
+                    
+                    if(strRes != nil) {
+                        let allEarningAmts = strRes!.split(separator: ",")
+                        if(allEarningAmts.count > 0) {
+                            self.dashboardVC?.databaseMgr!.deleteEzoicMonthlStats()
+                            self.correspondingCell?.progressCircle.startProgress(to: 89, duration: 1, completion: {() in
+                                for earningAmt in allEarningAmts {
+                                    self.dashboardVC?.databaseMgr!.addEzoicMonthlyData(amt: Double(earningAmt)!)
+                                }
+                                
+                                self.loadDashboard()
+                            })
+                        }
+                    } else {
+                        self.loadDashboard()
                     }
                 })
             })
@@ -158,6 +162,8 @@ class EzoicParser: UIViewController, WKNavigationDelegate, Parser{
             loadEarningsPage()
         } else if(pageCount == 2) {
             startMonthlyDataGrab()
+        } else if(pageCount == 3) {
+            parseHTMLtoday()
         }
         
         pageCount = pageCount + 1
