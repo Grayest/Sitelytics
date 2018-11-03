@@ -26,6 +26,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     var allSources : [Source] = []
     var amazonAccounts = [AmazonAssociatesAccount]()
     var ezoicAccounts = [EzoicAccount]()
+    var ebayAccounts = [EbayAccount]()
+    
     var databaseMgr : DataActions?
     
     var justSelectedSource : Source?
@@ -59,6 +61,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         //Delete all data as this will run every time.
         amazonAccounts = []
+        ezoicAccounts = []
         allSources = []
         
         //Create tables will only actually create if necessary
@@ -77,6 +80,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             //Need to coalesce all accounts
             amazonAccounts = databaseMgr!.getAllAmazonAccounts()
             ezoicAccounts = databaseMgr!.getAllEzoicAccounts()
+            ebayAccounts = databaseMgr!.getAllEbayAccounts()
+            
             combineAllAccounts()
             tableView.reloadData()
         } catch {
@@ -98,6 +103,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         for ezoicAccount in ezoicAccounts {
             allSources.append(ezoicAccount)
+        }
+        
+        for ebayAccount in ebayAccounts {
+            allSources.append(ebayAccount)
         }
     }
     

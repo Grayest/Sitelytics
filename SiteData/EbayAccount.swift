@@ -9,7 +9,7 @@
 import Foundation
 
 class EbayAccount : Source {
-    init(id: Int, email: String, password: String, lastUpdatedTime: Date, clicksToday: Double) {
-        super.init(id: id, name: "eBay Partner Network", email: email, lastUpdated: lastUpdatedTime, dataPoint: clicksToday, dataTitle: "CLICKS TODAY", password: password)
+    init(id: Int, email: String, password: String, lastUpdatedTime: Date, clicksToday: Int) {
+        super.init(id: id, name: "eBay Partner Network", email: email, lastUpdated: lastUpdatedTime, dataPoint: Double(clicksToday), dataTitle: "CLICKS TODAY", password: password)
     }
 }

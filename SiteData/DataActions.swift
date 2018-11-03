@@ -68,7 +68,7 @@ class DataActions {
     let epn_email_ac = Expression<String>("email")
     let epn_password_ac = Expression<String>("password")
     let epn_lastUpdatedTimestamp_ac = Expression<String>("lastUpdatedTimestamp")
-    let epn_clicksToday_ac = Expression<Double>("clicksToday")
+    let epn_clicksToday_ac = Expression<Int64>("clicksToday")
     
     init(givenDb : Connection) {
         db = givenDb
@@ -251,6 +251,22 @@ class DataActions {
         }
     }
     
+    func addEbayAccount(email: String, password: String) {
+        do {
+            let lastUpdatedDateFmt = Date()
+            let lastUpdatedTimestamp = String(lastUpdatedDateFmt.timeIntervalSinceReferenceDate)
+            
+            let insert = ebay_accounts.insert(
+                epn_email_ac <- email,
+                epn_password_ac <- password,
+                epn_lastUpdatedTimestamp_ac <- lastUpdatedTimestamp,
+                epn_clicksToday_ac <- 0
+            )
+        } catch {
+            print("Error in insertion of EPN Account.")
+        }
+    }
+    
     func getAllAmazonAccounts() -> [AmazonAssociatesAccount] {
         var allAmazonAccounts : [AmazonAssociatesAccount] = []
         
@@ -274,6 +290,29 @@ class DataActions {
         }
         
         return allAmazonAccounts
+    }
+    
+    func getAllEbayAccounts() -> [EbayAccount] {
+        var allEbayAccounts : [EbayAccount] = []
+        
+        do {
+            for ebayAccount in try(db.prepare(ebay_accounts)) {
+                let id = ebayAccount[epn_id_ac]
+                let email = ebayAccount[epn_email_ac]
+                let password = ebayAccount[epn_password_ac]
+                let lastUpdatedTS = ebayAccount[epn_lastUpdatedTimestamp_ac]
+                let lastUpdatedTS_Double = Double(lastUpdatedTS)!
+                let final_lastUpdatedTS = Date(timeIntervalSinceReferenceDate: lastUpdatedTS_Double)
+                let clicksToday = ebayAccount[epn_clicksToday_ac]
+                
+                let currEbayAcc = EbayAccount(id: Int(id), email: email, password: password, lastUpdatedTime: final_lastUpdatedTS, clicksToday: Int(clicksToday))
+                allEbayAccounts.append(currEbayAcc)
+            }
+        } catch {
+            print("Error getting all Ebay Accounts.")
+        }
+        
+        return allEbayAccounts
     }
     
     

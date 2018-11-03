@@ -25,7 +25,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
         } else if(selectedSource == "Ezoic") {
             databaseMgr?.addEzoicAccount(email: usernameEmail.text!, password: passwordInput.text!)
+        } else if(selectedSource == "eBay Partner Program") {
+            databaseMgr?.addEbayAccount(email: usernameEmail.text!, password: passwordInput.text!)
         }
+        
         self.navigationController?.popToRootViewController(animated: true)
     }
     
