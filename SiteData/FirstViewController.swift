@@ -147,8 +147,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.sourceName.text = source.name
         cell.lastUpdated.text = "Last updated \(lastUpdatedFormatted)"
         cell.sourceData.text = String(format: "$%.02f", source.dataPoint!)
-        //cell.sourceEmail.text = source.email
-        cell.sourceEmail.text = "test@test.com"
+        cell.sourceEmail.text = source.email
         cell.innerView.layer.cornerRadius = 5
         
         return cell

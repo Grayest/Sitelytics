@@ -44,10 +44,8 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
-            //sourceEmail.text = thisSource.email
-            sourceEmail.text = "test@test.com"
-            //sourceTag.text = thisSource.storeIds
-            sourceTag.text = "test-tag"
+            sourceEmail.text = thisSource.email
+            sourceTag.text = thisSource.storeIds
             
             linePlotData = databaseMgr!.getAmazonMonthlyEarningsByDay()
             dataStats = databaseMgr!.getAmazonBoxStats()
