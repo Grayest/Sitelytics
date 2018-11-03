@@ -52,8 +52,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         refreshControl.tintColor = hexStringToUIColor(hex: "D8D8D8")
         refreshControl.attributedTitle = NSAttributedString(string: "Establishing connections...", attributes: attributes)
-        
-        
         embedController = EmbedController(rootViewController: self)
     }
     
@@ -74,6 +72,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             databaseMgr!.createAmazonTodayChart()
             databaseMgr!.createEzoicAccountsTable()
             databaseMgr!.createEzoicMonthly()
+            databaseMgr!.createEbayAccountsTable()
             
             //Need to coalesce all accounts
             amazonAccounts = databaseMgr!.getAllAmazonAccounts()
@@ -152,7 +151,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         justSelectedSource = allSources[indexPath.row] as Source

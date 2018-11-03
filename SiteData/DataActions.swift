@@ -13,11 +13,19 @@ import SQLite
 extension String: Error {}
 class DataActions {
     var db: Connection
+    
+    /* TABLES
+        Amazon Associates [accounts, monthly data, today's data]
+        Ezoic [accounts, monthly data]
+        eBay Partner Network [accounts, monthly data]
+    */
     let amazon_associates_accounts = Table("amazon_associates_accounts")
     let amazon_associates_monthly = Table("amazon_associates_monthly")
     let amazon_associates_today = Table("amazon_associates_today")
     let ezoic_accounts = Table("ezoic_accounts")
     let ezoic_monthly_data = Table("ezoic_monthly")
+    let ebay_accounts = Table("ebay_accounts")
+    let ebay_monthly = Table("ebay_monthly")
     
     let az_id_ac = Expression<Int64>("id")
     let az_email_ac = Expression<String>("email")
@@ -55,6 +63,12 @@ class DataActions {
     
     let ez_mo_id = Expression<Int64>("id")
     let ez_mo_amt = Expression<Double>("earnings_amt")
+    
+    let epn_id_ac = Expression<Int64>("id")
+    let epn_email_ac = Expression<String>("email")
+    let epn_password_ac = Expression<String>("password")
+    let epn_lastUpdatedTimestamp_ac = Expression<String>("lastUpdatedTimestamp")
+    let epn_clicksToday_ac = Expression<Double>("clicksToday")
     
     init(givenDb : Connection) {
         db = givenDb
@@ -134,6 +148,20 @@ class DataActions {
             })
         } catch let error {
             print("Error creating Ezoic Monthly chart. Reason given: \(error)")
+        }
+    }
+    
+    func createEbayAccountsTable() {
+        do {
+            try db.run(ebay_accounts.create{t in
+                t.column(epn_id_ac, primaryKey: true)
+                t.column(epn_email_ac)
+                t.column(epn_password_ac)
+                t.column(epn_lastUpdatedTimestamp_ac)
+                t.column(epn_clicksToday_ac)
+            })
+        } catch let error {
+            print("Error creating EPN accounts table. Reason given: \(error)")
         }
     }
     
