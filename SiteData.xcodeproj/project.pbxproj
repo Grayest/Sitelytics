@@ -10,6 +10,7 @@
 		3716338FCA1669E78E648801 /* Pods_SiteDataUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E84C69B370EB6D81EA25F3 /* Pods_SiteDataUITests.framework */; };
 		8AC6C74E7A8EB4CE1828E1A7 /* Pods_SiteDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F71D722AF1A54E1AC48FA5CE /* Pods_SiteDataTests.framework */; };
 		CC01FAEE218E2D3500DA9D22 /* EbayAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC01FAED218E2D3500DA9D22 /* EbayAccount.swift */; };
+		CC01FAF0218E4CCF00DA9D22 /* EbayParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC01FAEF218E4CCF00DA9D22 /* EbayParser.swift */; };
 		CC3C57A2217EA55C00AA5C93 /* AddNewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */; };
 		CCB38CA9217FFD83000BF516 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CA8217FFD83000BF516 /* LoginViewController.swift */; };
 		CCB38CAB218015F7000BF516 /* EzoicAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CAA218015F7000BF516 /* EzoicAccount.swift */; };
@@ -57,6 +58,7 @@
 		A5FCA57D1B966324E019B359 /* Pods-SiteDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SiteDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SiteDataTests/Pods-SiteDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		B2E84C69B370EB6D81EA25F3 /* Pods_SiteDataUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SiteDataUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC01FAED218E2D3500DA9D22 /* EbayAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbayAccount.swift; sourceTree = "<group>"; };
+		CC01FAEF218E4CCF00DA9D22 /* EbayParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbayParser.swift; sourceTree = "<group>"; };
 		CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSource.swift; sourceTree = "<group>"; };
 		CCB38CA8217FFD83000BF516 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CCB38CAA218015F7000BF516 /* EzoicAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EzoicAccount.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				CC01FAED218E2D3500DA9D22 /* EbayAccount.swift */,
 				FAFB9D812172A4A200BE85FD /* AmazonAssociatesParser.swift */,
 				FAFB9D852172AE9800BE85FD /* EzoicParser.swift */,
+				CC01FAEF218E4CCF00DA9D22 /* EbayParser.swift */,
 				FA175D8F21742DA8000E578E /* SourceCell.swift */,
 				FA5A24AD2171E9AB00172BE4 /* Main.storyboard */,
 				FA5A24B22171E9AB00172BE4 /* LaunchScreen.storyboard */,
@@ -447,6 +450,7 @@
 				FA175D9021742DA8000E578E /* SourceCell.swift in Sources */,
 				CC3C57A2217EA55C00AA5C93 /* AddNewSource.swift in Sources */,
 				FA5A24A82171E9AB00172BE4 /* AppDelegate.swift in Sources */,
+				CC01FAF0218E4CCF00DA9D22 /* EbayParser.swift in Sources */,
 				FA3144F421794DCB00448BD7 /* DataActions.swift in Sources */,
 				FA5A24AA2171E9AB00172BE4 /* FirstViewController.swift in Sources */,
 				FA00C3082173A55700F48EBA /* Parser.swift in Sources */,

@@ -122,6 +122,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         } else if(sourceCell.sourceName.text == "Ezoic") {
             let ezoicParser : EzoicParser = embedView(containVC: EzoicParser()) as! EzoicParser
             ezoicParser.updateData(cellCalledBy: sourceCell)
+        } else if(sourceCell.sourceName.text == "eBay Partner Network") {
+            let ebayParser :  EbayParser = embedView(containVC: EbayParser()) as! EbayParser
+            ebayParser.updateData(cellCalledBy: sourceCell)
         }
     }
     
