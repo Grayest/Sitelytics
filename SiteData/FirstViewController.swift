@@ -107,6 +107,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         for ebayAccount in ebayAccounts {
             allSources.append(ebayAccount)
+            print("EPN ACC FOUND")
         }
     }
     

@@ -262,6 +262,8 @@ class DataActions {
                 epn_lastUpdatedTimestamp_ac <- lastUpdatedTimestamp,
                 epn_clicksToday_ac <- 0
             )
+            
+            try db.run(insert)
         } catch {
             print("Error in insertion of EPN Account.")
         }
