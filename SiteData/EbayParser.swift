@@ -22,6 +22,7 @@ class EbayParser: UIViewController, WKNavigationDelegate, Parser {
     var loginPageUrl : String = "https://signin.ebay.com/ws/eBayISAPI.dll?SignIn&UsingSSL=1&siteid=0&co_partnerId=2&pageType=2066541&ru=http%3A%2F%2Fepn.ebay.com%2F"
     var clickLoginJS : String?
     var insertCredentialsJS : String?
+    var updateContactInfoJS : String?
     
     func updateData(cellCalledBy : SourceCell) {
         correspondingCell = cellCalledBy
@@ -48,7 +49,7 @@ class EbayParser: UIViewController, WKNavigationDelegate, Parser {
         dashboardVC = self.parent as? FirstViewController
         deleteCache()
         webView = WKWebView()
-        webView.isHidden = true
+        webView.isHidden = false
         webView.navigationDelegate = self
         view = webView
         loadLoginPage()
@@ -69,12 +70,36 @@ class EbayParser: UIViewController, WKNavigationDelegate, Parser {
         })
     }
     
+    func processAccountData() {
+        print("i am here")
+    }
+    
+    func updateContactInfo() {
+        let isContact = "window.location.toString();"
+        let pressMaybeLater = "document.getElementById('rmdLtr').click();"
+        
+        webView.evaluateJavaScript(isContact, completionHandler: {(result, error) in
+            let strRes = result as! String
+            if(strRes.contains("UpdateContactInfo")) {
+                self.webView.evaluateJavaScript(pressMaybeLater, completionHandler: {(resultInner, errorInner) in
+                    self.processAccountData()
+                }
+            )} else {
+                self.processAccountData()
+            }
+        })
+        
+    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if(pageCount == 0) {
             self.correspondingCell?.progressCircle.startProgress(to: 20, duration: 1)
             clickLogin()
         } else if(pageCount == 1) {
             self.correspondingCell?.progressCircle.startProgress(to: 46, duration: 1)
+            updateContactInfo()
+        } else if(pageCount == 2) {
+            //captcha...
         }
         
         pageCount = pageCount + 1
