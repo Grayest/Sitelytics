@@ -67,7 +67,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         //Create tables will only actually create if necessary
         do {
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-            let dbConn = try Connection("\(path)/Source6.sqlite3")
+            let dbConn = try Connection("\(path)/Source7.sqlite3")
             
             databaseMgr = DataActions(givenDb: dbConn)
             databaseMgr!.createAmazonAccountsTable()

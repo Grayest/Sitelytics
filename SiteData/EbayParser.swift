@@ -49,7 +49,7 @@ class EbayParser: UIViewController, WKNavigationDelegate, Parser {
         dashboardVC = self.parent as? FirstViewController
         deleteCache()
         webView = WKWebView()
-        webView.isHidden = false
+        webView.isHidden = true
         webView.navigationDelegate = self
         view = webView
         loadLoginPage()
