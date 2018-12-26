@@ -38,11 +38,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordInput.delegate = self
         storeID.delegate = self
         loginButtonFinal.layer.cornerRadius = 5
+        
 
         if(selectedSource == "Amazon Associates") {
             loginTitle.text = "Login to Amazon Associates"
             loginSubline.text = "Login using your normal credentials. Make sure you are using the correct Store ID!"
-            usernameEmail.placeholder = "Your Associates email"
+            usernameEmail.attributedPlaceholder = NSAttributedString(string: "Your Amazon Email", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
             passwordInput.placeholder = "Your Associates password"
             storeID.placeholder = "Your Associates Store ID"
             storeID.isHidden = false
