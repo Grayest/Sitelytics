@@ -319,7 +319,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="ucc-17-90G"/>
                                 </constraints>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.59607843137254901" green="0.59607843137254901" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -329,7 +329,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="pLz-U1-C5d"/>
                                 </constraints>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.59607843137254901" green="0.59607843137254901" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -380,7 +380,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="2zI-OI-SSQ"/>
                                 </constraints>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.59607843137254901" green="0.59607843137254901" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
