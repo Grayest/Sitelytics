@@ -38,15 +38,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordInput.delegate = self
         storeID.delegate = self
         loginButtonFinal.layer.cornerRadius = 5
+        usernameEmail.layer.cornerRadius = 4
+        passwordInput.layer.cornerRadius = 4
+        storeID.layer.cornerRadius = 4
         
-        usernameEmail.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: usernameEmail.frame.height))
+        let usernameEmailImg = UIImageView(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+        usernameEmailImg.image = UIImage(named: "email.png")
+        let usernameEmailContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: usernameEmail.frame.height))
+        usernameEmailContainer.addSubview(usernameEmailImg)
+        usernameEmailImg.center = usernameEmailContainer.convert(usernameEmailContainer.center, from: usernameEmailContainer.superview)
+        
+        usernameEmail.leftView = usernameEmailContainer
+        passwordInput.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: passwordInput.frame.height))
         usernameEmail.leftViewMode = .always
+        passwordInput.leftViewMode = .always
 
         if(selectedSource == "Amazon Associates") {
             loginTitle.text = "Login to Amazon Associates"
             loginSubline.text = "Login using your normal Amazon Associates credentials."
-            usernameEmail.attributedPlaceholder = NSAttributedString(string: "Your Amazon Email", attributes: [NSAttributedStringKey.foregroundColor: hexStringToUIColor(hex: "C0C0C0")])
-            passwordInput.placeholder = "Your Amazon Password"
+            usernameEmail.attributedPlaceholder = NSAttributedString(string: "Your Amazon Email", attributes: [NSAttributedStringKey.foregroundColor: hexStringToUIColor(hex: "989898")])
+            passwordInput.attributedPlaceholder = NSAttributedString(string: "Your Amazon Password", attributes: [NSAttributedStringKey.foregroundColor: hexStringToUIColor(hex: "989898")])
             storeID.isHidden = true
         } else if(selectedSource == "Google AdSense") {
             loginTitle.text = "Login to Google AdSense"
