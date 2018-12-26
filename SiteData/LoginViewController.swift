@@ -48,8 +48,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameEmailContainer.addSubview(usernameEmailImg)
         usernameEmailImg.center = usernameEmailContainer.convert(usernameEmailContainer.center, from: usernameEmailContainer.superview)
         
+        let passwordImg = UIImageView(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+        passwordImg.image = UIImage(named: "password.png")
+        let passwordContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: passwordInput.frame.height))
+        passwordContainer.addSubview(passwordImg)
+        passwordImg.center = passwordContainer.convert(passwordContainer.center, from: passwordContainer.superview)
+        
         usernameEmail.leftView = usernameEmailContainer
-        passwordInput.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: passwordInput.frame.height))
+        passwordInput.leftView = passwordContainer
         usernameEmail.leftViewMode = .always
         passwordInput.leftViewMode = .always
 
