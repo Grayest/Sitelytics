@@ -39,14 +39,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         storeID.delegate = self
         loginButtonFinal.layer.cornerRadius = 5
         
+        usernameEmail.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: usernameEmail.frame.height))
+        usernameEmail.leftViewMode = .always
 
         if(selectedSource == "Amazon Associates") {
             loginTitle.text = "Login to Amazon Associates"
-            loginSubline.text = "Login using your normal credentials. Make sure you are using the correct Store ID!"
-            usernameEmail.attributedPlaceholder = NSAttributedString(string: "Your Amazon Email", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-            passwordInput.placeholder = "Your Associates password"
-            storeID.placeholder = "Your Associates Store ID"
-            storeID.isHidden = false
+            loginSubline.text = "Login using your normal Amazon Associates credentials."
+            usernameEmail.attributedPlaceholder = NSAttributedString(string: "Your Amazon Email", attributes: [NSAttributedStringKey.foregroundColor: hexStringToUIColor(hex: "C0C0C0")])
+            passwordInput.placeholder = "Your Amazon Password"
+            storeID.isHidden = true
         } else if(selectedSource == "Google AdSense") {
             loginTitle.text = "Login to Google AdSense"
         } else if(selectedSource == "eBay Partner Network") {
@@ -60,5 +61,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
 }
