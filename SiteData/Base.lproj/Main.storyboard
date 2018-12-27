@@ -524,14 +524,14 @@
             <objects>
                 <viewController id="FV0-pM-ywP" customClass="SourceDetail" customModule="SiteData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Znb-FH-88n">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="725"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kjn-7w-xU8">
-                                <rect key="frame" x="0.0" y="64" width="375" height="612"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="787"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36e-3Y-Pa6" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="609"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="787"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amazon Associates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Et-Sm-Ipl">
                                                 <rect key="frame" x="16" y="17" width="343" height="29"/>
@@ -700,15 +700,25 @@
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GfY-L5-ZdW">
+                                                <rect key="frame" x="16" y="565" width="343" height="203"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="203" id="9j6-Hh-JBP"/>
+                                                </constraints>
+                                            </tableView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="llh-Zs-YDi" firstAttribute="centerX" secondItem="36e-3Y-Pa6" secondAttribute="centerX" id="1wE-Og-E7p"/>
-                                            <constraint firstAttribute="bottom" secondItem="3Cf-yp-8dc" secondAttribute="bottom" constant="52" id="2b1-ah-MZO"/>
+                                            <constraint firstItem="GfY-L5-ZdW" firstAttribute="width" secondItem="tic-bH-hUS" secondAttribute="width" id="2bt-S4-02h"/>
+                                            <constraint firstItem="GfY-L5-ZdW" firstAttribute="top" secondItem="3Cf-yp-8dc" secondAttribute="bottom" constant="8" id="4wx-zj-nM5"/>
                                             <constraint firstAttribute="trailing" secondItem="3TP-t3-aSL" secondAttribute="trailing" id="8Sh-Ug-Z8K"/>
                                             <constraint firstItem="tic-bH-hUS" firstAttribute="width" secondItem="k70-nN-zgc" secondAttribute="width" id="9Pb-sH-meK"/>
                                             <constraint firstItem="VJv-2X-DOn" firstAttribute="width" secondItem="3Et-Sm-Ipl" secondAttribute="width" id="9S0-2C-quO"/>
+                                            <constraint firstItem="GfY-L5-ZdW" firstAttribute="leading" secondItem="tic-bH-hUS" secondAttribute="leading" id="AQv-Fv-ogU"/>
                                             <constraint firstItem="llh-Zs-YDi" firstAttribute="leading" secondItem="AuB-rG-l1m" secondAttribute="trailing" constant="12.5" id="B72-j1-JRt"/>
+                                            <constraint firstAttribute="bottom" secondItem="GfY-L5-ZdW" secondAttribute="bottom" constant="19" id="BUo-8o-kWv"/>
                                             <constraint firstItem="tic-bH-hUS" firstAttribute="leading" secondItem="k70-nN-zgc" secondAttribute="leading" id="BVH-2g-HvW"/>
                                             <constraint firstItem="MdN-Mc-WLq" firstAttribute="leading" secondItem="llh-Zs-YDi" secondAttribute="trailing" constant="12.5" id="BoE-eG-FGS"/>
                                             <constraint firstItem="k70-nN-zgc" firstAttribute="leading" secondItem="GRK-iQ-AJQ" secondAttribute="leading" id="Ecg-kW-JkF"/>
@@ -753,7 +763,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Wna-uJ-eDg"/>
                     </view>
-                    <size key="freeformSize" width="375" height="725"/>
+                    <size key="freeformSize" width="375" height="900"/>
                     <connections>
                         <outlet property="dataBox1" destination="AuB-rG-l1m" id="DtV-fa-a1K"/>
                         <outlet property="dataBox2" destination="llh-Zs-YDi" id="ERE-LK-Wde"/>
@@ -775,7 +785,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kyp-zN-kDF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1689" y="-1156"/>
+            <point key="canvasLocation" x="1688.8" y="-1156.8215892053975"/>
         </scene>
     </scenes>
     <resources>

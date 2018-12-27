@@ -42,7 +42,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordInput.layer.cornerRadius = 4
         storeID.layer.cornerRadius = 4
         
-        let usernameEmailImg = UIImageView(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+        let usernameEmailImg = UIImageView(frame: CGRect(x: 0, y: 0, width: 19, height: 19))
         usernameEmailImg.image = UIImage(named: "email.png")
         let usernameEmailContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: usernameEmail.frame.height))
         usernameEmailContainer.addSubview(usernameEmailImg)
