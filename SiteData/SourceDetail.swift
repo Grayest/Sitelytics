@@ -15,7 +15,7 @@ extension String {
     }
 }
 
-class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
+class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var sourceTitle: UILabel!
     @IBOutlet weak var sourceEmail: UILabel!
     @IBOutlet weak var sourceTag: UILabel!
@@ -32,6 +32,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet weak var dataStatLabel3UI: UILabel!
     @IBOutlet weak var thirdDataLabel: UILabel!
     @IBOutlet weak var thirdDataText: UILabel!
+    @IBOutlet weak var ordersTable: UITableView!
     
     var reportingSource : Source?
     var linePlotData : [Double]?
@@ -41,6 +42,9 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ordersTable.dataSource = self
+        ordersTable.delegate = self
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
@@ -174,6 +178,16 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource {
         dateFormatter.dateFormat = "MMMM yyyy"
         let strMonth = dateFormatter.string(from: date)
         return strMonth
+    }
+    
+/* Table view required methods: */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = ordersTable.dequeueReusableCell(withIdentifier: "itemOrdered") as! ItemOrderedCell
+        return cell
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {

@@ -702,16 +702,46 @@
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GfY-L5-ZdW">
                                                 <rect key="frame" x="16" y="565" width="343" height="203"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="203" id="9j6-Hh-JBP"/>
                                                 </constraints>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemOrdered" id="7Ag-hY-Ge3" customClass="ItemOrderedCell" customModule="SiteData" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Ag-hY-Ge3" id="BY6-yi-Mkg">
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mm-JC-2HC">
+                                                                    <rect key="frame" x="7" y="7" width="30" height="30"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="30" id="CCq-Qy-sY6"/>
+                                                                        <constraint firstAttribute="height" constant="30" id="OlT-a6-wXt"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="frame.cornerRadius">
+                                                                            <integer key="value" value="3"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </view>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="8mm-JC-2HC" firstAttribute="centerY" secondItem="BY6-yi-Mkg" secondAttribute="centerY" id="StD-aH-vvB"/>
+                                                                <constraint firstItem="8mm-JC-2HC" firstAttribute="leading" secondItem="BY6-yi-Mkg" secondAttribute="leading" constant="7" id="v5B-Bm-Tw4"/>
+                                                            </constraints>
+                                                        </tableViewCellContentView>
+                                                        <color key="backgroundColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </tableViewCell>
+                                                </prototypes>
                                             </tableView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="llh-Zs-YDi" firstAttribute="centerX" secondItem="36e-3Y-Pa6" secondAttribute="centerX" id="1wE-Og-E7p"/>
-                                            <constraint firstItem="GfY-L5-ZdW" firstAttribute="width" secondItem="tic-bH-hUS" secondAttribute="width" id="2bt-S4-02h"/>
                                             <constraint firstItem="GfY-L5-ZdW" firstAttribute="top" secondItem="3Cf-yp-8dc" secondAttribute="bottom" constant="8" id="4wx-zj-nM5"/>
                                             <constraint firstAttribute="trailing" secondItem="3TP-t3-aSL" secondAttribute="trailing" id="8Sh-Ug-Z8K"/>
                                             <constraint firstItem="tic-bH-hUS" firstAttribute="width" secondItem="k70-nN-zgc" secondAttribute="width" id="9Pb-sH-meK"/>
@@ -725,6 +755,7 @@
                                             <constraint firstItem="3Cf-yp-8dc" firstAttribute="top" secondItem="tic-bH-hUS" secondAttribute="bottom" constant="3" id="KK5-xV-xTC"/>
                                             <constraint firstItem="GRK-iQ-AJQ" firstAttribute="width" secondItem="VJv-2X-DOn" secondAttribute="width" id="LTT-fx-UhI"/>
                                             <constraint firstItem="3TP-t3-aSL" firstAttribute="width" secondItem="36e-3Y-Pa6" secondAttribute="width" id="PqP-hr-N9a"/>
+                                            <constraint firstAttribute="trailing" secondItem="GfY-L5-ZdW" secondAttribute="trailing" constant="16" id="QRQ-Ad-Rh3"/>
                                             <constraint firstItem="VJv-2X-DOn" firstAttribute="top" secondItem="3Et-Sm-Ipl" secondAttribute="bottom" constant="1" id="St7-fy-Bwx"/>
                                             <constraint firstItem="k70-nN-zgc" firstAttribute="width" secondItem="GRK-iQ-AJQ" secondAttribute="width" id="ZPZ-vF-iGd"/>
                                             <constraint firstItem="3Et-Sm-Ipl" firstAttribute="top" secondItem="36e-3Y-Pa6" secondAttribute="top" constant="17" id="b9d-cV-muc"/>
@@ -776,6 +807,7 @@
                         <outlet property="dataStatLabel3UI" destination="BV7-Tg-X7y" id="yAb-ms-Goj"/>
                         <outlet property="graphView" destination="3TP-t3-aSL" id="qRI-W2-qdU"/>
                         <outlet property="monthTitle" destination="k70-nN-zgc" id="f81-2g-cqv"/>
+                        <outlet property="ordersTable" destination="GfY-L5-ZdW" id="wIZ-cb-d4A"/>
                         <outlet property="sourceEmail" destination="VJv-2X-DOn" id="AQy-iC-Mud"/>
                         <outlet property="sourceTag" destination="GRK-iQ-AJQ" id="6Iy-1j-vNg"/>
                         <outlet property="sourceTitle" destination="3Et-Sm-Ipl" id="Qao-li-NSi"/>

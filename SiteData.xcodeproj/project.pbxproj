@@ -12,6 +12,7 @@
 		CC01FAEE218E2D3500DA9D22 /* EbayAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC01FAED218E2D3500DA9D22 /* EbayAccount.swift */; };
 		CC01FAF0218E4CCF00DA9D22 /* EbayParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC01FAEF218E4CCF00DA9D22 /* EbayParser.swift */; };
 		CC3C57A2217EA55C00AA5C93 /* AddNewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */; };
+		CC866D8521D5699800ACC39F /* ItemOrderedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC866D8421D5699800ACC39F /* ItemOrderedCell.swift */; };
 		CCB38CA9217FFD83000BF516 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CA8217FFD83000BF516 /* LoginViewController.swift */; };
 		CCB38CAB218015F7000BF516 /* EzoicAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CAA218015F7000BF516 /* EzoicAccount.swift */; };
 		CCB38CAD21848DC3000BF516 /* SourceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB38CAC21848DC3000BF516 /* SourceDetail.swift */; };
@@ -60,6 +61,7 @@
 		CC01FAED218E2D3500DA9D22 /* EbayAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbayAccount.swift; sourceTree = "<group>"; };
 		CC01FAEF218E4CCF00DA9D22 /* EbayParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbayParser.swift; sourceTree = "<group>"; };
 		CC3C57A1217EA55C00AA5C93 /* AddNewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSource.swift; sourceTree = "<group>"; };
+		CC866D8421D5699800ACC39F /* ItemOrderedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOrderedCell.swift; sourceTree = "<group>"; };
 		CCB38CA8217FFD83000BF516 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CCB38CAA218015F7000BF516 /* EzoicAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EzoicAccount.swift; sourceTree = "<group>"; };
 		CCB38CAC21848DC3000BF516 /* SourceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDetail.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				CC01FAEF218E4CCF00DA9D22 /* EbayParser.swift */,
 				FA175D8F21742DA8000E578E /* SourceCell.swift */,
 				FA5A24AD2171E9AB00172BE4 /* Main.storyboard */,
+				CC866D8421D5699800ACC39F /* ItemOrderedCell.swift */,
 				FA5A24B22171E9AB00172BE4 /* LaunchScreen.storyboard */,
 				FA5A24B52171E9AB00172BE4 /* Info.plist */,
 				FA00C3072173A55700F48EBA /* Parser.swift */,
@@ -443,6 +446,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC866D8521D5699800ACC39F /* ItemOrderedCell.swift in Sources */,
 				FA5A24AC2171E9AB00172BE4 /* SecondViewController.swift in Sources */,
 				FAFB9D862172AE9800BE85FD /* EzoicParser.swift in Sources */,
 				FAFB9D822172A4A200BE85FD /* AmazonAssociatesParser.swift in Sources */,
