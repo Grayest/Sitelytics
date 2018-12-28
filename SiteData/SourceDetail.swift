@@ -209,7 +209,10 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let itemSelected = ordersToday![indexPath.row]
-        print("https://www.amazon.com/gp/product/\(itemSelected.1)")
+        let amazonURL = "https://www.amazon.com/gp/product/\(itemSelected.1)"
+        
+        guard let url = URL(string: amazonURL) else { return }
+        UIApplication.shared.open(url)
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
