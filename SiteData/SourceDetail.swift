@@ -46,6 +46,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         ordersTable.dataSource = self
         ordersTable.delegate = self
         ordersTable.rowHeight = 80
+        ordersTable.separatorStyle = .none
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
@@ -181,13 +182,19 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         return strMonth
     }
     
-/* Table view required methods: */
+    /* Table view required methods: */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return ordersToday?.count ?? 0 // coalesces to return 0 if no items ordered
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ordersTable.dequeueReusableCell(withIdentifier: "itemOrdered") as! ItemOrderedCell
+        let currentItem = ordersToday![indexPath.row]
+        let currentTitle = currentItem.0
+        
+        cell.itemTitle.text = currentTitle
+        cell.numberContainer.layer.cornerRadius = 15
+        
         return cell
     }
     
