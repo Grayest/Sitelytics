@@ -13,5 +13,6 @@ class ItemOrderedCell: UITableViewCell {
     @IBOutlet weak var numberContainer: UIView!
     @IBOutlet weak var topHeadingContainer: UIView!
     @IBOutlet weak var itemTitle: UILabel!
+    @IBOutlet weak var bodyContent: UIView!
     
 }

@@ -45,7 +45,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         
         ordersTable.dataSource = self
         ordersTable.delegate = self
-        ordersTable.rowHeight = 80
+        ordersTable.rowHeight = 100
         ordersTable.separatorStyle = .none
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
@@ -194,6 +194,16 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         
         cell.itemTitle.text = currentTitle
         cell.numberContainer.layer.cornerRadius = 15
+        
+        //Variable corner rounding
+        cell.topHeadingContainer.clipsToBounds = true
+        cell.bodyContent.clipsToBounds = true
+        cell.topHeadingContainer.layer.cornerRadius = 4
+        cell.bodyContent.layer.cornerRadius = 4
+        cell.topHeadingContainer.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner] //top left, right
+        cell.bodyContent.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner] //bottom left, right
+        
+        
         
         return cell
     }
