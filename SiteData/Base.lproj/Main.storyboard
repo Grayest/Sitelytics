@@ -863,6 +863,12 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today's date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7TG-Tu-bLB">
+                                                <rect key="frame" x="142" y="515" width="87" height="21"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                                <color key="textColor" white="0.539294159" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -885,6 +891,7 @@
                                             <constraint firstItem="GRK-iQ-AJQ" firstAttribute="top" secondItem="VJv-2X-DOn" secondAttribute="bottom" constant="2" id="c6w-3i-jFq"/>
                                             <constraint firstItem="VJv-2X-DOn" firstAttribute="leading" secondItem="3Et-Sm-Ipl" secondAttribute="leading" id="cFe-z0-mp8"/>
                                             <constraint firstItem="GRK-iQ-AJQ" firstAttribute="leading" secondItem="VJv-2X-DOn" secondAttribute="leading" id="dEo-Hq-6Kl"/>
+                                            <constraint firstItem="7TG-Tu-bLB" firstAttribute="height" secondItem="tic-bH-hUS" secondAttribute="height" id="dZm-NA-PWT"/>
                                             <constraint firstItem="GfY-L5-ZdW" firstAttribute="top" secondItem="tic-bH-hUS" secondAttribute="bottom" constant="8" id="jLC-bx-LRb"/>
                                             <constraint firstItem="tic-bH-hUS" firstAttribute="top" secondItem="3TP-t3-aSL" secondAttribute="bottom" constant="31" id="jdd-wM-mua"/>
                                             <constraint firstAttribute="bottom" secondItem="GfY-L5-ZdW" secondAttribute="bottom" constant="40" id="kVA-cG-UUG"/>
@@ -892,7 +899,9 @@
                                             <constraint firstItem="llh-Zs-YDi" firstAttribute="top" secondItem="GRK-iQ-AJQ" secondAttribute="bottom" constant="21" id="qtV-Xv-S8i"/>
                                             <constraint firstItem="3TP-t3-aSL" firstAttribute="leading" secondItem="36e-3Y-Pa6" secondAttribute="leading" id="rAi-cz-5YQ"/>
                                             <constraint firstItem="MdN-Mc-WLq" firstAttribute="centerY" secondItem="llh-Zs-YDi" secondAttribute="centerY" id="tdL-2R-wFZ"/>
+                                            <constraint firstItem="7TG-Tu-bLB" firstAttribute="leading" secondItem="tic-bH-hUS" secondAttribute="trailing" constant="-217" id="vVw-1T-8gF"/>
                                             <constraint firstItem="AuB-rG-l1m" firstAttribute="centerY" secondItem="llh-Zs-YDi" secondAttribute="centerY" id="wqe-8H-mdD"/>
+                                            <constraint firstItem="7TG-Tu-bLB" firstAttribute="centerY" secondItem="tic-bH-hUS" secondAttribute="centerY" id="zQ7-z9-0KH"/>
                                             <constraint firstItem="3Et-Sm-Ipl" firstAttribute="leading" secondItem="36e-3Y-Pa6" secondAttribute="leading" constant="16" id="zue-Xt-J3D"/>
                                         </constraints>
                                     </view>
@@ -929,6 +938,7 @@
                         <outlet property="dataStatLabel3UI" destination="BV7-Tg-X7y" id="yAb-ms-Goj"/>
                         <outlet property="graphView" destination="3TP-t3-aSL" id="qRI-W2-qdU"/>
                         <outlet property="monthTitle" destination="k70-nN-zgc" id="f81-2g-cqv"/>
+                        <outlet property="ordersDate" destination="7TG-Tu-bLB" id="eev-px-JTH"/>
                         <outlet property="ordersTable" destination="GfY-L5-ZdW" id="wIZ-cb-d4A"/>
                         <outlet property="ordersTableHeight" destination="9j6-Hh-JBP" id="Rtf-wW-sIg"/>
                         <outlet property="sourceEmail" destination="VJv-2X-DOn" id="AQy-iC-Mud"/>

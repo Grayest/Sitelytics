@@ -33,6 +33,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
     @IBOutlet weak var thirdDataLabel: UILabel!
     @IBOutlet weak var ordersTable: UITableView!
     @IBOutlet weak var ordersTableHeight: NSLayoutConstraint!
+    @IBOutlet weak var ordersDate: UILabel!
     
     var reportingSource : Source?
     var linePlotData : [Double]?
@@ -48,6 +49,10 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         ordersTable.rowHeight = 88
         ordersTable.separatorStyle = .none
         ordersTable.isScrollEnabled = false
+        
+        //Get today's date
+        let timestampString = DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .none)
+        ordersDate.text = timestampString
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
@@ -75,6 +80,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
             sourceTitle.text = "Ezoic"
             sourceEmail.text = thisSource.email
             sourceTag.isHidden = true
+            ordersDate.isHidden = true
             
             thirdDataLabel.isHidden = true
             linePlotData = databaseMgr!.getAllEzoicMonthly()
