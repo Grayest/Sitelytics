@@ -439,15 +439,17 @@ class DataActions {
         return retDict
     }
     
-    func getAllAmazonOrdersToday() -> [(String, String, Int64)]{
-        var ordersTupleLst : [(String, String, Int64)] = []
+    func getAllAmazonOrdersToday() -> [(String, String, Int64, String, Double)]{
+        var ordersTupleLst : [(String, String, Int64, String, Double)] = []
         
         do {
             for amazonOrder in try (db.prepare(amazon_associates_today)) {
                 let productTitle = amazonOrder[az_day_item_title]
-                let productAsin = amazonOrder[az_day_item_title]
+                let productAsin = amazonOrder[az_day_item_asin]
                 let qtyOrdered = amazonOrder[az_day_qty]
-                let currTuple = (productTitle, productAsin, qtyOrdered)
+                let productCategory = amazonOrder[az_day_category]
+                let productPrice = amazonOrder[az_day_price]
+                let currTuple = (productTitle, productAsin, qtyOrdered, productCategory, productPrice)
                 ordersTupleLst.append(currTuple)
             }
         } catch {

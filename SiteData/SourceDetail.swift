@@ -38,7 +38,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
     var linePlotData : [Double]?
     var databaseMgr : DataActions?
     var dataStats : [String: String]?
-    var ordersToday : [(String, String, Int64)]?
+    var ordersToday : [(String, String, Int64, String, Double)]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -177,23 +177,39 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ordersTable.dequeueReusableCell(withIdentifier: "itemOrdered") as! ItemOrderedCell
+        cell.selectionStyle = .none
+        
         let currentItem = ordersToday![indexPath.row]
         let currentTitle = currentItem.0
-        
+        let currentQuantity = currentItem.2
+        let currentCategory = currentItem.3
+        let currentPrice = currentItem.4
+        let estCommissionDec = productCommission(category: currentCategory)
+        let estCommissionInt = Double(estCommissionDec * 100)
+        let estActualCommission = currentPrice * estCommissionDec
+        let formattedPrice = String(format: "$%.02f", currentPrice)
+    
         cell.itemTitle.text = currentTitle
+        cell.numberOrdered.text = "\(currentQuantity)"
+        cell.itemCategory.text = currentCategory
+        cell.itemRate.text = "\(estCommissionInt)% of \(formattedPrice)"
+        cell.itemCommission.text = String(format: "$%.02f", estActualCommission)
         cell.numberContainer.layer.cornerRadius = 15
         
         //Variable corner rounding
         cell.topHeadingContainer.clipsToBounds = true
         cell.bodyContent.clipsToBounds = true
-        cell.topHeadingContainer.layer.cornerRadius = 4
-        cell.bodyContent.layer.cornerRadius = 4
+        cell.topHeadingContainer.layer.cornerRadius = 5
+        cell.bodyContent.layer.cornerRadius = 5
         cell.topHeadingContainer.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner] //top left, right
         cell.bodyContent.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner] //bottom left, right
         
-        
-        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let itemSelected = ordersToday![indexPath.row]
+        print("https://www.amazon.com/gp/product/\(itemSelected.1)")
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
@@ -216,5 +232,26 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: CGFloat(1.0)
         )
+    }
+    
+    //Should really use global functions for stuff like this.
+    //Will probably be making this more dynamic later from user input. Or just ask people to submit on r/juststart
+    func productCommission(category : String) -> Double {
+        if (["Amazon Fashion Women", "Men & Kids Private Label", "Luxury Beauty", "Amazon Coins"].contains(category)) { return 0.1 }
+        if (["Furniture", "Home", "Home Improvement", "Lawn & Garden", "Pets Products", "Pantry"].contains(category)) { return 0.08 }
+        if (["Apparel", "Amazon Cloud Cam Devices", "Amazon Element Smart TV (with Fire TV)", "Amazon Fire TV Devices", "Jewelry", "Luggage", "Shoes", "Handbags"].contains(category)) { return 0.07 }
+        if (["Headphones", "Beauty", "Musical Instruments", "Business & Industrial Supplies"].contains(category)) { return 0.06 }
+        if (["Outdoors", "Tools"].contains(category)) { return 0.055 }
+        if (["Digital Music", "Grocery", "Physical Music", "Handmade", "Digital Videos"].contains(category)) { return 0.05 }
+        if (["Physical Books", "Health & Personal Care", "Sports", "Kitchen", "Automotive", "Baby Products"].contains(category)) { return 0.045 }
+        if (["Amazon Fire Tablet Devices", "Dash Buttons", "Amazon Kindle Devices"].contains(category)) { return 0.04 }
+        if (["Amazon Fresh", "Toys"].contains(category)) { return 0.03 }
+        if (["PC", "PC Components", "DVD & Blu-Ray"].contains(category)) { return 0.025 }
+        if (["Televisions", "Digital Video Games"].contains(category)) { return 0.02 }
+        if (["Video Games & Video Game Consoles", "Video Games", "Video Game Consoles"].contains(category)) { return 0.01 }
+        if (["Amazon Gift Cards", "Wireless Service Plans", "Alcoholic Beverages", "Digital Kindle Products", "Amazon Appstore", "Prime Now", "Amazon Pay Places", "Prime Wardrobe", "Purchases"].contains(category)) { return 0 }
+        
+        //All else is 4%
+        return 0.04
     }
 }
