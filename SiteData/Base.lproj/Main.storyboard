@@ -864,8 +864,8 @@
                                                 </prototypes>
                                             </tableView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today's date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7TG-Tu-bLB">
-                                                <rect key="frame" x="142" y="515" width="87" height="21"/>
-                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                                <rect key="frame" x="142" y="515" width="102.5" height="21"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                                 <color key="textColor" white="0.539294159" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
