@@ -31,8 +31,8 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
     @IBOutlet weak var dataStatLabel2UI: UILabel!
     @IBOutlet weak var dataStatLabel3UI: UILabel!
     @IBOutlet weak var thirdDataLabel: UILabel!
-    @IBOutlet weak var thirdDataText: UILabel!
     @IBOutlet weak var ordersTable: UITableView!
+    @IBOutlet weak var ordersTableHeight: NSLayoutConstraint!
     
     var reportingSource : Source?
     var linePlotData : [Double]?
@@ -45,8 +45,9 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         
         ordersTable.dataSource = self
         ordersTable.delegate = self
-        ordersTable.rowHeight = 100
+        ordersTable.rowHeight = 88
         ordersTable.separatorStyle = .none
+        ordersTable.isScrollEnabled = false
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
@@ -65,29 +66,16 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
                 dataStat1UI.text = dataStats![dataKeys[0]]
                 dataStat2UI.text = dataStats![dataKeys[1]]
                 dataStat3UI.text = dataStats![dataKeys[2]]
-            }
-            
-            thirdDataLabel.text = "Orders Today"
-            //this is sloppy
-            var retStr : String = ""
-            if ordersToday!.count > 0 {
-                for orderToday in ordersToday! {
-                    let currNumLines = thirdDataText.numberOfLines
-                    thirdDataText.numberOfLines = currNumLines + 1
-                    let truncdLine = orderToday.0.trunc(length: 30)
-                    retStr = "\(retStr)(\(orderToday.2)) \(truncdLine) \n"
-                }
                 
-                thirdDataText.text = retStr
-            } else {
-                thirdDataText.text = "No orders today"
+                //Also dynamically set height of table because we're already in a scrollview
+                let newHeight = 88 * dataStats!.count
+                self.ordersTableHeight.constant = CGFloat(newHeight)
             }
         } else if let thisSource = reportingSource as? EzoicAccount {
             sourceTitle.text = "Ezoic"
             sourceEmail.text = thisSource.email
             sourceTag.isHidden = true
             
-            thirdDataText.isHidden = true
             thirdDataLabel.isHidden = true
             linePlotData = databaseMgr!.getAllEzoicMonthly()
             
