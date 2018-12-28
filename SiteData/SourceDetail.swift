@@ -45,6 +45,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         
         ordersTable.dataSource = self
         ordersTable.delegate = self
+        ordersTable.rowHeight = 80
         
         if let thisSource = reportingSource as? AmazonAssociatesAccount {
             sourceTitle.text = "Amazon Associates"
