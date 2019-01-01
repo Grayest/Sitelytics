@@ -819,7 +819,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="58" id="0hi-gm-h84"/>
                                                                         <constraint firstAttribute="trailing" secondItem="mSw-Tj-tcm" secondAttribute="trailing" constant="12" id="5r4-Yq-Xq1"/>
-                                                                        <constraint firstItem="n7Y-CC-9MG" firstAttribute="leading" secondItem="8mm-JC-2HC" secondAttribute="trailing" constant="8" id="6SW-zg-NgK"/>
+                                                                        <constraint firstItem="n7Y-CC-9MG" firstAttribute="leading" secondItem="8mm-JC-2HC" secondAttribute="trailing" constant="8" symbolic="YES" id="6SW-zg-NgK"/>
                                                                         <constraint firstItem="UMR-TJ-rAd" firstAttribute="leading" secondItem="qAy-0i-OJe" secondAttribute="trailing" constant="3" id="AS4-tL-l0n"/>
                                                                         <constraint firstItem="GhV-3R-aRJ" firstAttribute="top" secondItem="n7Y-CC-9MG" secondAttribute="top" id="FwQ-ag-AQ6"/>
                                                                         <constraint firstItem="rP0-z2-F0d" firstAttribute="leading" secondItem="n7Y-CC-9MG" secondAttribute="leading" id="Fwg-tg-cTH"/>

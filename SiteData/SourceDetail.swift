@@ -73,7 +73,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
                 dataStat3UI.text = dataStats![dataKeys[2]]
                 
                 //Also dynamically set height of table because we're already in a scrollview
-                let newHeight = 88 * dataStats!.count
+                let newHeight = 88 * (ordersToday?.count ?? 0)
                 self.ordersTableHeight.constant = CGFloat(newHeight)
             }
         } else if let thisSource = reportingSource as? EzoicAccount {
@@ -250,7 +250,7 @@ class SourceDetail: UIViewController, ScrollableGraphViewDataSource, UITableView
         if (["Furniture", "Home", "Home Improvement", "Lawn & Garden", "Pets Products", "Pantry"].contains(category)) { return 0.08 }
         if (["Apparel", "Amazon Cloud Cam Devices", "Amazon Element Smart TV (with Fire TV)", "Amazon Fire TV Devices", "Jewelry", "Luggage", "Shoes", "Handbags"].contains(category)) { return 0.07 }
         if (["Headphones", "Beauty", "Musical Instruments", "Business & Industrial Supplies"].contains(category)) { return 0.06 }
-        if (["Outdoors", "Tools"].contains(category)) { return 0.055 }
+        if (["Outdoors", "Tools", "Industrial & Scientific"].contains(category)) { return 0.055 }
         if (["Digital Music", "Grocery", "Physical Music", "Handmade", "Digital Videos"].contains(category)) { return 0.05 }
         if (["Physical Books", "Health & Personal Care", "Sports", "Kitchen", "Automotive", "Baby Products"].contains(category)) { return 0.045 }
         if (["Amazon Fire Tablet Devices", "Dash Buttons", "Amazon Kindle Devices"].contains(category)) { return 0.04 }
