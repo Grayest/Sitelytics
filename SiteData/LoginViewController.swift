@@ -70,6 +70,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         } else if(selectedSource == "eBay Partner Network") {
             loginTitle.text = "Login to eBay Partner Network"
         } else if(selectedSource == "Ezoic") {
+            usernameEmail.attributedPlaceholder = NSAttributedString(string: "Your Ezoic Email", attributes: [NSAttributedStringKey.foregroundColor: hexStringToUIColor(hex: "989898")])
+            passwordInput.attributedPlaceholder = NSAttributedString(string: "Your Ezoic Password", attributes: [NSAttributedStringKey.foregroundColor: hexStringToUIColor(hex: "989898")])
             loginTitle.text = "Login to Ezoic"
         }
     }
