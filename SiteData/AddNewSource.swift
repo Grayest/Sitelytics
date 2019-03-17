@@ -14,7 +14,7 @@ class AddNewSource: UIViewController, UIPickerViewDataSource, UIPickerViewDelega
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var loginButton: UIButton!
     
-    var possibleSources : [String] = ["Amazon Associates", "Google AdSense", "eBay Partner Network", "Ezoic"]
+    var possibleSources : [String] = ["Amazon Associates"]
     var selectedSource : String = "Amazon Associates" //default set amazon
     var databaseMgr : DataActions?
     

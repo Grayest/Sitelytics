@@ -473,7 +473,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sitelytics (v1.0)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgE-YH-brN">
-                                <rect key="frame" x="55" y="54" width="290" height="52"/>
+                                <rect key="frame" x="30" y="33" width="315" height="52"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="Y4K-M2-fSO"/>
                                 </constraints>
@@ -482,34 +482,43 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qOO-BK-tKS">
-                                <rect key="frame" x="55" y="114" width="290" height="170"/>
+                                <rect key="frame" x="30" y="85" width="315" height="106"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="170" id="3pu-o9-LEy"/>
+                                    <constraint firstAttribute="height" constant="106" id="3pu-o9-LEy"/>
                                 </constraints>
                                 <string key="text">Sitelytics is a reporting platform that gathers data from all of your website's revenue sources and aggregates them in one place. Your site's up-to-date data is just one scroll away.</string>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-kh-4wl">
-                                <rect key="frame" x="55" y="299" width="290" height="174"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-kh-4wl">
+                                <rect key="frame" x="30" y="213" width="315" height="122"/>
                                 <string key="text">Your data is NEVER sent to external servers, or even stored anywhere but on your device in an encrypted format. We use a simulated web-browser to log you in and grab the data, which is why it sometimes takes a while to update!</string>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BMC" translatesAutoresizingMaskIntoConstraints="NO" id="dEe-oq-aDG">
+                                <rect key="frame" x="83" y="358" width="209" height="61"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="GtS-IP-reX"/>
+                                    <constraint firstAttribute="width" constant="209" id="kYM-6u-yto"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.21568627450980393" green="0.21568627450980393" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="FoH-kh-4wl" firstAttribute="top" secondItem="qOO-BK-tKS" secondAttribute="bottom" constant="15" id="3PG-rL-Z7o"/>
-                            <constraint firstItem="dgE-YH-brN" firstAttribute="leading" secondItem="4ZU-67-T9s" secondAttribute="leading" constant="55" id="7kD-na-wgR"/>
-                            <constraint firstItem="qOO-BK-tKS" firstAttribute="top" secondItem="dgE-YH-brN" secondAttribute="bottom" constant="8" id="BtW-ma-4Qv"/>
-                            <constraint firstItem="FoH-kh-4wl" firstAttribute="leading" secondItem="qOO-BK-tKS" secondAttribute="leading" id="QR7-Rz-Rzd"/>
+                            <constraint firstItem="dgE-YH-brN" firstAttribute="leading" secondItem="4ZU-67-T9s" secondAttribute="leading" constant="30" id="7kD-na-wgR"/>
+                            <constraint firstItem="qOO-BK-tKS" firstAttribute="top" secondItem="dgE-YH-brN" secondAttribute="bottom" id="BtW-ma-4Qv"/>
+                            <constraint firstItem="FoH-kh-4wl" firstAttribute="leading" secondItem="qOO-BK-tKS" secondAttribute="leading" id="FKX-iE-u9L"/>
+                            <constraint firstItem="dEe-oq-aDG" firstAttribute="top" secondItem="FoH-kh-4wl" secondAttribute="bottom" constant="23" id="RO8-bI-SR9"/>
+                            <constraint firstItem="dEe-oq-aDG" firstAttribute="centerX" secondItem="4ZU-67-T9s" secondAttribute="centerX" id="U9I-ua-hPN"/>
+                            <constraint firstItem="FoH-kh-4wl" firstAttribute="top" secondItem="qOO-BK-tKS" secondAttribute="bottom" constant="22" id="aIB-n5-WbO"/>
                             <constraint firstItem="qOO-BK-tKS" firstAttribute="width" secondItem="dgE-YH-brN" secondAttribute="width" id="kJw-l3-wVd"/>
                             <constraint firstItem="qOO-BK-tKS" firstAttribute="leading" secondItem="dgE-YH-brN" secondAttribute="leading" id="lZn-8w-wJc"/>
                             <constraint firstItem="FoH-kh-4wl" firstAttribute="width" secondItem="qOO-BK-tKS" secondAttribute="width" id="nbb-CS-Em8"/>
                             <constraint firstItem="4ZU-67-T9s" firstAttribute="trailing" secondItem="dgE-YH-brN" secondAttribute="trailing" constant="30" id="p7p-Od-gED"/>
-                            <constraint firstItem="dgE-YH-brN" firstAttribute="top" secondItem="4ZU-67-T9s" secondAttribute="top" constant="34" id="vze-tK-wEw"/>
+                            <constraint firstItem="dgE-YH-brN" firstAttribute="top" secondItem="4ZU-67-T9s" secondAttribute="top" constant="13" id="vze-tK-wEw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4ZU-67-T9s"/>
                     </view>
@@ -953,6 +962,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BMC" width="181" height="49"/>
         <image name="about" width="50" height="50"/>
         <image name="go" width="32" height="32"/>
         <image name="lock" width="64" height="64"/>
